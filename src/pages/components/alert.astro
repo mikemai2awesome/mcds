@@ -1,0 +1,102 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ComponentDoc from "../../components/ComponentDoc.astro";
+import AlertComponent from "../../components/Alert.astro";
+
+const alertCode = `<Alert type="info">
+  This is an informational alert.
+</Alert>
+<Alert type="success">
+  Operation completed successfully!
+</Alert>
+<Alert type="warning">
+  Be cautious with this action.
+</Alert>
+<Alert type="error">
+  An error occurred. Please try again.
+</Alert>
+<Alert type="info" dismissible={true} id="custom-alert">
+  This alert can be dismissed by clicking the X button.
+</Alert>`;
+---
+
+<Layout title="Alert">
+  <ComponentDoc
+    title="Alert"
+    description="The Alert component is used to communicate status, provide feedback, or give the user important information. It supports different types and can be made dismissible with a close button."
+    props={[
+      {
+        name: "type",
+        type: '"info" | "success" | "warning" | "error"',
+        default: "undefined",
+        description: "The type of alert to display",
+      },
+      {
+        name: "dismissible",
+        type: "boolean",
+        default: "false",
+        description: "Whether the alert can be dismissed",
+      },
+      {
+        name: "id",
+        type: "string",
+        default: "auto-generated",
+        description: "Unique identifier for the alert (optional)",
+      },
+    ]}
+    usage={{
+      dos: `
+        <ul>
+          <li>Use dismissible alerts for messages that are intended to disrupt the user's flow</li>
+          <li>Use for important status messages and notifications</li>
+          <li>Place alerts at the top of the content area</li>
+          <li>Keep messages clear and concise</li>
+        </ul>
+      `,
+      donts: `
+        <ul>
+        <li>Don't stack too many alerts at once</li>
+        <li>Don't use for form validation messages</li>
+        <li>Don't include complex interactive elements</li>
+        <li>Don't use for general content or decorative purposes</li>
+        </ul>
+      `,
+    }}
+    accessibility={{
+      keyboardNav: `
+        <ul>
+          <li><kbd>Tab</kbd> focuses on dismiss button for dismissible alerts</li>
+          <li><kbd>Enter</kbd>/<kbd>Space</kbd> activates the dismiss button when focused</li>
+          <li>The first dismissible alert's dismiss button is autofocused when present</li>
+        </ul>
+      `,
+      screenReaders: `
+        <ul>
+          <li>Uses <code>role="alert"</code> to announce content</li>
+          <li>Dismiss button has <code>aria-label="Dismiss"</code></li>
+          <li>Dismiss button uses <code>aria-controls</code> to reference the alert</li>
+          <li>Type-specific icons provide visual cues</li>
+        </ul>
+      `,
+    }}
+    code={alertCode}
+  >
+    <div class="doc-demo-stack">
+      <AlertComponent type="info">
+        This is an informational alert.
+      </AlertComponent>
+      <AlertComponent type="success">
+        Operation completed successfully!
+      </AlertComponent>
+      <AlertComponent type="warning">
+        Be cautious with this action.
+      </AlertComponent>
+      <AlertComponent type="error">
+        An error occurred. Please try again.
+      </AlertComponent>
+      <AlertComponent type="info" dismissible={true} id="custom-alert">
+        This alert can be dismissed by clicking the X button.
+      </AlertComponent>
+    </div>
+  </ComponentDoc>
+</Layout>

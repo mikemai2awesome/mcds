@@ -1,0 +1,121 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ComponentDoc from "../../components/ComponentDoc.astro";
+import AccordionComponent from "../../components/Accordion.astro";
+
+const accordionItems = [
+  {
+    heading: "What is Accordion Component?",
+    content:
+      "<p>An accordion is a vertically stacked set of interactive headings that each contain a title, content snippet, or thumbnail representing a section of content. The headings function as controls that enable users to reveal or hide their associated sections of content.</p>",
+    open: true,
+  },
+  {
+    heading: "When should I use an accordion?",
+    content:
+      "<p>Use accordions to organize related information in a limited space. They are especially useful when users only need a few key pieces of content within a page, and scanning all headlines is more valuable than exposing all content at once.</p><ul><li>Organize complex content</li><li>Reduce scrolling</li><li>Give users control over content density</li></ul>",
+    open: false,
+  },
+  {
+    heading: "How does keyboard navigation work?",
+    content:
+      "<p>Accordions are keyboard accessible by default. Users can navigate between accordion headers using the tab key. Once focused, the accordion header can be activated using the Enter or Space keys to expand/collapse the associated content.</p><p>Additionally, when the accordion has focus:</p><ul><li>Arrow Down/Arrow Up moves focus between accordion headers</li><li>Home moves focus to the first accordion header</li><li>End moves focus to the last accordion header</li></ul>",
+    open: false,
+  },
+];
+
+const accordionCode = `<Accordion
+  items={[
+    {
+      heading: "What is Accordion Component?",
+      content: "<p>An accordion is a vertically stacked set of interactive headings...</p>",
+      open: true,
+    },
+    {
+      heading: "When should I use an accordion?",
+      content: "<p>Use accordions to organize related information in a limited space...</p>",
+      open: false,
+    },
+    // ... more items
+  ]}
+/>`;
+---
+
+<Layout title="Accordion">
+  <ComponentDoc
+    title="Accordion"
+    description="The Accordion component creates a vertically stacked set of interactive headings that can be expanded or collapsed to reveal or hide content. It is inspired by the WAI-ARIA Accordion pattern and is fully keyboard accessible."
+    props={[
+      {
+        name: "items",
+        type: "AccordionItem[]",
+        default: "Required",
+        description: "Array of accordion items to display",
+      },
+    ]}
+    nestedInterfaces={[
+      {
+        name: "AccordionItem",
+        props: [
+          {
+            name: "heading",
+            type: "string",
+            default: "Required",
+            description: "Header text for the accordion item",
+            required: true,
+          },
+          {
+            name: "content",
+            type: "string",
+            default: "Required",
+            description: "HTML content to show when expanded",
+            required: true,
+          },
+          {
+            name: "open",
+            type: "boolean",
+            default: "false",
+            description: "Whether the item is initially expanded",
+            required: false,
+          },
+        ],
+      },
+    ]}
+    usage={{
+      dos: `
+        <ul>
+          <li>Use for organizing related content sections</li>
+          <li>Keep headers short and descriptive</li>
+          <li>Consider pre-expanding important sections</li>
+        </ul>
+      `,
+      donts: `
+        <ul>
+          <li>Don&rsquo;t use for primary page navigation</li>
+          <li>Don&rsquo;t hide critical information that users need immediately</li>
+          <li>Don&rsquo;t nest accordions within accordions</li>
+          <li>Don&rsquo;t use for unrelated content sections</li>
+          <li>Don&rsquo;t overload with lengthy content</li>
+        </ul>
+      `,
+    }}
+    accessibility={{
+      keyboardNav: `
+        <ul>
+          <li><kbd>Tab</kbd> moves to accordion headers</li>
+          <li><kbd>Enter</kbd>/<kbd>Space</kbd> toggles expansion</li>
+        </ul>
+      `,
+      screenReaders: `
+        <ul>
+          <li>Headers are semantic buttons</li>
+          <li><code>aria-expanded</code> indicates state</li>
+          <li><code>aria-labelledby</code> associates header with panel</li>
+        </ul>
+      `,
+    }}
+    code={accordionCode}
+  >
+    <AccordionComponent items={accordionItems} />
+  </ComponentDoc>
+</Layout>

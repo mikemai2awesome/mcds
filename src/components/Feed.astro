@@ -1,0 +1,463 @@
+---
+interface FeedItem {
+  url: string | URL | null | undefined;
+  id: string;
+  title: string;
+  content: string;
+  date: string;
+  author?: string;
+  image?: string;
+  imageAlt?: string;
+}
+
+interface Props {
+  items: FeedItem[];
+  loadMoreUrl?: string;
+  initialItems?: number;
+  title?: string; // Title for the feed
+}
+
+const {
+  items,
+  loadMoreUrl,
+  initialItems = 3,
+  title = "Updates Feed",
+} = Astro.props;
+const initialVisibleItems = items.slice(0, initialItems);
+const remainingItems = items.slice(initialItems);
+const feedId = `feed-${Math.random().toString(36).substring(2, 9)}`;
+---
+
+<div class="mc-feed js-feed-container">
+  <span id={`${feedId}-label`} class="u-visually-hidden">{title}</span>
+  <div
+    class="mc-feed__container"
+    role="feed"
+    aria-labelledby={`${feedId}-label`}
+    aria-busy="false"
+    data-has-more-items={remainingItems.length > 0 ? "true" : "false"}
+  >
+    {
+      initialVisibleItems.map((item, index) => (
+        <article
+          class="mc-feed__article"
+          tabindex="0"
+          aria-labelledby={`feed-date-${item.id} feed-author-${item.id}`}
+          aria-posinset={index + 1}
+          aria-setsize={items.length}
+        >
+          <div class="mc-feed__text">
+            <div class="mc-feed__header">
+              <h3>
+                <a class="mc-feed__link" href={item.url}>
+                  {item.title}
+                </a>
+              </h3>
+              <div class="mc-feed__meta">
+                <time id={`feed-date-${item.id}`} datetime={item.date}>
+                  {item.date}
+                </time>
+                {item.author && (
+                  <span id={`feed-author-${item.id}`} class="mc-feed__author">
+                    {item.author}
+                  </span>
+                )}
+              </div>
+            </div>
+            <div class="mc-feed__content" set:html={item.content} />
+          </div>
+
+          {item.image && (
+            <img
+              class="mc-feed__image"
+              src={item.image}
+              alt={item.imageAlt || item.title}
+              loading="lazy"
+              width="300"
+              height="200"
+            />
+          )}
+        </article>
+      ))
+    }
+  </div>
+
+  <template id="feed-item-template" style="display: none;">
+    {
+      remainingItems.map((item, index) => (
+        <article
+          class="mc-feed__article"
+          tabindex="0"
+          aria-labelledby={`feed-date-${item.id} feed-author-${item.id}`}
+          aria-posinset={initialItems + index + 1}
+          aria-setsize={items.length}
+        >
+          <div class="mc-feed__text">
+            <div class="mc-feed__header">
+              <h3>
+                <a class="mc-feed__link" href={item.url}>
+                  {item.title}
+                </a>
+              </h3>
+              <div class="mc-feed__meta">
+                <time id={`feed-date-${item.id}`} datetime={item.date}>
+                  {item.date}
+                </time>
+                {item.author && (
+                  <span id={`feed-author-${item.id}`} class="mc-feed__author">
+                    {item.author}
+                  </span>
+                )}
+              </div>
+            </div>
+            <div class="mc-feed__content" set:html={item.content} />
+          </div>
+
+          {item.image && (
+            <img
+              class="mc-feed__image"
+              src={item.image}
+              alt={item.imageAlt || item.title}
+              loading="lazy"
+              width="300"
+              height="200"
+            />
+          )}
+        </article>
+      ))
+    }
+  </template>
+
+  <div class="mc-feed__loading" aria-hidden="true">Loading more items...</div>
+</div>
+
+<style>
+  @layer components {
+    .mc-feed {
+      margin-block-start: var(--stack);
+      border: 1px solid;
+    }
+
+    .mc-feed__container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mc-feed__article {
+      display: flex;
+      flex-direction: column;
+      gap: calc(var(--gutter) / 2);
+      position: relative;
+      padding-block: var(--stack);
+      padding-inline: calc(var(--gutter) / 2);
+      border: none;
+    }
+
+    .mc-feed__article + .mc-feed__article {
+      border-block-start: 1px solid;
+    }
+
+    @media (min-width: 24em) {
+      .mc-feed__article:has(.mc-feed__image) {
+        display: grid;
+        grid-template-columns: 1fr minmax(5ch, 10ch);
+        grid-template-areas: "text image";
+        align-items: center;
+        gap: calc(var(--gutter) / 2);
+
+        > *:nth-child(even) {
+          align-self: start;
+        }
+      }
+    }
+
+    .mc-feed__text {
+      grid-area: text;
+    }
+
+    .mc-feed__header h3 {
+      margin-block-start: 0;
+      font-size: var(--pt-english);
+      letter-spacing: 0;
+    }
+
+    .mc-feed__header h3 a {
+      text-decoration: none;
+
+      @media (any-hover: hover) {
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .mc-feed__header h3 a::before {
+      content: "";
+      display: block;
+      position: absolute;
+      inset: 0;
+    }
+
+    .mc-feed__meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5ch;
+      font-style: italic;
+      font-size: var(--pt-bourgeois);
+      line-height: 1.1;
+    }
+
+    .mc-feed__author::before {
+      content: "/";
+      display: inline-block;
+      block-size: 1cap;
+      margin-inline-end: 0.5ch;
+      vertical-align: baseline;
+    }
+
+    .mc-feed__image {
+      display: block;
+      grid-area: image;
+      inline-size: 100%;
+      block-size: auto;
+      object-fit: cover;
+      aspect-ratio: 16/9;
+    }
+
+    @media (min-width: 24em) {
+      .mc-feed__image {
+        aspect-ratio: 1/1;
+      }
+    }
+
+    .mc-feed__content {
+      margin-block-start: calc(var(--stack) * 0.75);
+      font-size: var(--pt-long-primer);
+    }
+
+    .mc-feed__content > *:first-child {
+      margin-block-start: 0;
+    }
+
+    .mc-feed__content > *:last-child {
+      margin-block-end: 0;
+    }
+
+    .mc-feed__loading {
+      text-align: center;
+      padding-block: var(--stack);
+      padding-inline: var(--gutter);
+      font-family: var(--font-variant);
+      font-size: var(--pt-bourgeois);
+      font-weight: bold;
+      color: canvas;
+      background-color: canvastext;
+    }
+
+    .mc-feed__container[aria-busy="false"] ~ .mc-feed__loading {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const feeds: NodeListOf<HTMLElement> =
+      document.querySelectorAll("[role='feed']");
+
+    feeds.forEach((feed: HTMLElement) => {
+      let isLoading = false;
+      const hasMoreItems = feed.dataset.hasMoreItems === "true";
+      let currentPage = 1;
+      const itemsPerPage = 2; // Number of items to load each time
+      const template = feed
+        .closest(".js-feed-container")
+        ?.querySelector<HTMLTemplateElement>("#feed-item-template");
+      const visibleItemsContainer = feed;
+
+      if (!hasMoreItems || !template || !visibleItemsContainer) return;
+
+      // Find the parent element that has scrolling capability
+      const getScrollParent = (element: HTMLElement): HTMLElement => {
+        if (!element) return document.documentElement;
+
+        const isScrollable = (el: HTMLElement): boolean => {
+          const hasScrollableContent = el.scrollHeight > el.clientHeight;
+          const overflowYStyle = window.getComputedStyle(el).overflowY;
+          const isOverflowHidden = overflowYStyle.indexOf("hidden") !== -1;
+
+          return hasScrollableContent && !isOverflowHidden;
+        };
+
+        let style = window.getComputedStyle(element);
+        const excludeStaticParent = style.position === "absolute";
+        const overflowRegex = /(auto|scroll)/;
+
+        if (style.position === "fixed") return document.documentElement;
+
+        for (
+          let parent = element.parentElement;
+          parent;
+          parent = parent.parentElement
+        ) {
+          style = window.getComputedStyle(parent);
+
+          if (excludeStaticParent && style.position === "static") {
+            continue;
+          }
+
+          if (
+            overflowRegex.test(
+              style.overflow + style.overflowY + style.overflowX,
+            ) &&
+            isScrollable(parent as HTMLElement)
+          ) {
+            return parent as HTMLElement;
+          }
+        }
+
+        return document.documentElement;
+      };
+
+      const scrollParent = getScrollParent(feed);
+      const isWindowScroll =
+        scrollParent === document.documentElement ||
+        scrollParent === document.body;
+
+      const loadMoreItems = async () => {
+        if (isLoading || !hasMoreItems) return;
+
+        try {
+          feed.setAttribute("aria-busy", "true");
+          isLoading = true;
+
+          // Simulate loading delay
+          await new Promise((resolve) => setTimeout(resolve, 600));
+
+          // Get items from template
+          const templateContent = template.content.cloneNode(
+            true,
+          ) as DocumentFragment;
+          const itemsArray = Array.from(
+            templateContent.querySelectorAll<HTMLElement>(".mc-feed__article"),
+          );
+
+          // Take only the number of items we want to show in this batch
+          const startIndex = (currentPage - 1) * itemsPerPage;
+          const endIndex = Math.min(
+            startIndex + itemsPerPage,
+            itemsArray.length,
+          );
+
+          if (startIndex >= itemsArray.length) {
+            // No more items to load
+            feed.dataset.hasMoreItems = "false";
+            return;
+          }
+
+          // Add the items to the DOM
+          for (let i = startIndex; i < endIndex; i++) {
+            if (itemsArray[i]) {
+              visibleItemsContainer.appendChild(itemsArray[i]);
+            }
+          }
+
+          currentPage++;
+
+          // Update keyboard navigation
+          setupKeyboardNavigation();
+
+          // If we've loaded all items, mark as complete
+          if (endIndex >= itemsArray.length) {
+            feed.dataset.hasMoreItems = "false";
+          }
+
+          // Update aria-setsize for all articles
+          updateAriaCounts();
+        } catch (error) {
+          console.error("Error loading more feed items:", error);
+        } finally {
+          feed.setAttribute("aria-busy", "false");
+          isLoading = false;
+        }
+      };
+
+      // Update aria-posinset and aria-setsize attributes
+      const updateAriaCounts = (): void => {
+        const articles =
+          feed.querySelectorAll<HTMLElement>(".mc-feed__article");
+        const totalArticles = articles.length;
+
+        articles.forEach((article, index) => {
+          article.setAttribute("aria-posinset", (index + 1).toString());
+          article.setAttribute("aria-setsize", totalArticles.toString());
+        });
+      };
+
+      // Check if we need to load more items when user scrolls near the bottom
+      const checkLoadMore = () => {
+        if (isLoading || feed.dataset.hasMoreItems !== "true") return;
+
+        const feedRect = feed.getBoundingClientRect();
+        let isNearBottom: boolean;
+
+        if (isWindowScroll) {
+          // For window scrolling
+          isNearBottom = feedRect.bottom <= window.innerHeight + 200;
+        } else {
+          // For container scrolling
+          const scrollParentRect = scrollParent.getBoundingClientRect();
+          isNearBottom = feedRect.bottom <= scrollParentRect.bottom + 200;
+        }
+
+        if (isNearBottom) {
+          loadMoreItems();
+        }
+      };
+
+      // Add appropriate scroll event listeners
+      if (isWindowScroll) {
+        window.addEventListener("scroll", checkLoadMore, { passive: true });
+      } else {
+        scrollParent.addEventListener("scroll", checkLoadMore, {
+          passive: true,
+        });
+      }
+
+      // Also check on window resize
+      window.addEventListener("resize", checkLoadMore, { passive: true });
+
+      // Implement keyboard navigation between feed items
+      const setupKeyboardNavigation = (): void => {
+        const articleElements: NodeListOf<HTMLElement> =
+          feed.querySelectorAll(".mc-feed__article");
+
+        articleElements.forEach((article: HTMLElement, idx: number) => {
+          article.addEventListener("keydown", (e: KeyboardEvent) => {
+            // PageDown/PageUp keys to navigate between feed items
+            if (e.key === "PageDown" && idx < articleElements.length - 1) {
+              e.preventDefault();
+              articleElements[idx + 1].focus();
+            } else if (e.key === "PageUp" && idx > 0) {
+              e.preventDefault();
+              articleElements[idx - 1].focus();
+            } else if (e.ctrlKey && e.key === "Home") {
+              e.preventDefault();
+              articleElements[0].focus();
+            } else if (e.ctrlKey && e.key === "End") {
+              e.preventDefault();
+              articleElements[articleElements.length - 1].focus();
+            }
+          });
+        });
+      };
+
+      // Initial setup
+      setupKeyboardNavigation();
+
+      // Check initially if we need to load more items
+      // Use setTimeout to ensure the layout has settled
+      setTimeout(checkLoadMore, 100);
+    });
+  });
+</script>

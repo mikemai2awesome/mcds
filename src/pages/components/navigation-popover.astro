@@ -1,0 +1,222 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ComponentDoc from "../../components/ComponentDoc.astro";
+import NavigationPopoverComponent from "../../components/NavigationPopover.astro";
+
+const navigationGroups = [
+  {
+    id: "products",
+    title: "Products",
+    links: [
+      {
+        label: "Analytics Platform",
+        href: "/products/analytics",
+        description: "Comprehensive data analysis and visualization tools",
+      },
+      {
+        label: "Content Management",
+        href: "/products/cms",
+        description: "Manage and publish content across multiple channels",
+      },
+      {
+        label: "E-commerce Platform",
+        href: "/products/ecommerce",
+        description: "End-to-end solutions for online stores and marketplaces",
+      },
+    ],
+  },
+  {
+    id: "services",
+    title: "Services",
+    links: [
+      {
+        label: "Implementation",
+        href: "/services/implementation",
+        description: "Expert services to get your systems up and running",
+        current: true,
+      },
+      {
+        label: "Training",
+        href: "/services/training",
+        description: "Comprehensive training for teams of all skill levels",
+      },
+      {
+        label: "Support",
+        href: "/services/support",
+        description: "24/7 support from our expert team",
+      },
+    ],
+  },
+];
+
+const navigationMenu = [
+  {
+    links: [
+      {
+        label: "Home",
+        href: "/home",
+      },
+      {
+        label: "Foundation",
+        href: "/foundation",
+      },
+      {
+        label: "Components",
+        href: "/components",
+        current: true,
+      },
+    ],
+  },
+];
+
+const navigationCode = `<NavigationPopover
+  label="Products & Services"
+  groups={[
+    {
+      id: "products",
+      title: "Products",
+      links: [
+        {
+          label: "Analytics Platform",
+          href: "/products/analytics",
+          description: "Comprehensive data analysis and visualization tools"
+        },
+        // More products...
+      ]
+    },
+    {
+      id: "services",
+      title: "Services",
+      links: [
+        {
+          label: "Implementation",
+          href: "/services/implementation",
+          description: "Expert services to get your systems up and running"
+        },
+        // More services...
+      ]
+    }
+  ]}
+/>`;
+---
+
+<Layout title="Navigation Popover">
+  <ComponentDoc
+    title="Navigation Popover"
+    description="The Navigation Popover component toggles a list of links with optional group titles."
+    props={[
+      {
+        name: "label",
+        type: "string",
+        default: "Required",
+        description: "Text for the popover trigger button",
+      },
+      {
+        name: "groups",
+        type: "Group[]",
+        default: "Required",
+        description: "Array of link groups to display",
+      },
+    ]}
+    nestedInterfaces={[
+      {
+        name: "Group",
+        props: [
+          {
+            name: "id",
+            type: "string",
+            default: "undefined",
+            description:
+              "Unique identifier for the group (required only when title is provided)",
+            required: false,
+          },
+          {
+            name: "title",
+            type: "string",
+            default: "undefined",
+            description: "Optional title of the group",
+            required: false,
+          },
+          {
+            name: "links",
+            type: "Link[]",
+            default: "Required",
+            description: "Array of links in the group",
+            required: true,
+          },
+        ],
+      },
+      {
+        name: "Link",
+        props: [
+          {
+            name: "label",
+            type: "string",
+            default: "Required",
+            description: "Text for the link",
+            required: true,
+          },
+          {
+            name: "href",
+            type: "string",
+            default: "Required",
+            description: "URL for the link",
+            required: true,
+          },
+          {
+            name: "description",
+            type: "string",
+            default: "undefined",
+            description: "Description text for the link",
+            required: false,
+          },
+        ],
+      },
+    ]}
+    usage={{
+      dos: `
+        <ul>
+          <li>Use for complex navigation structures</li>
+          <li>Group related navigation items</li>
+          <li>Include descriptive text for each item when possible</li>
+          <li>Provide group titles for better organization when needed</li>
+          <li>Keep the content simple and scannable</li>
+        </ul>
+      `,
+      donts: `
+        <ul>
+          <li>Don't use for simple lists of links</li>
+          <li>Don't overload with too many options</li>
+          <li>Don't nest additional popovers inside</li>
+          <li>Don't use for primary page content</li>
+          <li>Don't use when simple tabs would suffice</li>
+        </ul>
+      `,
+    }}
+    accessibility={{
+      keyboardNav: `
+        <ul>
+          <li><kbd>Tab</kbd> key moves focus to the popover trigger</li>
+          <li><kbd>Enter</kbd>/<kbd>Space</kbd> opens and closes the popover</li>
+          <li><kbd>Tab</kbd> key navigates through links when popover is open</li>
+          <li><kbd>Escape</kbd> closes the popover and returns focus to the trigger</li>
+        </ul>
+      `,
+      screenReaders: `
+        <ul>
+          <li>Trigger button has <code>aria-expanded</code> to indicate open state</li>
+          <li>Each list is labelled by the group title via <code>aria-labelledby</code></li>
+        </ul>
+      `,
+    }}
+    code={navigationCode}
+  >
+    <div class="doc-demo-inline">
+      <NavigationPopoverComponent
+        label="Complex Menu"
+        groups={navigationGroups}
+      />
+      <NavigationPopoverComponent label="Simple Menu" groups={navigationMenu} />
+    </div>
+  </ComponentDoc>
+</Layout>

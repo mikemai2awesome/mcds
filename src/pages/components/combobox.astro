@@ -1,0 +1,253 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ComponentDoc from "../../components/ComponentDoc.astro";
+import ComboboxComponent from "../../components/Combobox.astro";
+
+const countryOptions = [
+  {
+    id: "us",
+    value: "us",
+    label: "United States",
+  },
+  {
+    id: "ca",
+    value: "ca",
+    label: "Canada",
+  },
+  {
+    id: "mx",
+    value: "mx",
+    label: "Mexico",
+  },
+  {
+    id: "uk",
+    value: "uk",
+    label: "United Kingdom",
+  },
+  {
+    id: "fr",
+    value: "fr",
+    label: "France",
+  },
+  {
+    id: "de",
+    value: "de",
+    label: "Germany",
+  },
+  {
+    id: "jp",
+    value: "jp",
+    label: "Japan",
+  },
+  {
+    id: "cn",
+    value: "cn",
+    label: "China",
+  },
+  {
+    id: "in",
+    value: "in",
+    label: "India",
+  },
+  {
+    id: "br",
+    value: "br",
+    label: "Brazil",
+  },
+  {
+    id: "au",
+    value: "au",
+    label: "Australia",
+  },
+];
+
+const fruitOptions = [
+  {
+    id: "apple",
+    value: "apple",
+    label: "Apple",
+  },
+  {
+    id: "banana",
+    value: "banana",
+    label: "Banana",
+  },
+  {
+    id: "cherry",
+    value: "cherry",
+    label: "Cherry",
+  },
+  {
+    id: "grape",
+    value: "grape",
+    label: "Grape",
+  },
+  {
+    id: "orange",
+    value: "orange",
+    label: "Orange",
+  },
+  {
+    id: "peach",
+    value: "peach",
+    label: "Peach",
+  },
+  {
+    id: "pear",
+    value: "pear",
+    label: "Pear",
+  },
+  {
+    id: "strawberry",
+    value: "strawberry",
+    label: "Strawberry",
+  },
+];
+
+const comboboxCode = `<Combobox
+  id="country"
+  label="Select a country"
+  options={[
+    { id: 'us', label: 'United States' },
+    { id: 'ca', label: 'Canada' },
+    { id: 'mx', label: 'Mexico' },
+    { id: 'uk', label: 'United Kingdom' },
+    { id: 'fr', label: 'France' }
+  ]}
+  required={true}
+  autocomplete={true}
+/>`;
+---
+
+<Layout title="Combobox">
+  <ComponentDoc
+    title="Combobox"
+    description="The Combobox component combines a text input with a listbox, allowing users to filter options by typing or select from a dropdown. It follows the ARIA Authoring Practices Guide for combobox patterns, supports keyboard navigation, and automatically collapses when focus is lost."
+    props={[
+      {
+        name: "id",
+        type: "string",
+        default: "Random ID",
+        description: "Unique identifier for the combobox",
+      },
+      {
+        name: "name",
+        type: "string",
+        default: "Same as id",
+        description: "Name attribute for the input field",
+      },
+      {
+        name: "label",
+        type: "string",
+        default: "Required",
+        description: "Label for the combobox",
+      },
+      {
+        name: "options",
+        type: "Option[]",
+        default: "Required",
+        description: "Array of options to display",
+      },
+      {
+        name: "value",
+        type: "string",
+        default: '""',
+        description: "Initial value for the input",
+      },
+      {
+        name: "required",
+        type: "boolean",
+        default: "false",
+        description: "Whether the field is required",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        default: "false",
+        description: "Whether the combobox is disabled",
+      },
+      {
+        name: "autocomplete",
+        type: "boolean",
+        default: "false",
+        description: "Whether to enable autocomplete functionality",
+      },
+    ]}
+    nestedInterfaces={[
+      {
+        name: "Option",
+        props: [
+          {
+            name: "id",
+            type: "string",
+            default: "Required",
+            description: "Unique identifier for the option",
+            required: true,
+          },
+          {
+            name: "label",
+            type: "string",
+            default: "Required",
+            description: "Display text for the option",
+            required: true,
+          },
+        ],
+      },
+    ]}
+    usage={{
+      dos: `
+        <ul>
+          <li>Use for large lists of options that need filtering</li>
+          <li>Provide clear, descriptive labels</li>
+        </ul>
+      `,
+      donts: `
+        <ul>
+          <li>Don&rsquo;t use for simple yes/no choices (use radio buttons instead)</li>
+          <li>Don&rsquo;t use for very small lists (use select instead)</li>
+        </ul>
+      `,
+    }}
+    accessibility={{
+      keyboardNav: `
+        <ul>
+          <li><kbd>Tab</kbd> key moves focus to the combobox</li>
+          <li>Typing in the input filters options automatically</li>
+          <li><kbd>Arrow Down</kbd> opens the dropdown and navigates to the next option</li>
+          <li><kbd>Arrow Up</kbd> navigates to the previous option</li>
+          <li><kbd>Enter</kbd> selects the currently focused option</li>
+          <li><kbd>Escape</kbd> closes the dropdown</li>
+          <li>Options list automatically collapses when focus moves outside</li>
+        </ul>
+      `,
+      screenReaders: `
+        <ul>
+          <li>Uses <code>role="combobox"</code> for the input</li>
+          <li>Uses <code>role="listbox"</code> for the options container</li>
+          <li>Uses <code>role="option"</code> for individual options</li>
+          <li><code>aria-expanded</code> indicates dropdown state</li>
+          <li><code>aria-controls</code> associates the input with the listbox</li>
+          <li><code>aria-selected</code> indicates the selected option</li>
+          <li><code>aria-activedescendant</code> indicates the active option</li>
+          <li><code>aria-activedescendant</code> does not work with Talkback on Android and VoiceOver on MacOS 14 and below</li>
+        </ul>
+      `,
+    }}
+    code={comboboxCode}
+  >
+    <div class="doc-demo-stack" style="max-inline-size: 25ch;">
+      <ComboboxComponent
+        id="country"
+        label="Country"
+        options={countryOptions}
+        required={true}
+      />
+
+      <ComboboxComponent
+        id="fruit"
+        label="Favorite fruit"
+        options={fruitOptions}
+      />
+    </div>
+  </ComponentDoc>
+</Layout>

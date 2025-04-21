@@ -1,0 +1,467 @@
+---
+interface Option {
+  id: string;
+  label: string;
+}
+
+interface Props {
+  id?: string;
+  name?: string;
+  label: string;
+  options: Option[];
+  value?: string;
+  required?: boolean;
+  disabled?: boolean;
+  autocomplete?: boolean;
+}
+
+const {
+  id = `combobox-${Math.random().toString(36).substring(2, 11)}`,
+  name = id,
+  label,
+  options,
+  value = "",
+  required = false,
+  disabled = false,
+  autocomplete = false,
+} = Astro.props;
+
+const listboxId = `${id}-listbox`;
+---
+
+<div class="mc-combobox">
+  <label for={id} class="mc-combobox__label">
+    {label}{!required && <em aria-hidden="true"> (optional)</em>}
+  </label>
+
+  <div class="mc-combobox__control">
+    <input
+      type="text"
+      id={id}
+      name={name}
+      class="mc-combobox__input"
+      value={value}
+      autocomplete="off"
+      aria-autocomplete={autocomplete ? "list" : "none"}
+      aria-controls={listboxId}
+      aria-expanded="false"
+      role="combobox"
+      required={required}
+      disabled={disabled}
+    />
+
+    <button
+      type="button"
+      class="mc-combobox__button"
+      tabindex="-1"
+      aria-expanded="false"
+      disabled={disabled}
+    >
+      <svg aria-hidden="true" viewBox="0 0 320 512" width="16" height="16">
+        <path
+          d="M143 352.3L7 216.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l96.4 96.4 96.4-96.4c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9l-136 136c-9.2 9.4-24.4 9.4-33.8 0z"
+        ></path>
+      </svg>
+      <span class="u-visually-hidden">Show options</span>
+    </button>
+  </div>
+
+  <ul
+    id={listboxId}
+    class="mc-combobox__options"
+    role="listbox"
+    aria-label={`Options for ${label}`}
+    tabindex="-1"
+    hidden
+  >
+    {
+      options.map((option) => (
+        <li
+          id={`option-${option.id}`}
+          class="mc-combobox__option"
+          role="option"
+          aria-selected="false"
+          data-value={option.id}
+        >
+          {option.label}
+        </li>
+      ))
+    }
+    <li class="mc-combobox__no-results" hidden>No results found</li>
+  </ul>
+</div>
+
+<style>
+  @layer components {
+    .mc-combobox {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      margin-block-start: var(--stack);
+    }
+
+    .mc-combobox__label em {
+      font-family: var(--font);
+      font-weight: normal;
+    }
+
+    .mc-combobox__control {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr auto;
+    }
+
+    .mc-combobox__input {
+      inline-size: 100%;
+      padding-inline-end: 2em;
+    }
+
+    .mc-combobox__button {
+      display: grid;
+      place-items: center;
+      inline-size: 2em;
+      margin: 0;
+      margin-inline-start: -2em;
+      padding: 0;
+      border: none;
+      background: none;
+    }
+
+    .mc-combobox__button svg {
+      inline-size: 1.5cap;
+      block-size: auto;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .mc-combobox__button svg {
+        transition: transform var(--transition);
+      }
+    }
+
+    .mc-combobox__button[aria-expanded="true"] svg {
+      fill: crimson;
+      transform: rotate(180deg);
+    }
+
+    .mc-combobox__options {
+      position: absolute;
+      inset-block-start: 100%;
+      inset-inline-start: 0;
+      inline-size: 100%;
+      block-size: 20cap;
+      max-block-size: 80svb;
+      margin-block-start: calc(var(--stack) / 2);
+      padding-block: calc(var(--stack) / 2);
+      padding-inline: calc(var(--gutter) / 4);
+      list-style: none;
+      background-color: canvas;
+      border: 1px solid gray;
+      overflow-y: auto;
+      z-index: 1;
+    }
+
+    .mc-combobox__option {
+      padding-block: calc(var(--stack) / 2);
+      padding-inline: calc(var(--gutter) / 4);
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+
+    @media (any-hover: hover) {
+      .mc-combobox__option:hover {
+        border: 1px dashed;
+      }
+    }
+
+    .mc-combobox__option[aria-selected="true"] {
+      color: canvas;
+      background-color: canvastext;
+    }
+
+    .mc-combobox__no-results {
+      padding-block: calc(var(--stack) / 2);
+      padding-inline: calc(var(--gutter) / 2);
+      font-style: italic;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const comboboxes = document.querySelectorAll(".mc-combobox");
+
+    comboboxes.forEach((combobox) => {
+      const input = combobox.querySelector(
+        ".mc-combobox__input",
+      ) as HTMLInputElement;
+      const button = combobox.querySelector(
+        ".mc-combobox__button",
+      ) as HTMLButtonElement;
+      const options = combobox.querySelector(
+        ".mc-combobox__options",
+      ) as HTMLUListElement;
+      const optionElements = combobox.querySelectorAll(
+        ".mc-combobox__option",
+      ) as NodeListOf<HTMLLIElement>;
+      const noResults = combobox.querySelector(
+        ".mc-combobox__no-results",
+      ) as HTMLLIElement;
+
+      if (!input || !button || !options || !noResults) return;
+
+      let activeIndex = -1;
+
+      // Open/close the options list
+      const toggleOptions = (show: boolean) => {
+        if (input.disabled) return;
+
+        const isExpanded = show;
+        options.hidden = !isExpanded;
+        input.setAttribute("aria-expanded", isExpanded.toString());
+        button.setAttribute("aria-expanded", isExpanded.toString());
+
+        if (isExpanded) {
+          // Reset option states
+          optionElements.forEach((option) => {
+            option.setAttribute("aria-selected", "false");
+          });
+
+          // Show all options initially
+          filterOptions("");
+
+          // Position the options list properly
+          positionOptions();
+
+          // Select the currently matching option if any
+          if (input.value) {
+            const currentOption = Array.from(optionElements).find(
+              (opt) => opt.textContent?.trim() === input.value,
+            );
+
+            if (currentOption) {
+              currentOption.setAttribute("aria-selected", "true");
+              activeIndex = Array.from(optionElements).indexOf(currentOption);
+              scrollOptionIntoView(currentOption);
+            }
+          }
+        }
+      };
+
+      // Position the options dropdown correctly
+      const positionOptions = () => {
+        const inputRect = input.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+
+        // Check if there's room below
+        const spaceBelow = viewportHeight - inputRect.bottom;
+        const optionsHeight = options.offsetHeight;
+
+        if (spaceBelow < optionsHeight && inputRect.top > optionsHeight) {
+          // Position above the input if there's not enough space below
+          options.style.insetBlockStart = "auto";
+          options.style.insetBlockEnd = "100%";
+          options.style.marginBlockStart = "0";
+          options.style.marginBlockEnd = "calc(var(--stack) / 2)";
+        } else {
+          // Position below the input (default)
+          options.style.insetBlockStart = "100%";
+          options.style.insetBlockEnd = "auto";
+          options.style.marginBlockStart = "calc(var(--stack) / 2)";
+          options.style.marginBlockEnd = "0";
+        }
+      };
+
+      // Filter options based on input
+      const filterOptions = (query: string) => {
+        let visibleCount = 0;
+        const lowerQuery = query.toLowerCase();
+
+        optionElements.forEach((option) => {
+          const text = option.textContent?.trim().toLowerCase() || "";
+          const matches = text.includes(lowerQuery);
+
+          option.hidden = !matches;
+
+          if (matches) visibleCount++;
+        });
+
+        // Show/hide no results message
+        noResults.hidden = visibleCount > 0;
+
+        // Reset activeIndex if filtering
+        if (query) activeIndex = -1;
+
+        return visibleCount;
+      };
+
+      // Select an option
+      const selectOption = (option: HTMLLIElement) => {
+        if (option && !option.hidden) {
+          input.value = option.textContent?.trim() || "";
+          input.setAttribute("aria-activedescendant", option.id);
+
+          // Clear other selections
+          optionElements.forEach((opt) => {
+            opt.setAttribute("aria-selected", "false");
+          });
+
+          // Mark this option as selected
+          option.setAttribute("aria-selected", "true");
+
+          // Dispatch change event
+          input.dispatchEvent(new Event("change", { bubbles: true }));
+
+          // Close the dropdown
+          toggleOptions(false);
+
+          // Return focus to input
+          input.focus();
+        }
+      };
+
+      // Helper to scroll an option into view
+      const scrollOptionIntoView = (option: HTMLLIElement) => {
+        if (!option) return;
+
+        const optionsRect = options.getBoundingClientRect();
+        const optionRect = option.getBoundingClientRect();
+
+        if (optionRect.top < optionsRect.top) {
+          options.scrollTop =
+            options.scrollTop - (optionsRect.top - optionRect.top);
+        } else if (optionRect.bottom > optionsRect.bottom) {
+          options.scrollTop =
+            options.scrollTop + (optionRect.bottom - optionsRect.bottom);
+        }
+      };
+
+      // Input event handlers
+      input.addEventListener("focus", () => {
+        if (input.value === "") {
+          toggleOptions(true);
+        }
+      });
+
+      input.addEventListener("blur", () => {
+        // Use setTimeout to allow click events to fire first
+        setTimeout(() => {
+          if (!combobox.contains(document.activeElement)) {
+            toggleOptions(false);
+          }
+        }, 0);
+      });
+
+      input.addEventListener("input", () => {
+        toggleOptions(true);
+        filterOptions(input.value);
+      });
+
+      input.addEventListener("keydown", (e: KeyboardEvent) => {
+        const visibleOptions = Array.from(optionElements).filter(
+          (opt) => !opt.hidden,
+        );
+
+        switch (e.key) {
+          case "Enter":
+            if (activeIndex >= 0 && activeIndex < visibleOptions.length) {
+              e.preventDefault();
+              selectOption(visibleOptions[activeIndex]);
+            } else if (visibleOptions.length === 1) {
+              e.preventDefault();
+              selectOption(visibleOptions[0]);
+            }
+            break;
+
+          case "Escape":
+            e.preventDefault();
+            toggleOptions(false);
+            break;
+
+          case "ArrowDown":
+            e.preventDefault();
+            if (options.hidden) {
+              toggleOptions(true);
+            } else {
+              activeIndex = Math.min(
+                activeIndex + 1,
+                visibleOptions.length - 1,
+              );
+              if (activeIndex === -1 && visibleOptions.length > 0) {
+                activeIndex = 0;
+              }
+
+              if (activeIndex >= 0) {
+                optionElements.forEach((opt) =>
+                  opt.setAttribute("aria-selected", "false"),
+                );
+                visibleOptions[activeIndex].setAttribute(
+                  "aria-selected",
+                  "true",
+                );
+                input.setAttribute(
+                  "aria-activedescendant",
+                  visibleOptions[activeIndex].id,
+                );
+                scrollOptionIntoView(visibleOptions[activeIndex]);
+              }
+            }
+            break;
+
+          case "ArrowUp":
+            e.preventDefault();
+            if (!options.hidden) {
+              activeIndex = Math.max(activeIndex - 1, 0);
+
+              optionElements.forEach((opt) =>
+                opt.setAttribute("aria-selected", "false"),
+              );
+              visibleOptions[activeIndex].setAttribute("aria-selected", "true");
+              input.setAttribute(
+                "aria-activedescendant",
+                visibleOptions[activeIndex].id,
+              );
+              scrollOptionIntoView(visibleOptions[activeIndex]);
+            }
+            break;
+        }
+      });
+
+      // Button event handler
+      button.addEventListener("click", () => {
+        toggleOptions(options.hidden);
+        if (!options.hidden) {
+          input.focus();
+        }
+      });
+
+      // Option click events
+      optionElements.forEach((option) => {
+        option.addEventListener("click", () => {
+          selectOption(option);
+        });
+
+        // Handle option keyboard navigation
+        option.addEventListener("keydown", (e: KeyboardEvent) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            selectOption(option);
+          }
+        });
+      });
+
+      // Close when clicking outside
+      document.addEventListener("click", (e: MouseEvent) => {
+        if (!combobox.contains(e.target as Node) && !options.hidden) {
+          toggleOptions(false);
+        }
+      });
+
+      // Handle window resize to reposition options
+      window.addEventListener("resize", () => {
+        if (!options.hidden) {
+          positionOptions();
+        }
+      });
+    });
+  });
+</script>

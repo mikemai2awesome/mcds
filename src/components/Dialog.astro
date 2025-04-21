@@ -1,0 +1,133 @@
+---
+interface Props {
+  id: string;
+  title: string;
+}
+
+const { id, title } = Astro.props;
+---
+
+<dialog id={id} class="mc-dialog" aria-labelledby={`${id}-title`}>
+  <div class="mc-dialog__content">
+    <header class="mc-dialog__header">
+      <h2 id={`${id}-title`} class="mc-dialog__title">{title}</h2>
+      <button type="button" class="mc-dialog__close" aria-label="Close">
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <path
+            d="M18 6L6 18M6 6L18 18"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </svg>
+      </button>
+    </header>
+    <div class="mc-dialog__body">
+      <slot />
+    </div>
+  </div>
+</dialog>
+
+<style>
+  @layer components {
+    html:has(dialog[open]) {
+      overflow: hidden;
+    }
+
+    .mc-dialog {
+      max-inline-size: min(90vw, 45ch);
+      max-block-size: min(80svb, 100%);
+      margin: auto;
+      padding: 0;
+      border: 0;
+    }
+
+    .mc-dialog::backdrop {
+      background-color: rgb(0 0 0 / 25%);
+      backdrop-filter: blur(1rem);
+    }
+
+    .mc-dialog__content {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      border: 1px solid;
+    }
+
+    .mc-dialog__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-block: var(--stack);
+      padding-inline: calc(var(--gutter) / 2);
+      border-block-end: 1px solid;
+
+      > * {
+        margin: 0;
+      }
+    }
+
+    .mc-dialog__title {
+      margin: 0;
+      font-size: var(--pt-english);
+      font-weight: bold;
+    }
+
+    .mc-dialog__close {
+      display: grid;
+      place-items: center;
+      padding: 0;
+      line-height: 1;
+      cursor: pointer;
+      color: inherit;
+      border: none;
+      background: none;
+    }
+
+    .mc-dialog__close svg {
+      inline-size: 1.5cap;
+    }
+
+    .mc-dialog__body {
+      padding-block: var(--stack);
+      padding-inline: calc(var(--gutter) / 2);
+      overflow-y: auto;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // Initialize each dialog
+    document.querySelectorAll(".mc-dialog").forEach((dialog) => {
+      if (!(dialog instanceof HTMLDialogElement)) return;
+
+      const dialogId = dialog.id;
+      const closeButton =
+        dialog.querySelector<HTMLButtonElement>(".mc-dialog__close");
+
+      // Find all buttons that should open this dialog
+      document
+        .querySelectorAll(`[data-dialog="${dialogId}"]`)
+        .forEach((trigger) => {
+          trigger.addEventListener("click", () => {
+            dialog.showModal();
+          });
+        });
+
+      // Close dialog when close button is clicked
+      if (closeButton) {
+        closeButton.addEventListener("click", () => {
+          dialog.close();
+        });
+      }
+    });
+  });
+</script>

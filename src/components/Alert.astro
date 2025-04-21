@@ -1,0 +1,141 @@
+---
+interface Props {
+  type?: "info" | "success" | "warning" | "error";
+  dismissible?: boolean;
+  id?: string;
+}
+
+const { type, dismissible = false, id } = Astro.props;
+
+// Generate a random ID if none is provided
+const alertId = id || `alert-${Math.random().toString(36).substring(2, 9)}`;
+const dismissId = `${alertId}-dismiss`;
+
+const emojis = {
+  info: "ℹ️",
+  success: "✅",
+  warning: "⚠️",
+  error: "❌",
+};
+---
+
+<div
+  class="mc-alert"
+  role="alert"
+  id={alertId}
+  data-type={type}
+  data-dismissible={dismissible}
+>
+  <div class="mc-alert__content">
+    {
+      dismissible && (
+        <button
+          class="mc-alert__close"
+          aria-label="Dismiss"
+          id={dismissId}
+          aria-controls={alertId}
+        >
+          <svg
+            aria-hidden="true"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12.5 3.5L3.5 12.5M3.5 3.5L12.5 12.5"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+      )
+    }
+    <div class="mc-alert__message">
+      {type && <span>{emojis[type]}</span>}<slot />
+    </div>
+  </div>
+</div>
+
+<style>
+  @layer components {
+    .mc-alert {
+      margin-block-start: var(--stack);
+    }
+
+    .mc-alert__content {
+      display: flex;
+      align-items: flex-start;
+      flex-flow: row-reverse wrap;
+      gap: calc(var(--gutter) / 2);
+      padding-block: var(--stack);
+      padding-inline: calc(var(--gutter) / 2);
+      border: 1px solid;
+      border-inline-start-width: 0.5ch;
+    }
+
+    .mc-alert__message {
+      display: flex;
+      align-items: flex-start;
+      gap: inherit;
+      flex: 1;
+    }
+
+    .mc-alert__close {
+      display: grid;
+      place-items: center;
+      padding-block: 0.3cap;
+      padding-inline: 0;
+      line-height: 1;
+      cursor: pointer;
+      color: inherit;
+      border: none;
+      background: none;
+    }
+
+    .mc-alert__close svg {
+      inline-size: 1.5cap;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // First, set up close button functionality
+    document.querySelectorAll(".mc-alert__close").forEach((button) => {
+      button.addEventListener("click", () => {
+        const alert = button.closest(".mc-alert") as HTMLElement;
+        if (alert) {
+          alert.style.opacity = "0";
+          alert.style.height = alert.offsetHeight + "px";
+          alert.style.marginBlock = "0";
+          alert.style.paddingBlock = "0";
+          alert.style.overflow = "hidden";
+          alert.style.transition = "all var(--transition)";
+
+          setTimeout(() => {
+            alert.style.height = "0";
+            alert.style.marginBlock = "0";
+            alert.style.paddingBlock = "0";
+
+            setTimeout(() => alert.remove(), 300);
+          }, 10);
+        }
+      });
+    });
+
+    // Focus the dismiss button of the first dismissible alert
+    const dismissButton = document.querySelector(
+      ".mc-alert__close",
+    ) as HTMLButtonElement;
+    if (dismissButton) {
+      // Use requestAnimationFrame to ensure the DOM is fully rendered
+      requestAnimationFrame(() => {
+        dismissButton.focus();
+      });
+    }
+  });
+</script>

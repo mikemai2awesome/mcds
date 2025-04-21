@@ -1,0 +1,105 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ComponentDoc from "../../components/ComponentDoc.astro";
+import DialogComponent from "../../components/Dialog.astro";
+
+const dialogCode = `<!-- Trigger button -->
+<button type="button" data-dialog="info-dialog">View Information</button>
+
+<!-- Dialog example -->
+<Dialog
+  id="info-dialog"
+  title="Information"
+>
+  <p>This dialog contains important information for the user.</p>
+  <p>It can contain more complex UI elements or longer content.</p>
+  <form method="dialog">
+    <p>
+      <button type="submit">OK</button>
+    </p>
+  </form>
+</Dialog>`;
+---
+
+<Layout title="Dialog">
+  <ComponentDoc
+    title="Dialog"
+    description="The Dialog component creates modal dialogs that interrupt the user's workflow to provide important information or request input. It uses the native HTML dialog element for better accessibility and performance."
+    props={[
+      {
+        name: "id",
+        type: "string",
+        default: "Required",
+        description: "Unique identifier for the dialog",
+      },
+      {
+        name: "title",
+        type: "string",
+        default: "Required",
+        description: "Title text for the dialog header",
+      },
+      {
+        name: "children",
+        type: "ReactNode",
+        default: "Required",
+        description: "Content of the dialog",
+      },
+    ]}
+    usage={{
+      dos: `
+        <ul>
+          <li>Use for important information requiring user attention</li>
+          <li>Keep dialogs simple and focused on a single task</li>
+          <li>Provide clear actions (confirm, cancel, etc.)</li>
+          <li>Use descriptive titles that summarize the purpose</li>
+          <li>Allow keyboard navigation within the dialog</li>
+        </ul>
+      `,
+      donts: `
+        <ul>
+          <li>Don't use for non-critical information</li>
+          <li>Don't nest dialogs within dialogs</li>
+          <li>Don't use for complex multi-step processes</li>
+          <li>Don't use for content that should be part of the main page</li>
+          <li>Don't make dialogs too large or overloaded with content</li>
+        </ul>
+      `,
+    }}
+    accessibility={{
+      keyboardNav: `
+        <ul>
+          <li>ESC key closes the dialog</li>
+          <li>Tab key moves focus between interactive elements</li>
+          <li>Focus is trapped within the dialog</li>
+          <li>When opened, focus moves to the first focusable element</li>
+          <li>When closed, focus returns to the trigger element</li>
+        </ul>
+      `,
+      screenReaders: `
+        <ul>
+          <li>Uses role="dialog" (native HTML dialog element)</li>
+          <li>aria-labelledby connects to the dialog title</li>
+          <li>aria-modal="true" indicates modal behavior</li>
+          <li>Opening/closing is announced to screen readers</li>
+          <li>Clear focus management helps navigation</li>
+        </ul>
+      `,
+    }}
+    code={dialogCode}
+  >
+    <!-- Trigger buttons -->
+    <button type="button" data-dialog="info-dialog">Open Dialog</button>
+
+    <DialogComponent id="info-dialog" title="Information">
+      <p>
+        This dialog contains important information for the user. It can contain
+        more complex UI elements or longer content.
+      </p>
+      <form method="dialog">
+        <p>
+          <button type="submit">OK</button>
+        </p>
+      </form>
+    </DialogComponent>
+  </ComponentDoc>
+</Layout>

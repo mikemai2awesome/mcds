@@ -1,0 +1,237 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ComponentDoc from "../../components/ComponentDoc.astro";
+import FeedComponent from "../../components/Feed.astro";
+
+const feedItems = [
+  {
+    url: "https://mikemai.net",
+    id: "1",
+    title: "Understanding Accessibility in Web Development",
+    author: "Jane Developer",
+    date: "March 15, 2023",
+    content: `
+      <p>Accessibility is a crucial aspect of web development that ensures everyone,
+      including people with disabilities, can perceive, understand, navigate, and interact with websites.</p>
+    `,
+  },
+  {
+    url: "https://mikemai.net",
+    id: "2",
+    title: "Getting Started with Astro",
+    author: "John Astronaut",
+    date: "April 2, 2023",
+    image: "https://picsum.photos/id/0/800/450",
+    imageAlt: "Code on a computer screen",
+    content: `
+      <p>Astro is a modern static site builder that delivers lightning-fast performance with less JavaScript.</p>
+    `,
+  },
+  {
+    url: "https://mikemai.net",
+    id: "3",
+    title: "Modern CSS Techniques",
+    author: "Sarah Stylist",
+    date: "May 10, 2023",
+    content: `
+      <p>Modern CSS has evolved significantly with features like CSS Grid, Flexbox, and Custom Properties.</p>
+    `,
+  },
+];
+
+// Add more items to demonstrate infinite scrolling
+for (let i = 4; i <= 10; i++) {
+  feedItems.push({
+    url: "https://mikemai.net",
+    id: i.toString(),
+    title: `Feed Item ${i}`,
+    author: `Author ${i}`,
+    date: `May ${i + 10}, 2023`,
+    image:
+      i % 2 === 0
+        ? `https://picsum.photos/id/${i + 10}/800/450`
+        : `https://picsum.photos/id/${i + 20}/800/450`,
+    imageAlt: `Sample image for item ${i}`,
+    content: `<p>This is the content for feed item ${i}. The Feed component automatically loads more items as you scroll.</p>`,
+  });
+}
+
+const feedCode = `<!-- Feed component with WAI-ARIA feed pattern implementation -->
+<Feed
+  title="Recent Updates"
+  items={[
+    {
+      url: "https://example.com/post/1",
+      id: "1",
+      title: "First Post",
+      content: "This is the first post in the feed.",
+      date: "2024-03-19",
+      author: "John Doe",
+      image: "https://picsum.photos/id/1/800/450",
+      imageAlt: "Random placeholder image"
+    },
+    // ... more items
+  ]}
+  initialItems={3} // Optional: number of items to show initially (default: 3)
+/>`;
+---
+
+<Layout title="Feed">
+  <ComponentDoc
+    title="Feed"
+    description="The Feed component implements the WAI-ARIA feed pattern for dynamically loaded content. It creates an accessible, infinite-scrolling feed that loads new content automatically as the user scrolls, providing proper keyboard navigation and screen reader support. The feed pattern is particularly useful for social media feeds, news sites, and other content streams."
+    props={[
+      {
+        name: "items",
+        type: "FeedItem[]",
+        default: "Required",
+        description: "Array of feed items to display",
+      },
+      {
+        name: "initialItems",
+        type: "number",
+        default: "3",
+        description: "Number of items to show initially",
+      },
+      {
+        name: "loadMoreUrl",
+        type: "string",
+        default: "undefined",
+        description: "URL to fetch more items (optional)",
+      },
+      {
+        name: "title",
+        type: "string",
+        default: "Updates Feed",
+        description: "Accessible title for the feed",
+      },
+    ]}
+    nestedInterfaces={[
+      {
+        name: "FeedItem",
+        props: [
+          {
+            name: "url",
+            type: "string | URL | null | undefined",
+            default: "Required",
+            description: "URL for the feed item link",
+            required: true,
+          },
+          {
+            name: "id",
+            type: "string",
+            default: "Required",
+            description: "Unique identifier for the item",
+            required: true,
+          },
+          {
+            name: "title",
+            type: "string",
+            default: "Required",
+            description: "Title of the feed item",
+            required: true,
+          },
+          {
+            name: "content",
+            type: "string",
+            default: "Required",
+            description: "HTML content of the feed item",
+            required: true,
+          },
+          {
+            name: "date",
+            type: "string",
+            default: "Required",
+            description: "Publication date",
+            required: true,
+          },
+          {
+            name: "author",
+            type: "string",
+            default: "undefined",
+            description: "Author of the feed item",
+            required: false,
+          },
+          {
+            name: "image",
+            type: "string",
+            default: "undefined",
+            description: "URL of an image to display",
+            required: false,
+          },
+          {
+            name: "imageAlt",
+            type: "string",
+            default: "undefined",
+            description: "Alt text for the image",
+            required: false,
+          },
+        ],
+      },
+    ]}
+    usage={{
+      dos: `
+        <ul>
+          <li>Use for dynamic content that can be loaded incrementally such as news or social media feeds</li>
+          <li>Provide clear loading indicators when fetching more content</li>
+          <li>Include meaningful labels and descriptions for feed items</li>
+          <li>Maintain consistent spacing between feed items</li>
+          <li>Use semantic HTML structure with proper heading hierarchy</li>
+        </ul>
+      `,
+      donts: `
+        <ul>
+          <li>Don&rsquo;t use for static content that doesn&rsquo;t need infinite scrolling</li>
+          <li>Don&rsquo;t load too many items at once (stick to 3-5 items per load)</li>
+          <li>Don&rsquo;t forget to handle loading states and errors</li>
+          <li>Don&rsquo;t use for content that requires immediate visibility of all items</li>
+          <li>Don&rsquo;t mix different types of content without clear visual separation</li>
+        </ul>
+      `,
+    }}
+    accessibility={{
+      keyboardNav: `
+        <ul>
+          <li><kbd>Page Down</kbd>: Move focus to next article</li>
+          <li><kbd>Page Up</kbd>: Move focus to previous article</li>
+          <li><kbd>Ctrl</kbd> + <kbd>Home</kbd>: Move focus to the first article in the feed</li>
+          <li><kbd>Ctrl</kbd> + <kbd>End</kbd>: Move focus to the last article in the feed</li>
+          <li><kbd>Tab</kbd>: Navigate to interactive elements within an article</li>
+        </ul>
+      `,
+      screenReaders: `
+        <ul>
+          <li>Uses <code>role="feed"</code> for the container element</li>
+          <li>Each feed article is an <code>&lt;article&gt;</code> element with <code>tabindex="0"</code> to make it focusable</li>
+          <li>Uses <code>aria-labelledby</code> to identify the feed with its heading</li>
+          <li>Uses <code>aria-busy="true"</code> during loading to indicate content changes</li>
+          <li>Each article includes <code>aria-labelledby</code> pointing to its title</li>
+          <li>Each article includes <code>aria-describedby</code> pointing to its content</li>
+          <li>Articles include <code>aria-posinset</code> and <code>aria-setsize</code> to indicate position in feed</li>
+          <li>Images have descriptive alt text</li>
+        </ul>
+      `,
+    }}
+    code={feedCode}
+  >
+    <FeedComponent items={feedItems} title="Web development" />
+  </ComponentDoc>
+</Layout>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // Add reference to the WAI-ARIA feed pattern documentation
+    const description = document.querySelector(
+      ".mc-component-doc__description",
+    );
+    if (description) {
+      const descriptionText = description.innerHTML;
+      if (descriptionText.includes("WAI-ARIA feed pattern")) {
+        description.innerHTML = descriptionText.replace(
+          "WAI-ARIA feed pattern",
+          '<a href="https://www.w3.org/WAI/ARIA/apg/patterns/feed/examples/feed/" target="_blank" rel="noopener noreferrer">WAI-ARIA feed pattern</a>',
+        );
+      }
+    }
+  });
+</script>

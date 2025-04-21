@@ -1,0 +1,25 @@
+{
+  "name": "astro-ds",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "format:css": "node check-css-format.js"
+  },
+  "dependencies": {
+    "astro": "^5.1.5"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.16",
+    "glob": "^10.3.10",
+    "postcss": "^8.4.31",
+    "postcss-html": "^1.6.0",
+    "stylelint": "^16.16.0",
+    "stylelint-config-standard": "^37.0.0",
+    "stylelint-order": "^6.0.4"
+  }
+}

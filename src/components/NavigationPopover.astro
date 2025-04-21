@@ -1,0 +1,304 @@
+---
+interface Link {
+  label: string;
+  href: string;
+  description?: string;
+  current?: boolean;
+}
+
+interface Group {
+  id?: string;
+  title?: string;
+  links: Link[];
+}
+
+interface Props {
+  label: string;
+  groups: Group[];
+}
+
+const { label, groups } = Astro.props;
+const popoverId = `nav-popover-${Math.floor(Math.random() * 1000)}`;
+
+// Process groups to ensure IDs are available when titles are present
+const processedGroups = groups.map((group, index) => {
+  if (group.title && !group.id) {
+    return {
+      ...group,
+      id: `group-${index}`,
+    };
+  }
+  return group;
+});
+---
+
+<div class="mc-nav-popover">
+  <button
+    class="mc-nav-popover__trigger js-nav-popover__trigger"
+    aria-expanded="false"
+    data-popover-id={popoverId}
+  >
+    {label}
+    <svg aria-hidden="true" viewBox="0 0 448 512" width="16" height="16">
+      <path
+        d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+      ></path>
+    </svg>
+  </button>
+
+  <div id={popoverId} class="mc-nav-popover__content" hidden>
+    <div class="mc-nav-popover__grid">
+      {
+        processedGroups.map((group) => (
+          <div class="mc-nav-popover__group">
+            {group.title && group.id && (
+              <p
+                id={`group-title-${group.id}`}
+                class="mc-nav-popover__group-title"
+              >
+                {group.title}
+              </p>
+            )}
+            <ul
+              class="mc-nav-popover__list"
+              role="list"
+              aria-labelledby={
+                group.title && group.id ? `group-title-${group.id}` : undefined
+              }
+            >
+              {group.links.map((link) => (
+                <li class="mc-nav-popover__item">
+                  <a
+                    href={link.href}
+                    aria-current={link.current ? "page" : undefined}
+                    class="mc-nav-popover__link"
+                  >
+                    {link.label}
+                    <svg
+                      aria-hidden="true"
+                      viewBox="0 0 320 512"
+                      width="24"
+                      height="24"
+                    >
+                      <path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z" />
+                    </svg>
+                  </a>
+                  {link.description && (
+                    <span class="mc-nav-popover__link-desc">
+                      {link.description}
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</div>
+
+<style>
+  @layer components {
+    .mc-nav-popover {
+      --_degree: 6deg;
+      position: relative;
+      display: inline-block;
+    }
+
+    .mc-nav-popover__trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: calc(var(--gutter) / 3);
+      padding-block: calc(var(--stack) / 6);
+      padding-inline: calc(var(--gutter) / 3);
+      font-family: var(--font-variant);
+      font-weight: normal;
+      text-decoration: none;
+      background: none;
+      border: 1px solid;
+      border-image-slice: 1;
+      border-image-source: linear-gradient(
+        var(--_degree),
+        gray,
+        rgba(128, 128, 128, 0.4),
+        rgba(128, 128, 128, 0.4),
+        gray
+      );
+    }
+
+    .mc-nav-popover__trigger svg {
+      inline-size: 1cap;
+      block-size: auto;
+    }
+
+    .mc-nav-popover__trigger[aria-expanded="true"] svg {
+      fill: crimson;
+      transform: rotate(540deg);
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .mc-nav-popover__trigger svg {
+        transition: transform var(--transition);
+      }
+    }
+
+    @media (any-hover: hover) {
+      .mc-nav-popover__trigger:hover {
+        --_degree: -6deg;
+      }
+    }
+
+    .mc-nav-popover__content {
+      position: absolute;
+      inset-block-start: 100%;
+      inset-inline-start: 0;
+      inline-size: 80dvi;
+      max-inline-size: 30ch;
+      max-block-size: 80svb;
+      margin-block-start: calc(var(--stack) / 2);
+      background-color: canvas;
+      border: 1px solid gray;
+      overflow-y: auto;
+      z-index: 1;
+    }
+
+    .mc-nav-popover__grid {
+      display: flex;
+      flex-direction: column;
+      gap: var(--stack);
+      padding-block: var(--stack);
+      padding-inline: calc(var(--gutter) / 2);
+    }
+
+    .mc-nav-popover__group-title {
+      font-style: italic;
+    }
+
+    .mc-nav-popover__list {
+      list-style: none;
+      margin-block-start: calc(var(--stack) / 2);
+    }
+
+    .mc-nav-popover__item {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      position: relative;
+      padding-block: calc(var(--stack) / 2);
+      padding-inline: calc(var(--gutter) / 2);
+      text-wrap: pretty;
+      border: 1px solid transparent;
+    }
+
+    .mc-nav-popover__link {
+      font-family: var(--font-variant);
+      font-size: var(--pt-bourgeois);
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.1ex;
+      text-decoration: none;
+    }
+
+    .mc-nav-popover__link::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+    }
+
+    @media (any-hover: hover) {
+      .mc-nav-popover__item:hover {
+        border: 1px dashed;
+      }
+
+      .mc-nav-popover__link:hover svg {
+        transform: translateX(0.25ch);
+      }
+    }
+
+    .mc-nav-popover__link svg {
+      inline-size: 1cap;
+      block-size: auto;
+      fill: crimson;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .mc-nav-popover__link svg {
+        transition: transform var(--transition);
+      }
+    }
+
+    .mc-nav-popover__link[aria-current]::before {
+      border-inline-start: 0.5ch solid;
+    }
+
+    .mc-nav-popover__link-desc {
+      margin-block-start: calc(var(--stack) / 4);
+      font-size: var(--pt-small-pica);
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const triggers = document.querySelectorAll(".js-nav-popover__trigger");
+
+    triggers.forEach((trigger) => {
+      const popoverId = trigger.getAttribute("data-popover-id") || "";
+      const popover = document.getElementById(popoverId);
+
+      if (!popover) return;
+
+      // Toggle popover
+      trigger.addEventListener("click", () => {
+        const expanded = trigger.getAttribute("aria-expanded") === "true";
+
+        // Close any other open popovers first
+        document
+          .querySelectorAll('.js-nav-popover__trigger[aria-expanded="true"]')
+          .forEach((openTrigger) => {
+            if (openTrigger !== trigger) {
+              openTrigger.setAttribute("aria-expanded", "false");
+              const otherPopoverId =
+                openTrigger.getAttribute("data-popover-id") || "";
+              const otherPopover = document.getElementById(otherPopoverId);
+              if (otherPopover) otherPopover.hidden = true;
+            }
+          });
+
+        // Toggle this popover
+        trigger.setAttribute("aria-expanded", (!expanded).toString());
+        popover.hidden = expanded;
+
+        // Keep focus on trigger button
+        if (!expanded) {
+          (trigger as HTMLButtonElement).focus();
+        }
+      });
+
+      // Close when clicking outside
+      document.addEventListener("click", (e: MouseEvent) => {
+        if (
+          trigger.getAttribute("aria-expanded") === "true" &&
+          !trigger.contains(e.target as Node) &&
+          !popover.contains(e.target as Node)
+        ) {
+          trigger.setAttribute("aria-expanded", "false");
+          popover.hidden = true;
+        }
+      });
+
+      // Close on escape key
+      document.addEventListener("keydown", (e: KeyboardEvent) => {
+        if (
+          e.key === "Escape" &&
+          trigger.getAttribute("aria-expanded") === "true"
+        ) {
+          trigger.setAttribute("aria-expanded", "false");
+          popover.hidden = true;
+          (trigger as HTMLButtonElement).focus();
+        }
+      });
+    });
+  });
+</script>

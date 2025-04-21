@@ -1,0 +1,147 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ComponentDoc from "../../components/ComponentDoc.astro";
+import TabsComponent from "../../components/Tabs.astro";
+
+const tabsData = [
+  {
+    id: "overview",
+    label: "Overview",
+    content: `<p>The Tabs component provides a way to organize content into selectable sections.</p>
+    <p>It follows the ARIA Authoring Practices Guide to ensure proper keyboard navigation and
+    accessibility for all users. <a href="https://www.w3.org/WAI/ARIA/apg/patterns/tabpanel/">ARIA Authoring Practices Guide: Tabs</a>.</p>`,
+  },
+  {
+    id: "usage",
+    label: "Usage",
+    content: `<p>Use tabs when you need to organize related content into distinct sections that
+    users can navigate between.</p>
+    <p>Tabs are especially useful for forms that need to be broken up into manageable chunks,
+    or for different views of the same data.</p>`,
+  },
+  {
+    id: "accessibility",
+    label: "Accessibility",
+    content: `<p>This component implements the following accessibility features:</p>
+    <ul>
+      <li>Proper ARIA roles, states, and properties</li>
+      <li>Keyboard navigation with arrow keys</li>
+      <li>Home/End keyboard shortcuts</li>
+      <li>Focus management</li>
+    </ul>`,
+  },
+];
+
+const tabsCode = `<Tabs
+  tabs={[
+    {
+      id: 'overview',
+      label: 'Overview',
+      content: '<p>Tab content goes here...</p>'
+    },
+    {
+      id: 'usage',
+      label: 'Usage',
+      content: '<p>Usage content goes here...</p>'
+    },
+    {
+      id: 'accessibility',
+      label: 'Accessibility',
+      content: '<p>Accessibility content goes here...</p>'
+    }
+  ]}
+  defaultTabId="overview"
+/>`;
+---
+
+<Layout title="Tabs">
+  <ComponentDoc
+    title="Tabs"
+    description="The Tabs component provides a way to organize content into selectable sections. It follows the ARIA Authoring Practices Guide for tabs to ensure proper keyboard navigation and accessibility."
+    props={[
+      {
+        name: "tabs",
+        type: "Tab[]",
+        default: "Required",
+        description: "Array of tab objects to display",
+      },
+      {
+        name: "defaultTabId",
+        type: "string",
+        default: "First tab ID",
+        description: "ID of the tab to show by default",
+      },
+    ]}
+    nestedInterfaces={[
+      {
+        name: "Tab",
+        props: [
+          {
+            name: "id",
+            type: "string",
+            default: "Required",
+            description: "Unique identifier for the tab",
+            required: true,
+          },
+          {
+            name: "label",
+            type: "string",
+            default: "Required",
+            description: "Text for the tab button",
+            required: true,
+          },
+          {
+            name: "content",
+            type: "string",
+            default: "Required",
+            description: "HTML content for the tab panel",
+            required: true,
+          },
+        ],
+      },
+    ]}
+    usage={{
+      dos: `
+        <ul>
+          <li>Use for organizing related content into distinct sections</li>
+          <li>Keep tab labels short and descriptive</li>
+          <li>Use when users need to switch between related views</li>
+          <li>Order tabs by priority or logical sequence</li>
+          <li>Use for forms that need to be broken into sections</li>
+        </ul>
+      `,
+      donts: `
+        <ul>
+          <li>Don't use for primary navigation</li>
+          <li>Don't use too many tabs (limit to 5-7 max)</li>
+          <li>Don't use for content that should be viewed all at once</li>
+          <li>Don't use for unrelated content sections</li>
+          <li>Don't hide critical information in non-default tabs</li>
+        </ul>
+      `,
+    }}
+    accessibility={{
+      keyboardNav: `
+        <ul>
+          <li>Tab key moves focus to the active tab</li>
+          <li>Arrow keys navigate between tabs</li>
+          <li>Home/End keys jump to first/last tab</li>
+          <li>Space/Enter activates the focused tab</li>
+          <li>Focus is visually indicated with a clear outline</li>
+        </ul>
+      `,
+      screenReaders: `
+        <ul>
+          <li>Uses role="tablist" for the tab container</li>
+          <li>role="tab" for individual tabs</li>
+          <li>role="tabpanel" for content panels</li>
+          <li>aria-selected indicates active tab</li>
+          <li>aria-controls associates tabs with their panels</li>
+        </ul>
+      `,
+    }}
+    code={tabsCode}
+  >
+    <TabsComponent tabs={tabsData} defaultTabId="overview" />
+  </ComponentDoc>
+</Layout>

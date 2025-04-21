@@ -1,0 +1,137 @@
+---
+interface PropDefinition {
+  name: string;
+  type: string;
+  default: string;
+  description: string;
+  required?: boolean;
+}
+
+interface NestedInterfaceDefinition {
+  name: string;
+  props: PropDefinition[];
+}
+
+interface UsageProps {
+  dos: string;
+  donts: string;
+}
+
+interface AccessibilityProps {
+  keyboardNav: string;
+  screenReaders: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  usage: UsageProps;
+  props: PropDefinition[];
+  nestedInterfaces?: NestedInterfaceDefinition[];
+  code?: string;
+  accessibility?: AccessibilityProps;
+}
+
+const { title, description, usage, props, nestedInterfaces, code, accessibility } = Astro.props;
+
+function renderPropsTable(props: PropDefinition[]) {
+  return `
+    <figure role="presentation">
+      <table aria-labelledby="props">
+        <thead>
+          <tr>
+            <th width="25%">Name</th>
+            <th width="25%">Type</th>
+            <th width=1>Required</th>
+            <th width="50%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${props.map((prop) => `
+            <tr>
+              <td><code>${prop.name}</code></td>
+              <td>${prop.type}</td>
+              <td>${prop.default === "Required" ? "Yes" : "No"}</td>
+              <td>${prop.description}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </figure>
+  `;
+}
+
+function renderNestedInterface(nestedInterface: NestedInterfaceDefinition) {
+  return `
+    <h3 id="${nestedInterface.name}">${nestedInterface.name} Props</h3>
+    <figure role="presentation">
+      <table aria-labelledby="${nestedInterface.name}">
+        <thead>
+          <tr>
+            <th width="25%">Name</th>
+            <th width="25%">Type</th>
+            <th width=1>Required</th>
+            <th width="50%">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${nestedInterface.props.map((prop) => `
+            <tr>
+              <td><code>${prop.name}</code></td>
+              <td>${prop.type}</td>
+              <td>${prop.required ? 'Yes' : 'No'}</td>
+              <td>${prop.description}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </figure>
+  `;
+}
+---
+
+<h1>{title}</h1>
+<p>{description}</p>
+
+<h2 id="example">Example</h2>
+<div class="doc-component-example">
+  <slot />
+</div>
+
+{
+  code && (
+    <>
+      <h2 id="code">Code</h2>
+      {/* @ts-ignore */}
+      <!-- prettier-ignore -->
+      <pre><code>{code}</code></pre>
+    </>
+  )
+}
+
+<h2 id="props">Props</h2>
+<div set:html={renderPropsTable(props)} />
+
+{nestedInterfaces && nestedInterfaces.map(nestedInterface => (
+  <div set:html={renderNestedInterface(nestedInterface)} />
+))}
+
+<h2 id="usage">Usage</h2>
+<h3 id="usage-dos">✅ <span class="u-visually-hidden">Do&rsquo;s</span></h3>
+<div class="u-margin-none" set:html={usage.dos} />
+
+<h3 id="usage-donts">❌ <span class="u-visually-hidden">Don&rsquo;t&rsquo;s</span></h3>
+<div class="u-margin-none" set:html={usage.donts} />
+
+{
+  accessibility && (
+    <>
+      <h2>Accessibility</h2>
+      <h3>Keyboard Navigation</h3>
+      <div class="u-margin-none" set:html={accessibility.keyboardNav} />
+
+      <h3>Screen Reader Support</h3>
+      <div class="u-margin-none" set:html={accessibility.screenReaders} />
+    </>
+  )
+}

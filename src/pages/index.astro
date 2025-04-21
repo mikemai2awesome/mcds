@@ -1,0 +1,90 @@
+---
+import Layout from "../layouts/Layout.astro";
+// To use components, import components here after Layout
+// import Alert from "../components/Alert.astro";
+---
+
+<Layout title="Home">
+  <h2>Welcome to the MCDS</h2>
+  <p>
+    This design system is built with Astro and extends the minimal CSS framework
+    MCSS. It features a collection of accessible components built with semantic
+    HTML, modern CSS, and vanilla JavaScript.
+  </p>
+
+  <h3>Components</h3>
+  <p>The design system includes the following components:</p>
+
+  <ul>
+    <li>
+      <a href="/components/accordion">Accordion</a> - Following ARIA Authoring Practices
+      Guide (APG)
+    </li>
+    <li>
+      <a href="/components/alert">Alert</a> - Following ARIA Authoring Practices
+      Guide (APG)
+    </li>
+    <li>
+      <a href="/components/combobox">Combobox</a> - Following ARIA Authoring Practices
+      Guide (APG)
+    </li>
+    <li>
+      <a href="/components/dialog">Dialog</a> - Built with the HTML dialog element
+    </li>
+    <li>
+      <a href="/components/feed">Feed</a> - Following ARIA Authoring Practices Guide
+      (APG)
+    </li>
+    <li>
+      <a href="/components/navigation-popover">Navigation Popover</a> - 2-level navigation
+      with HTML nav and button elements
+    </li>
+    <li>
+      <a href="/components/switch">Switch</a> - Following ARIA Authoring Practices
+      Guide (APG)
+    </li>
+    <li>
+      <a href="/components/tabs">Tabs</a> - Following ARIA Authoring Practices Guide
+      (APG)
+    </li>
+  </ul>
+
+  <h3>CSS Conventions</h3>
+  <p>This design system follows these CSS conventions:</p>
+
+  <ul>
+    <li>
+      Component styles are organized in a CSS cascade layer called <code
+        >@layer components</code
+      >
+    </li>
+    <li>Other CSS is organized in existing CSS cascade layers from MCSS</li>
+    <li>
+      Class selectors are used instead of plain element selectors for component
+      CSS
+    </li>
+    <li>Component classes are prefixed with <code>mc-*</code></li>
+    <li>
+      Documentation page related classes are prefixed with <code>doc-*</code>
+    </li>
+    <li>
+      CSS custom properties from MCSS's <code>@layer config</code> are utilized
+    </li>
+    <li>
+      Relative units (<code>em</code> or <code>rem</code>) are used instead of <code
+        >px</code
+      > units
+    </li>
+    <li>Logical properties are used for all CSS</li>
+    <li>
+      Transitions and animations are contained within <code
+        >@media (prefers-reduced-motion: no-preference)</code
+      >
+    </li>
+    <li>
+      Class selectors follow the <a href="https://cube.fyi/" target="_blank"
+        >Cube CSS</a
+      > naming convention
+    </li>
+  </ul>
+</Layout>

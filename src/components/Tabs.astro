@@ -1,0 +1,210 @@
+---
+interface Tab {
+  id: string;
+  label: string;
+  content: string;
+}
+
+interface Props {
+  tabs: Tab[];
+  defaultTabId?: string;
+}
+
+const { tabs, defaultTabId = tabs[0]?.id } = Astro.props;
+const tabsId = `tabs-${Math.floor(Math.random() * 1000)}`;
+---
+
+<div class="mc-tabs">
+  <div class="mc-tabs__list" role="tablist" aria-label="Tabs" id={tabsId}>
+    {
+      tabs.map((tab, index) => (
+        <button
+          id={`tab-${tab.id}`}
+          class="mc-tabs__tab"
+          role="tab"
+          aria-selected={tab.id === defaultTabId ? "true" : "false"}
+          aria-controls={`panel-${tab.id}`}
+          tabindex={tab.id === defaultTabId ? 0 : -1}
+          data-tab-index={index}
+        >
+          {tab.label}
+        </button>
+      ))
+    }
+  </div>
+
+  {
+    tabs.map((tab) => (
+      <div
+        id={`panel-${tab.id}`}
+        class="mc-tabs__panel"
+        role="tabpanel"
+        aria-labelledby={`tab-${tab.id}`}
+        hidden={tab.id !== defaultTabId}
+      >
+        <div set:html={tab.content} />
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  @layer components {
+    .mc-tabs {
+      --_border-size: 0.5ex;
+    }
+
+    .mc-tabs__list {
+      display: flex;
+      gap: var(--_border-size);
+      overflow-x: auto;
+      border-block-end: 1px solid;
+    }
+
+    .mc-tabs__tab {
+      padding-block: calc(var(--stack) / 2);
+      padding-inline: var(--gutter);
+      background: none;
+      border: none;
+      border-block-end: var(--_border-size) solid transparent;
+      font-weight: bold;
+      white-space: nowrap;
+      transition: border-color var(--transition);
+    }
+
+    .mc-tabs__tab[aria-selected="true"] {
+      border-block-end-color: currentColor;
+    }
+
+    .mc-tabs__tab:focus-visible {
+      outline-offset: calc(var(--_border-size) * -1 - 2px);
+    }
+
+    @media (any-hover: hover) {
+      .mc-tabs__tab:hover:not([aria-selected="true"]) {
+        border-block-end-color: crimson;
+      }
+    }
+
+    .mc-tabs__panel {
+      padding-block: var(--stack);
+      padding-inline: 0;
+      animation: fadeIn var(--transition);
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+
+        to {
+          opacity: 1;
+        }
+      }
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const tabLists = document.querySelectorAll(".mc-tabs__list");
+
+    tabLists.forEach((tabList) => {
+      const tabs = Array.from(
+        tabList.querySelectorAll<HTMLButtonElement>(".mc-tabs__tab"),
+      );
+      const panels = tabs.map((tab) => {
+        const panelId = tab.getAttribute("aria-controls");
+        return panelId ? document.getElementById(panelId) : null;
+      });
+
+      // Add click event to tabs
+      tabs.forEach((tab, index) => {
+        tab.addEventListener("click", () => {
+          activateTab(tabList, tabs, panels, index);
+        });
+
+        // Add keyboard navigation
+        tab.addEventListener("keydown", (e: KeyboardEvent) => {
+          // Horizontal arrow keys to navigate tabs
+          switch (e.key) {
+            case "ArrowLeft":
+              e.preventDefault();
+              activateTab(
+                tabList,
+                tabs,
+                panels,
+                getPreviousTabIndex(tabs, index),
+              );
+              break;
+            case "ArrowRight":
+              e.preventDefault();
+              activateTab(tabList, tabs, panels, getNextTabIndex(tabs, index));
+              break;
+            case "Home":
+              e.preventDefault();
+              activateTab(tabList, tabs, panels, 0);
+              break;
+            case "End":
+              e.preventDefault();
+              activateTab(tabList, tabs, panels, tabs.length - 1);
+              break;
+          }
+        });
+      });
+    });
+
+    function activateTab(
+      tabList: Element,
+      tabs: HTMLButtonElement[],
+      panels: (HTMLElement | null)[],
+      index: number,
+    ) {
+      // Deactivate all tabs
+      tabs.forEach((tab: HTMLButtonElement) => {
+        tab.setAttribute("aria-selected", "false");
+        tab.setAttribute("tabindex", "-1");
+      });
+
+      // Hide all panels
+      panels.forEach((panel: HTMLElement | null) => {
+        if (panel) {
+          panel.hidden = true;
+          panel.removeAttribute("tabindex");
+        }
+      });
+
+      // Activate the selected tab
+      tabs[index].setAttribute("aria-selected", "true");
+      tabs[index].setAttribute("tabindex", "0");
+      tabs[index].focus();
+
+      // Show the selected panel
+      if (panels[index]) {
+        panels[index].hidden = false;
+
+        // Check if panel has interactive elements
+        const interactiveElements = panels[index].querySelectorAll(
+          'a, button, input, select, textarea, [tabindex]:not([tabindex="-1"])',
+        );
+
+        // Only add tabindex if there are no interactive elements
+        if (interactiveElements.length === 0) {
+          panels[index].setAttribute("tabindex", "0");
+        }
+      }
+    }
+
+    function getNextTabIndex(tabs: HTMLButtonElement[], currentIndex: number) {
+      return currentIndex === tabs.length - 1 ? 0 : currentIndex + 1;
+    }
+
+    function getPreviousTabIndex(
+      tabs: HTMLButtonElement[],
+      currentIndex: number,
+    ) {
+      return currentIndex === 0 ? tabs.length - 1 : currentIndex - 1;
+    }
+  });
+</script>
