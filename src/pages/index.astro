@@ -5,86 +5,30 @@ import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout title="Home">
-  <h2>Welcome to the MCDS</h2>
+  <h1>MCDS</h1>
   <p>
-    This design system is built with Astro and extends the minimal CSS framework
-    MCSS. It features a collection of accessible components built with semantic
-    HTML, modern CSS, and vanilla JavaScript.
+    <big>This is a minimal, accessible design system built with Astro and an extension of <a href="https://mikemai.net/mcss">MCSS</a>. It&rsquo;s a component library that emphasizes an accessibility-first approach following WCAG 2.2 and ARIA best practices, semantic HTML with progressive enhancement, modern CSS using cascade layers and logical properties, vanilla JavaScript for interactions, and a typography-focused design with a sophisticated type scale.</big>
   </p>
 
-  <h3>Components</h3>
-  <p>The design system includes the following components:</p>
-
+  <h2>Design Philosophy</h2>
   <ul>
-    <li>
-      <a href="/components/accordion">Accordion</a> - Following ARIA Authoring Practices
-      Guide (APG)
-    </li>
-    <li>
-      <a href="/components/alert">Alert</a> - Following ARIA Authoring Practices
-      Guide (APG)
-    </li>
-    <li>
-      <a href="/components/combobox">Combobox</a> - Following ARIA Authoring Practices
-      Guide (APG)
-    </li>
-    <li>
-      <a href="/components/dialog">Dialog</a> - Built with the HTML dialog element
-    </li>
-    <li>
-      <a href="/components/feed">Feed</a> - Following ARIA Authoring Practices Guide
-      (APG)
-    </li>
-    <li>
-      <a href="/components/navigation-popover">Navigation Popover</a> - 2-level navigation
-      with HTML nav and button elements
-    </li>
-    <li>
-      <a href="/components/switch">Switch</a> - Following ARIA Authoring Practices
-      Guide (APG)
-    </li>
-    <li>
-      <a href="/components/tabs">Tabs</a> - Following ARIA Authoring Practices Guide
-      (APG)
-    </li>
+    <li>Minimal Dependencies&mdash;System fonts and colors and no UI frameworks</li>
+    <li>Maximum Accessibility&mdash;WCAG 2.2 AA conformance</li>
+    <li>Progressive Enhancement&mdash;Works without JavaScript</li>
+    <li>Modern CSS&mdash;Logical properties, cascade layers, relative units</li>
+    <li>Semantic Foundation&mdash;HTML-first approach</li>
   </ul>
 
-  <h3>CSS Conventions</h3>
-  <p>This design system follows these CSS conventions:</p>
-
+  <h2>Tech Stack</h2>
   <ul>
-    <li>
-      Component styles are organized in a CSS cascade layer called <code
-        >@layer components</code
-      >
-    </li>
-    <li>Other CSS is organized in existing CSS cascade layers from MCSS</li>
-    <li>
-      Class selectors are used instead of plain element selectors for component
-      CSS
-    </li>
-    <li>Component classes are prefixed with <code>mc-*</code></li>
-    <li>
-      Documentation page related classes are prefixed with <code>doc-*</code>
-    </li>
-    <li>
-      CSS custom properties from MCSS's <code>@layer config</code> are utilized
-    </li>
-    <li>
-      Relative units (<code>em</code> or <code>rem</code>) are used instead of <code
-        >px</code
-      > units
-    </li>
-    <li>Logical properties are used for all CSS</li>
-    <li>
-      Transitions and animations are contained within <code
-        >@media (prefers-reduced-motion: no-preference)</code
-      >
-    </li>
-    <li>
-      Class selectors follow the <a href="https://cube.fyi/" target="_blank"
-        >Cube CSS</a
-      > naming convention
-    </li>
+    <li>Framework: <a href="https://astro.build">Astro</a></li>
+    <li>Styling: CSS with <a href="https://postcss.org">PostCSS</a> and <a href="https://autoprefixer.github.io">Autoprefixer</a></li>
+    <li>Development: <a href="https://nodejs.org">Node.js</a></li>
   </ul>
+
+  <h2>Running Locally</h2>
+  <p>Install dependencies (if not already done):</p>
+  <pre contenteditable><code>npm install</code></pre>
+  <p>Start development server:</p>
+  <pre contenteditable><code>npm run dev</code></pre>
 </Layout>

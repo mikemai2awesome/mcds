@@ -26,15 +26,9 @@ const isIndexPage = currentPath === "/" || currentPath === "";
     <header class="hero">
       {
         isIndexPage ? (
-          <h1>
-            <span class="sans">{siteName}—</span>
-            <span class="sans">
-              A modern minimalist design system inspired by the typefaces of
-            </span>
-            <span class="serif">Matthew Carter</span>
-          </h1>
+          <h1><a href="/">{siteName}</a></h1>
         ) : (
-          <p class="header-title"><a href="/">{siteName}</a></p></p>
+          <p><a href="/">{siteName}</a></p>
         )
       }
       <nav>

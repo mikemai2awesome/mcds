@@ -25,6 +25,7 @@ const { label, id, name, checked = false } = Astro.props;
 <style>
   @layer components {
     .mc-switch {
+      --_gap: calc(var(--gutter) / 4);
       --_circle-size: 3cap;
       --_border-size: 2px;
       display: inline-flex;
@@ -36,10 +37,11 @@ const { label, id, name, checked = false } = Astro.props;
       position: absolute;
       inset-block-start: 0;
       inset-inline-start: 0;
-      inline-size: calc(var(--_circle-size) * 2 - 1ch);
+      inline-size: calc(var(--_circle-size) * 2 - var(--_gap) * 2);
       block-size: 100%;
       appearance: none;
       border: 0;
+      outline: none;
     }
 
     .mc-switch__control {
@@ -47,47 +49,51 @@ const { label, id, name, checked = false } = Astro.props;
       display: inline-block;
       inline-size: calc(var(--_circle-size) * 2);
       block-size: calc(var(--_circle-size));
-      background-color: crimson;
       border: var(--_border-size) solid;
       border-radius: 100em;
       transition: background-color var(--transition);
       pointer-events: none;
     }
 
-    @media (prefers-reduced-motion: no-preference) {
-      .mc-switch__control {
-        transition: background-color var(--transition);
-      }
+    .mc-switch:focus-within .mc-switch__control {
+      outline: var(--focus-outline);
+      outline-offset: var(--focus-outline-offset);
     }
 
     .mc-switch__control::before {
-      content: "";
+      content: "\00D7";
+      display: flex;
+      align-items: center;
+      justify-content: center;
       position: absolute;
       inset-block-start: calc(var(--_border-size) * -1);
       inset-inline-end: calc(var(--_border-size) * -1);
       inline-size: var(--_circle-size);
       block-size: var(--_circle-size);
+      font-variant: small-caps;
       background-color: canvas;
       border: calc(var(--_border-size) * 1) solid;
       border-radius: 100em;
+      transform: translateX(-100%);
+    }
+
+    .mc-switch__input:checked + .mc-switch__control {
+      background-color: crimson;
+    }
+
+    .mc-switch__input:checked + .mc-switch__control::before {
+      content: "\2713";
+      transform: translateX(0) rotate(360deg);
     }
 
     @media (prefers-reduced-motion: no-preference) {
       .mc-switch__control::before {
         transition: transform var(--transition);
       }
-
-      .mc-switch__input:checked + .mc-switch__control::before {
-        transform: translateX(-100%);
-      }
-    }
-
-    .mc-switch__input:checked + .mc-switch__control {
-      background-color: transparent;
     }
 
     .mc-switch__label {
-      margin-inline-start: calc(var(--gutter) / 4);
+      padding-inline-start: var(--_gap);
       font: inherit;
     }
   }

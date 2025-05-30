@@ -53,29 +53,27 @@ const switchCode = `<Switch
       `,
       donts: `
         <ul>
-          <li>Don't use for actions that require confirmation</li>
-          <li>Don't use for multiple options (use radio buttons instead)</li>
-          <li>Don't use for settings that don't take immediate effect</li>
-          <li>Don't use for destructive actions</li>
-          <li>Don't use for complex settings with multiple states</li>
+          <li>Don&rsquo;t use for actions that require confirmation</li>
+          <li>Don&rsquo;t use for multiple options (use radio buttons instead)</li>
+          <li>Don&rsquo;t use for settings that don&rsquo;t take immediate effect</li>
+          <li>Don&rsquo;t use for destructive actions</li>
+          <li>Don&rsquo;t use for complex settings with multiple states</li>
         </ul>
       `,
     }}
     accessibility={{
       keyboardNav: `
         <ul>
-          <li>Tab key moves focus to the switch</li>
-          <li>Space toggles the switch state</li>
+          <li><kbd>Tab</kbd> key moves focus to the switch</li>
+          <li><kbd>Space</kbd> toggles the switch state</li>
           <li>Switch can be activated by clicking both the control and the label</li>
         </ul>
       `,
       screenReaders: `
         <ul>
           <li>Uses standard checkbox input with an associated label</li>
-          <li>Visual switch appearance is created with CSS</li>
-          <li>Control element has aria-hidden to avoid duplicate announcements</li>
-          <li>Label is properly associated via for attribute</li>
-          <li>Custom switch-change event with id and checked state is dispatched on change</li>
+          <li>The label is properly associated via <code>for</code> attribute</li>
+          <li>The visual control element has <code>aria-hidden</code> to avoid verbose announcements</li>
         </ul>
       `,
     }}

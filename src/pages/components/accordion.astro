@@ -5,21 +5,21 @@ import AccordionComponent from "../../components/Accordion.astro";
 
 const accordionItems = [
   {
-    heading: "What is Accordion Component?",
+    heading: "Optimus Prime",
     content:
-      "<p>An accordion is a vertically stacked set of interactive headings that each contain a title, content snippet, or thumbnail representing a section of content. The headings function as controls that enable users to reveal or hide their associated sections of content.</p>",
+      'Throughout the <a href="https://en.wikipedia.org/wiki/Transformers_(franchise)">Multiverse</a>, the name Optimus Prime is associated with bravery, self-sacrifice, and an indomitable fighting spirit, a warrior always ready to lay down their life to protect sentient life, no matter its form.',
     open: true,
   },
   {
-    heading: "When should I use an accordion?",
+    heading: "Megatron",
     content:
-      "<p>Use accordions to organize related information in a limited space. They are especially useful when users only need a few key pieces of content within a page, and scanning all headlines is more valuable than exposing all content at once.</p><ul><li>Organize complex content</li><li>Reduce scrolling</li><li>Give users control over content density</li></ul>",
+      "Megatron is the founder of the Decepticon uprising, and their most well-known and feared leader. As a young, charismatic leader forged in battle and the heritage of war, he began to believe in a grand purpose for his race it is the Transformers' glorious destiny to rule an empire which will span the universe. The opposite of his mortal enemy Optimus Prime, he feels great contempt for other Transformers who, he feels, betray their proud heritage by demanding peace and cooperation with weaker life forms. It is the destiny of the Decepticons to bring order to the universe through conquest, though in the millions of years since coining this purpose it remains to be seen how much of his mission statement is altruistic... and how much of it is mere words built to fuel warriors to further his desire for personal power.",
     open: false,
   },
   {
-    heading: "How does keyboard navigation work?",
+    heading: "Bumblebee",
     content:
-      "<p>Accordions are keyboard accessible by default. Users can navigate between accordion headers using the tab key. Once focused, the accordion header can be activated using the Enter or Space keys to expand/collapse the associated content.</p><p>Additionally, when the accordion has focus:</p><ul><li>Arrow Down/Arrow Up moves focus between accordion headers</li><li>Home moves focus to the first accordion header</li><li>End moves focus to the last accordion header</li></ul>",
+      "Bumblebee, formerly known as Volks, is one of the smallest and physically weakest Autobots. While his stature allows him to do his job better than most Autobots could manage, he is self-conscious about his size. Maybe this is why he makes fast friends among the humans. He looks up (so to speak) to the other Autobots, especially Optimus Prime, but what he doesn't realize is that they look up to him. He may be small, but he's brave, and he's one of the most well-liked Autobots around. Bumblebee already has the respect he craves. But the poor bot seems to get kidnapped a lot. Bumblebee is the Autobot's spy and scout. His talents involve espionage.",
     open: false,
   },
 ];
@@ -27,13 +27,13 @@ const accordionItems = [
 const accordionCode = `<Accordion
   items={[
     {
-      heading: "What is Accordion Component?",
-      content: "<p>An accordion is a vertically stacked set of interactive headings...</p>",
+      heading: "Optimus Prime",
+      content: "Accordion content goes here...",
       open: true,
     },
     {
-      heading: "When should I use an accordion?",
-      content: "<p>Use accordions to organize related information in a limited space...</p>",
+      heading: "Megatron",
+      content: "Accordion content goes here...",
       open: false,
     },
     // ... more items
@@ -44,7 +44,7 @@ const accordionCode = `<Accordion
 <Layout title="Accordion">
   <ComponentDoc
     title="Accordion"
-    description="The Accordion component creates a vertically stacked set of interactive headings that can be expanded or collapsed to reveal or hide content. It is inspired by the WAI-ARIA Accordion pattern and is fully keyboard accessible."
+    description="The Accordion component creates a vertically stacked set of interactive headings that can be expanded or collapsed to reveal or hide content. It is inspired by the WAI-ARIA Accordion pattern and fully keyboard accessible."
     props={[
       {
         name: "items",
