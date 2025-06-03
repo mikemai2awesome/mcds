@@ -1,34 +1,34 @@
 ---
 import Layout from "../layouts/Layout.astro";
 // To use components, import components here after Layout
-// import Alert from "../components/Alert.astro";
+// import AlertComponent from "../components/Alert.astro";
 ---
 
 <Layout title="Home">
   <h1>MCDS</h1>
-  <p>
-    <big>This is a minimal, accessible design system built with Astro and an extension of <a href="https://mikemai.net/mcss">MCSS</a>. It&rsquo;s a component library that emphasizes an accessibility-first approach following WCAG 2.2 and ARIA best practices, semantic HTML with progressive enhancement, modern CSS using cascade layers and logical properties, vanilla JavaScript for interactions, and a typography-focused design with a sophisticated type scale.</big>
-  </p>
-
-  <h2>Design Philosophy</h2>
-  <ul>
-    <li>Minimal Dependencies&mdash;System fonts and colors and no UI frameworks</li>
-    <li>Maximum Accessibility&mdash;WCAG 2.2 AA conformance</li>
-    <li>Progressive Enhancement&mdash;Works without JavaScript</li>
-    <li>Modern CSS&mdash;Logical properties, cascade layers, relative units</li>
-    <li>Semantic Foundation&mdash;HTML-first approach</li>
-  </ul>
+  <p><big>MCDS is a minimal design system that builds on <a href="https://mikemai.net/mcss">MCSS</a>. It&rsquo;s basically a collection of components that puts accessibility front and center&mdash;following WCAG and ARIA best practices&mdash;with a strong focus on typography that looks elegant.</big></p>
+  <h2>Philosophy</h2>
+  <p>Keep things simple. It uses system fonts and colors without dragging in heavy UI frameworks, which makes it super accessible. It&rsquo;s all about progressive enhancement&mdash;using JavaScript only when necessary&mdash;and applying modern CSS like logical properties, cascade layers, and relative units. And it all starts with good ol&rsquo; semantic HTML as the foundation.</p>
 
   <h2>Tech Stack</h2>
-  <ul>
-    <li>Framework: <a href="https://astro.build">Astro</a></li>
-    <li>Styling: CSS with <a href="https://postcss.org">PostCSS</a> and <a href="https://autoprefixer.github.io">Autoprefixer</a></li>
-    <li>Development: <a href="https://nodejs.org">Node.js</a></li>
-  </ul>
+  <dl>
+    <dt>Development</dt>
+    <dd>Astro and Node.js</dd>
+    <dt>Foundation</dt>
+    <dd>MCSS: a modern classless CSS framework inspired by the typefaces of Matthew Carter</dd>
+    <dt>Component Styling</dt>
+    <dd>CSS with PostCSS and Autoprefixer</dd>
+  </dl>
 
-  <h2>Running Locally</h2>
-  <p>Install dependencies (if not already done):</p>
+  <h2>Local Development</h2>
+  <p>1. Clone the repository and <code>cd</code> into the main folder, then install dependencies:</p>
   <pre contenteditable><code>npm install</code></pre>
-  <p>Start development server:</p>
+  <p>2. Start the development server:</p>
   <pre contenteditable><code>npm run dev</code></pre>
+  <p>3. Import the component on a page:</p>
+  <pre contenteditable><code>import AlertComponent from "path/to/components/Alert.astro";</code></pre>
+  <p>4. Then include the component:</p>
+  <pre contenteditable><code>&lt;AlertComponent type="success">
+  Operation completed successfully!
+&lt;/AlertComponent></code></pre>
 </Layout>
