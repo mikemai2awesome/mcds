@@ -18,7 +18,7 @@ interface Props {
 }
 
 const { label, groups } = Astro.props;
-const popoverId = `nav-popover-${Math.floor(Math.random() * 1000)}`;
+const popupId = `popup-nav-${Math.floor(Math.random() * 1000)}`;
 
 // Process groups to ensure IDs are available when titles are present
 const processedGroups = groups.map((group, index) => {
@@ -32,11 +32,11 @@ const processedGroups = groups.map((group, index) => {
 });
 ---
 
-<div class="mc-nav-popover">
+<div class="mc-popup-nav">
   <button
-    class="mc-nav-popover__trigger js-nav-popover__trigger"
+    class="mc-popup-nav__trigger js-popup-nav__trigger"
     aria-expanded="false"
-    data-popover-id={popoverId}
+    data-popup-id={popupId}
   >
     {label}
     <svg aria-hidden="true" viewBox="0 0 448 512" width="16" height="16">
@@ -46,32 +46,32 @@ const processedGroups = groups.map((group, index) => {
     </svg>
   </button>
 
-  <div id={popoverId} class="mc-nav-popover__content" hidden>
-    <div class="mc-nav-popover__grid">
+  <div id={popupId} class="mc-popup-nav__content" hidden>
+    <div class="mc-popup-nav__grid">
       {
         processedGroups.map((group) => (
-          <div class="mc-nav-popover__group">
+          <div class="mc-popup-nav__group">
             {group.title && group.id && (
               <p
                 id={`group-title-${group.id}`}
-                class="mc-nav-popover__group-title"
+                class="mc-popup-nav__group-title"
               >
                 {group.title}
               </p>
             )}
             <ul
-              class="mc-nav-popover__list"
+              class="mc-popup-nav__list"
               role="list"
               aria-labelledby={
                 group.title && group.id ? `group-title-${group.id}` : undefined
               }
             >
               {group.links.map((link) => (
-                <li class="mc-nav-popover__item">
+                <li class="mc-popup-nav__item">
                   <a
                     href={link.href}
                     aria-current={link.current ? "page" : undefined}
-                    class="mc-nav-popover__link"
+                    class="mc-popup-nav__link"
                   >
                     {link.label}
                     <svg
@@ -84,7 +84,7 @@ const processedGroups = groups.map((group, index) => {
                     </svg>
                   </a>
                   {link.description && (
-                    <span class="mc-nav-popover__link-desc">
+                    <span class="mc-popup-nav__link-desc">
                       {link.description}
                     </span>
                   )}
@@ -100,13 +100,13 @@ const processedGroups = groups.map((group, index) => {
 
 <style>
   @layer components {
-    .mc-nav-popover {
+    .mc-popup-nav {
       --_degree: 6deg;
       position: relative;
       display: inline-block;
     }
 
-    .mc-nav-popover__trigger {
+    .mc-popup-nav__trigger {
       display: inline-flex;
       align-items: center;
       gap: calc(var(--gutter) / 3);
@@ -127,29 +127,29 @@ const processedGroups = groups.map((group, index) => {
       );
     }
 
-    .mc-nav-popover__trigger svg {
+    .mc-popup-nav__trigger svg {
       inline-size: 1cap;
       block-size: auto;
     }
 
-    .mc-nav-popover__trigger[aria-expanded="true"] svg {
+    .mc-popup-nav__trigger[aria-expanded="true"] svg {
       fill: crimson;
       transform: rotate(540deg);
     }
 
     @media (prefers-reduced-motion: no-preference) {
-      .mc-nav-popover__trigger svg {
+      .mc-popup-nav__trigger svg {
         transition: transform var(--transition);
       }
     }
 
     @media (any-hover: hover) {
-      .mc-nav-popover__trigger:hover {
+      .mc-popup-nav__trigger:hover {
         --_degree: -6deg;
       }
     }
 
-    .mc-nav-popover__content {
+    .mc-popup-nav__content {
       position: absolute;
       inset-block-start: 100%;
       inset-inline-start: 0;
@@ -163,7 +163,7 @@ const processedGroups = groups.map((group, index) => {
       z-index: 1;
     }
 
-    .mc-nav-popover__grid {
+    .mc-popup-nav__grid {
       display: flex;
       flex-direction: column;
       gap: var(--stack);
@@ -171,16 +171,16 @@ const processedGroups = groups.map((group, index) => {
       padding-inline: calc(var(--gutter) / 2);
     }
 
-    .mc-nav-popover__group-title {
+    .mc-popup-nav__group-title {
       font-style: italic;
     }
 
-    .mc-nav-popover__list {
+    .mc-popup-nav__list {
       list-style: none;
       margin-block-start: calc(var(--stack) / 2);
     }
 
-    .mc-nav-popover__item {
+    .mc-popup-nav__item {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
@@ -189,9 +189,13 @@ const processedGroups = groups.map((group, index) => {
       padding-inline: calc(var(--gutter) / 2);
       text-wrap: pretty;
       border: 1px solid transparent;
+
+      & + .mc-popup-nav__item {
+        margin-block-start: 1px;
+      }
     }
 
-    .mc-nav-popover__link {
+    .mc-popup-nav__link {
       font-family: var(--font-variant);
       font-size: var(--pt-bourgeois);
       font-weight: bold;
@@ -200,39 +204,39 @@ const processedGroups = groups.map((group, index) => {
       text-decoration: none;
     }
 
-    .mc-nav-popover__link::before {
+    .mc-popup-nav__link::before {
       content: "";
       position: absolute;
       inset: 0;
     }
 
     @media (any-hover: hover) {
-      .mc-nav-popover__item:hover {
+      .mc-popup-nav__item:hover {
         border: 1px dashed;
       }
 
-      .mc-nav-popover__link:hover svg {
+      .mc-popup-nav__link:hover svg {
         transform: translateX(0.25ch);
       }
     }
 
-    .mc-nav-popover__link svg {
+    .mc-popup-nav__link svg {
       inline-size: 1cap;
       block-size: auto;
       fill: crimson;
     }
 
     @media (prefers-reduced-motion: no-preference) {
-      .mc-nav-popover__link svg {
+      .mc-popup-nav__link svg {
         transition: transform var(--transition);
       }
     }
 
-    .mc-nav-popover__link[aria-current]::before {
+    .mc-popup-nav__link[aria-current]::before {
       border-inline-start: 0.5ch solid;
     }
 
-    .mc-nav-popover__link-desc {
+    .mc-popup-nav__link-desc {
       margin-block-start: calc(var(--stack) / 4);
       font-size: var(--pt-small-pica);
     }
@@ -241,34 +245,34 @@ const processedGroups = groups.map((group, index) => {
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    const triggers = document.querySelectorAll(".js-nav-popover__trigger");
+    const triggers = document.querySelectorAll(".js-popup-nav__trigger");
 
     triggers.forEach((trigger) => {
-      const popoverId = trigger.getAttribute("data-popover-id") || "";
-      const popover = document.getElementById(popoverId);
+      const popupId = trigger.getAttribute("data-popup-id") || "";
+      const popup = document.getElementById(popupId);
 
-      if (!popover) return;
+      if (!popup) return;
 
-      // Toggle popover
+      // Toggle popup
       trigger.addEventListener("click", () => {
         const expanded = trigger.getAttribute("aria-expanded") === "true";
 
-        // Close any other open popovers first
+        // Close any other open popups first
         document
-          .querySelectorAll('.js-nav-popover__trigger[aria-expanded="true"]')
+          .querySelectorAll('.js-popup-nav__trigger[aria-expanded="true"]')
           .forEach((openTrigger) => {
             if (openTrigger !== trigger) {
               openTrigger.setAttribute("aria-expanded", "false");
-              const otherPopoverId =
-                openTrigger.getAttribute("data-popover-id") || "";
-              const otherPopover = document.getElementById(otherPopoverId);
-              if (otherPopover) otherPopover.hidden = true;
+              const otherPopupId =
+                openTrigger.getAttribute("data-popup-id") || "";
+              const otherPopup = document.getElementById(otherPopupId);
+              if (otherPopup) otherPopup.hidden = true;
             }
           });
 
-        // Toggle this popover
+        // Toggle this popup
         trigger.setAttribute("aria-expanded", (!expanded).toString());
-        popover.hidden = expanded;
+        popup.hidden = expanded;
 
         // Keep focus on trigger button
         if (!expanded) {
@@ -281,10 +285,10 @@ const processedGroups = groups.map((group, index) => {
         if (
           trigger.getAttribute("aria-expanded") === "true" &&
           !trigger.contains(e.target as Node) &&
-          !popover.contains(e.target as Node)
+          !popup.contains(e.target as Node)
         ) {
           trigger.setAttribute("aria-expanded", "false");
-          popover.hidden = true;
+          popup.hidden = true;
         }
       });
 
@@ -295,10 +299,10 @@ const processedGroups = groups.map((group, index) => {
           trigger.getAttribute("aria-expanded") === "true"
         ) {
           trigger.setAttribute("aria-expanded", "false");
-          popover.hidden = true;
+          popup.hidden = true;
           (trigger as HTMLButtonElement).focus();
         }
       });
     });
   });
-</script>
+</script> 

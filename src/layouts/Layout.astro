@@ -7,6 +7,9 @@ interface Props {
 const { title, siteName = "MCDS" } = Astro.props;
 const currentPath = Astro.url.pathname;
 const isIndexPage = currentPath === "/" || currentPath === "";
+
+// Helper function to check if a link is the current page
+const isCurrentPage = (href: string) => currentPath === href;
 ---
 
 <!doctype html>
@@ -33,16 +36,16 @@ const isIndexPage = currentPath === "/" || currentPath === "";
       }
       <nav>
         <ul>
-          <li><a href="/components/accordion">Accordion</a></li>
-          <li><a href="/components/alert">Alert</a></li>
-          <li><a href="/components/combobox">Combobox</a></li>
-          <li><a href="/components/dialog">Dialog</a></li>
-          <li><a href="/components/feed">Feed</a></li>
+          <li><a href="/components/accordion" aria-current={isCurrentPage("/components/accordion") ? "page" : undefined}>Accordion</a></li>
+          <li><a href="/components/alert" aria-current={isCurrentPage("/components/alert") ? "page" : undefined}>Alert</a></li>
+          <li><a href="/components/combobox" aria-current={isCurrentPage("/components/combobox") ? "page" : undefined}>Combobox</a></li>
+          <li><a href="/components/dialog" aria-current={isCurrentPage("/components/dialog") ? "page" : undefined}>Dialog</a></li>
+          <li><a href="/components/feed" aria-current={isCurrentPage("/components/feed") ? "page" : undefined}>Feed</a></li>
           <li>
-            <a href="/components/navigation-popover">Navigation Popover</a>
+            <a href="/components/popup-nav" aria-current={isCurrentPage("/components/popup-nav") ? "page" : undefined}>Popup Nav</a>
           </li>
-          <li><a href="/components/switch">Switch</a></li>
-          <li><a href="/components/tabs">Tabs</a></li>
+          <li><a href="/components/switch" aria-current={isCurrentPage("/components/switch") ? "page" : undefined}>Switch</a></li>
+          <li><a href="/components/tabs" aria-current={isCurrentPage("/components/tabs") ? "page" : undefined}>Tabs</a></li>
         </ul>
       </nav>
     </header>

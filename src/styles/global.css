@@ -41,7 +41,7 @@
   .doc-component-example {
     margin-block-start: var(--stack);
 
-    >* {
+    >*:not(dialog) {
       margin: 0;
     }
   }

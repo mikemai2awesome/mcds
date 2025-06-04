@@ -1,7 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import ComponentDoc from "../../components/ComponentDoc.astro";
-import NavigationPopoverComponent from "../../components/NavigationPopover.astro";
+import PopupNavComponent from "../../components/PopupNav.astro";
 
 const navigationGroups = [
   {
@@ -69,7 +69,7 @@ const navigationMenu = [
   },
 ];
 
-const navigationCode = `<NavigationPopover
+const navigationCode = `<PopupNav
   label="Products & Services"
   groups={[
     {
@@ -100,16 +100,16 @@ const navigationCode = `<NavigationPopover
 />`;
 ---
 
-<Layout title="Navigation Popover">
+<Layout title="Popup Nav">
   <ComponentDoc
-    title="Navigation Popover"
-    description="The Navigation Popover component toggles a list of links with optional group titles."
+    title="Popup Nav"
+    description="The Popup Nav component toggles a list of links with optional group titles."
     props={[
       {
         name: "label",
         type: "string",
         default: "Required",
-        description: "Text for the popover trigger button",
+        description: "Text for the popup trigger button",
       },
       {
         name: "groups",
@@ -187,7 +187,7 @@ const navigationCode = `<NavigationPopover
         <ul>
           <li>Don&rsquo;t use for simple lists of links</li>
           <li>Don&rsquo;t overload with too many options</li>
-          <li>Don&rsquo;t nest additional popovers inside</li>
+          <li>Don&rsquo;t nest additional popups inside</li>
           <li>Don&rsquo;t use for primary page content</li>
           <li>Don&rsquo;t use when simple tabs would suffice</li>
         </ul>
@@ -196,10 +196,10 @@ const navigationCode = `<NavigationPopover
     accessibility={{
       keyboardNav: `
         <ul>
-          <li><kbd>Tab</kbd> key moves focus to the popover trigger</li>
-          <li><kbd>Enter</kbd>/<kbd>Space</kbd> opens and closes the popover</li>
-          <li><kbd>Tab</kbd> key navigates through links when popover is open</li>
-          <li><kbd>Escape</kbd> closes the popover and returns focus to the trigger</li>
+          <li><kbd>Tab</kbd> key moves focus to the popup trigger</li>
+          <li><kbd>Enter</kbd>/<kbd>Space</kbd> opens and closes the popup</li>
+          <li><kbd>Tab</kbd> key navigates through links when popup is open</li>
+          <li><kbd>Escape</kbd> closes the popup and returns focus to the trigger</li>
         </ul>
       `,
       screenReaders: `
@@ -212,11 +212,11 @@ const navigationCode = `<NavigationPopover
     code={navigationCode}
   >
     <div class="doc-demo-inline">
-      <NavigationPopoverComponent
+      <PopupNavComponent
         label="Complex Menu"
         groups={navigationGroups}
       />
-      <NavigationPopoverComponent label="Simple Menu" groups={navigationMenu} />
+      <PopupNavComponent label="Simple Menu" groups={navigationMenu} />
     </div>
   </ComponentDoc>
-</Layout>
+</Layout> 

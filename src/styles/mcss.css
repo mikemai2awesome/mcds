@@ -55,9 +55,12 @@
   ::after {
     font-feature-settings: "kern";
     font-kerning: normal;
-    -moz-osx-font-smoothing: grayscale !important;
-    -webkit-font-smoothing: antialiased !important;
     box-sizing: border-box;
+
+    @media (prefers-color-scheme: dark) {
+      -moz-osx-font-smoothing: grayscale !important;
+      -webkit-font-smoothing: antialiased !important;
+    }
   }
 
   * {
@@ -196,7 +199,7 @@
     }
   }
 
-  @media (forced-colors: none) and (hover: hover) {
+  @media (forced-colors: none) and (any-hover: hover) {
     :where(nav a:hover) {
       border-image-source: linear-gradient(6deg, gray, rgba(128, 128, 128, 0.4), rgba(128, 128, 128, 0.4), gray);
     }
@@ -364,6 +367,10 @@
 
   :where(nav a) {
     text-decoration: none;
+
+    &[aria-current] {
+      border-image-source: unset;
+    }
   }
 
   :where(summary > *) {
