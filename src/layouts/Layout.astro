@@ -10,6 +10,29 @@ const isIndexPage = currentPath === "/" || currentPath === "";
 
 // Helper function to check if a link is the current page
 const isCurrentPage = (href: string) => currentPath === href;
+
+// Dynamically get all component pages
+const componentPages = await Astro.glob('../pages/components/*.astro');
+
+// Extract component information and sort alphabetically
+const components = componentPages
+  .map(page => {
+    // Extract filename without extension
+    const filename = page.file.split('/').pop()?.replace('.astro', '') || '';
+    
+    // Convert filename to display name (e.g., 'popup-nav' -> 'Popup Nav')
+    const displayName = filename
+      .split('-')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+    
+    return {
+      name: displayName,
+      href: `/components/${filename}`,
+      filename
+    };
+  })
+  .sort((a, b) => a.name.localeCompare(b.name));
 ---
 
 <!doctype html>
@@ -36,16 +59,16 @@ const isCurrentPage = (href: string) => currentPath === href;
       }
       <nav>
         <ul>
-          <li><a href="/components/accordion" aria-current={isCurrentPage("/components/accordion") ? "page" : undefined}>Accordion</a></li>
-          <li><a href="/components/alert" aria-current={isCurrentPage("/components/alert") ? "page" : undefined}>Alert</a></li>
-          <li><a href="/components/combobox" aria-current={isCurrentPage("/components/combobox") ? "page" : undefined}>Combobox</a></li>
-          <li><a href="/components/dialog" aria-current={isCurrentPage("/components/dialog") ? "page" : undefined}>Dialog</a></li>
-          <li><a href="/components/feed" aria-current={isCurrentPage("/components/feed") ? "page" : undefined}>Feed</a></li>
-          <li>
-            <a href="/components/popup-nav" aria-current={isCurrentPage("/components/popup-nav") ? "page" : undefined}>Popup Nav</a>
-          </li>
-          <li><a href="/components/switch" aria-current={isCurrentPage("/components/switch") ? "page" : undefined}>Switch</a></li>
-          <li><a href="/components/tabs" aria-current={isCurrentPage("/components/tabs") ? "page" : undefined}>Tabs</a></li>
+          {components.map(component => (
+            <li>
+              <a 
+                href={component.href} 
+                aria-current={isCurrentPage(component.href) ? "page" : undefined}
+              >
+                {component.name}
+              </a>
+            </li>
+          ))}
         </ul>
       </nav>
     </header>
