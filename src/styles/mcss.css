@@ -50,12 +50,10 @@
 }
 
 @layer resets {
-
   *,
   ::before,
   ::after {
     font-feature-settings: "kern";
-    -webkit-font-kerning: normal;
     font-kerning: normal;
     -moz-osx-font-smoothing: grayscale !important;
     -webkit-font-smoothing: antialiased !important;
@@ -148,7 +146,6 @@
   }
 
   :where(th, td) {
-    -webkit-border-after: 1px solid;
     border-block-end: 1px solid;
   }
 
@@ -159,7 +156,6 @@
   }
 
   :where(pre) {
-    -webkit-border-start: var(--hr-size) solid;
     border-inline-start: var(--hr-size) solid;
   }
 
@@ -174,7 +170,6 @@
     block-size: 0;
     margin-block: var(--hr-margin-block);
     border: 0;
-    -webkit-border-after: 1px solid;
     border-block-end: 1px solid;
   }
 
@@ -245,12 +240,10 @@
   }
 
   :where(figure, dl, blockquote) {
-    -webkit-padding-before: calc(var(--stack) / 2.5);
     padding-block-start: calc(var(--stack) / 2.5);
   }
 
   :where(details[open]) {
-    -webkit-padding-after: var(--stack);
     padding-block-end: var(--stack);
   }
 
@@ -264,32 +257,26 @@
   }
 
   :where(*:not(p) + p, figure, form, fieldset, pre, blockquote, ul, ol, dl, details, form li + li, nav) {
-    -webkit-margin-before: var(--stack);
     margin-block-start: var(--stack);
   }
 
   :where(h1, h2, h3, h4, h5, h6, header nav) {
-    -webkit-margin-before: calc(var(--stack) * 1.5);
     margin-block-start: calc(var(--stack) * 1.5);
   }
 
   :where(h1, h2, h3, h4, h5, h6)+*:not(h1, h2, h3, h4, h5, h6) {
-    -webkit-margin-before: calc(var(--stack) / 2);
     margin-block-start: calc(var(--stack) / 2);
   }
 
   :where(li ol:first-of-type, li ul:first-of-type, nav ul) {
-    -webkit-margin-before: 0;
     margin-block-start: 0;
   }
 
   :where(li li) {
-    -webkit-margin-start: 2ch;
     margin-inline-start: 2ch;
   }
 
   :where(input, textarea, select)~* {
-    -webkit-margin-before: calc(var(--stack) / 4);
     margin-block-start: calc(var(--stack) / 4);
   }
 
@@ -322,8 +309,6 @@
 
   :where(h1, h2, h3, h4) {
     overflow-wrap: break-word;
-    -webkit-hyphens: auto;
-    -ms-hyphens: auto;
     hyphens: auto;
   }
 
@@ -432,9 +417,7 @@
 
   :where(code) {
     text-decoration: underline;
-    -webkit-text-decoration-style: dashed;
     text-decoration-style: dashed;
-    -webkit-text-decoration-color: crimson;
     text-decoration-color: crimson;
     text-underline-offset: 0.35ex;
   }
@@ -443,8 +426,6 @@
     display: block;
     position: relative;
     color: white;
-    white-space: -moz-pre-wrap;
-    white-space: -o-pre-wrap;
     white-space: pre-wrap;
     word-spacing: normal;
     word-break: normal;
@@ -499,7 +480,6 @@
   }
 
   ::-webkit-file-upload-button {
-    -webkit-appearance: button;
     appearance: button;
     cursor: pointer;
     font: inherit;
@@ -510,8 +490,6 @@
   }
 
   :where(select) {
-    -webkit-appearance: none;
-    -moz-appearance: none;
     appearance: none;
     text-indent: 0.01px;
     text-overflow: "";
@@ -519,7 +497,6 @@
 
   :where(a) {
     color: inherit;
-    -webkit-text-decoration-style: var(--underline);
     text-decoration-style: var(--underline);
     text-underline-offset: 0.3ex;
   }
@@ -530,7 +507,6 @@
 
   :where(abbr, dt) {
     text-decoration: underline;
-    -webkit-text-decoration-style: dotted;
     text-decoration-style: dotted;
     text-underline-offset: 0.3ex;
   }
@@ -541,13 +517,11 @@
 
   :where(blockquote q)::before {
     position: absolute;
-    -webkit-margin-start: -1ex;
     margin-inline-start: -1ex;
   }
 
   :where(blockquote q q)::before {
     position: static;
-    -webkit-margin-start: unset;
     margin-inline-start: unset;
   }
 
