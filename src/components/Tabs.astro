@@ -52,24 +52,30 @@ const tabsId = `tabs-${Math.floor(Math.random() * 1000)}`;
   @layer components {
     .mc-tabs {
       --_border-size: 0.5ex;
+      --_tab-padding-block: calc(var(--stack) / 2);
     }
 
     .mc-tabs__list {
       display: flex;
       gap: var(--_border-size);
       overflow-x: auto;
+      margin-block-start: calc(var(--_tab-padding-block) * -1);
       border-block-end: 1px solid;
     }
 
     .mc-tabs__tab {
-      padding-block: calc(var(--stack) / 2);
+      padding-block: var(--_tab-padding-block);
       padding-inline: var(--gutter);
       background: none;
       border: 0;
-      border-block-end: var(--_border-size) solid canvas;
+      border-block-end: var(--_border-size) solid transparent;
       font-weight: bold;
       white-space: nowrap;
       transition: border-color var(--transition);
+
+      @media (forced-colors: active) {
+        border-block-end: var(--_border-size) solid canvas;
+      }
     }
 
     .mc-tabs__tab[aria-selected="true"] {
@@ -87,7 +93,7 @@ const tabsId = `tabs-${Math.floor(Math.random() * 1000)}`;
     }
 
     .mc-tabs__panel {
-      padding-block: var(--stack);
+      padding-block: var(--stack) 0;
       padding-inline: 0;
       animation: fadeIn var(--transition);
     }

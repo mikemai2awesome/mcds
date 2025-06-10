@@ -136,6 +136,8 @@
     border: 1px inset;
     border-radius: 0;
     background: rgba(128, 128, 128, 0.05);
+    /* TODO: test this */
+    background: color-mix(in hsl, canvasText 5%, transparent);
   }
 
   :where(kbd, fieldset, dd, nav a, figure img) {
@@ -144,7 +146,7 @@
 
   @media (forced-colors: none) {
     :where(kbd, fieldset, dd, nav a, figure img) {
-      border-image-source: linear-gradient(-6deg, gray, rgba(128, 128, 128, 0.4), rgba(128, 128, 128, 0.4), gray);
+      border-image-source: linear-gradient(-6deg, color-mix(in hsl, buttonBorder 40%, transparent), color-mix(in hsl, buttonBorder 15%, transparent), color-mix(in hsl, buttonBorder 15%, transparent), color-mix(in hsl, buttonBorder 40%, transparent));
     }
   }
 
@@ -154,7 +156,8 @@
 
   @media (forced-colors: none) {
     :where(th, td) {
-      border-image-source: linear-gradient(to right, gray, rgba(128, 128, 128, 0.6));
+      border-image-source: linear-gradient(to right, grayText, color-mix(in hsl, grayText 60%, transparent));
+
     }
   }
 
@@ -169,7 +172,6 @@
   }
 
   :where(hr) {
-    opacity: 0.2;
     block-size: 0;
     margin-block: var(--hr-margin-block);
     border: 0;
@@ -183,7 +185,6 @@
   }
 
   :where(header, main)+hr {
-    opacity: 0.4;
     border-block-end-width: var(--landmark-hr-size);
   }
 
@@ -201,7 +202,7 @@
 
   @media (forced-colors: none) and (any-hover: hover) {
     :where(nav a:hover) {
-      border-image-source: linear-gradient(6deg, gray, rgba(128, 128, 128, 0.4), rgba(128, 128, 128, 0.4), gray);
+      border-image-source: linear-gradient(6deg, buttonBorder, color-mix(in hsl, buttonBorder 40%, transparent), color-mix(in hsl, buttonBorder 40%, transparent), buttonBorder);
     }
   }
 
@@ -275,7 +276,7 @@
     margin-block-start: 0;
   }
 
-  :where(li li) {
+  :where(li > li) {
     margin-inline-start: 2ch;
   }
 

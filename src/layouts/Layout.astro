@@ -47,6 +47,13 @@ const components = componentPages
     />
     <meta name="generator" content={Astro.generator} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    {isIndexPage && (
+      <>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Flow+Block&display=swap" rel="stylesheet">
+      </>
+    )}
   </head>
   <body>
     <header class="hero">
@@ -72,10 +79,18 @@ const components = componentPages
         </ul>
       </nav>
     </header>
-    <hr>
-    <main class="doc-main">
-      <slot />
-    </main>
+    <!-- <hr> -->
+    {
+      isIndexPage ? (
+        <main class="doc-main">
+          <slot />
+        </main>
+      ) : (
+        <main>
+          <slot />
+        </main>
+      )
+    }
     <hr>
     <footer>
       <p><em>The design system is created by <a href="https://mikemai.net">Mike Mai</a> with the help of AI buddy <a href="https://cursor.com">Cursor</a>.</em></p>

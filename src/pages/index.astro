@@ -1,34 +1,136 @@
 ---
 import Layout from "../layouts/Layout.astro";
-// To use components, import components here after Layout
-// import AlertComponent from "../components/Alert.astro";
+import Alert from "../components/Alert.astro";
+import Accordion from "../components/Accordion.astro";
+import Switch from "../components/Switch.astro";
+import Tabs from "../components/Tabs.astro";
+import Feed from "../components/Feed.astro";
+import PopupNav from "../components/PopupNav.astro";
+
+// Sample data for components
+const accordionItems = [
+  {
+    id: "section1",
+    title: "Accessibility Features",
+    content: "<p>This design system follows WCAG 2.2 Level AA with proper ARIA attributes, screen reader support, keyboard navigation, and semantic HTML structure.</p>",
+    open: true
+  },
+  {
+    id: "section2", 
+    title: "Styling Options",
+    content: "<p>Built with modern CSS including logical properties, cascade layers, and relative units for optimal accessibility and maintainability.</p>"
+  },
+  {
+    id: "section3",
+    title: "JavaScript Enhancement",
+    content: "<p>Progressive enhancement with vanilla JavaScript - works without JS but enhanced with interactive features when available.</p>"
+  }
+];
+
+const tabsData = [
+  {
+    id: "overview",
+    label: "Overview",
+    content: "<p>Welcome to MCDS - a minimal, accessible component library that prioritizes minimalism, sustainability, semantic HTML, and accessibility.</p>"
+  },
+  {
+    id: "features",
+    label: "Features", 
+    content: "<ul><li>Semantic HTML foundation</li><li>WCAG 2.2 compliant</li><li>Modern CSS with logical properties</li><li>Progressive enhancement</li></ul>"
+  },
+  {
+    id: "usage",
+    label: "Usage",
+    content: "<p>Import components in your Astro files and use them with proper props. All components include comprehensive keyboard navigation and screen reader support.</p>"
+  }
+];
+
+const feedItems = [
+  {
+    url: "#",
+    id: "update1",
+    title: "New Accessibility Guidelines",
+    content: "<p>Updated components to meet WCAG 2.2 Level AA standards with improved focus management and screen reader support.</p>",
+    date: "2024-01-15",
+    author: "MCDS Team",
+  }
+];
+
+const navGroups = [
+  {
+    title: "Components",
+    links: [
+      { label: "Alert", href: "#alerts", description: "Status and feedback messages" },
+      { label: "Accordion", href: "#accordion", description: "Collapsible content sections" },
+      { label: "Dialog", href: "#dialog", description: "Modal dialogs and popups" }
+    ]
+  },
+  {
+    title: "Form Controls", 
+    links: [
+      { label: "Switch", href: "#switch", description: "Toggle controls" },
+      { label: "Combobox", href: "#combobox", description: "Searchable select inputs" }
+    ]
+  }
+];
 ---
 
 <Layout title="Home">
-  <h1>MCDS</h1>
-  <p><big>MCDS is a minimal design system that builds on <a href="https://mikemai.net/mcss">MCSS</a>. It&rsquo;s basically a collection of components that puts accessibility front and center&mdash;following WCAG and ARIA best practices&mdash;with a strong focus on typography that looks elegant.</big></p>
-  <h2>Philosophy</h2>
-  <p>Keep things simple. It uses system fonts and colors without dragging in heavy UI frameworks, which makes it super accessible. It&rsquo;s all about progressive enhancement&mdash;using JavaScript only when necessary&mdash;and applying modern CSS like logical properties, cascade layers, and relative units. And it all starts with good ol&rsquo; semantic HTML as the foundation.</p>
-
-  <h2>Tech Stack</h2>
-  <dl>
-    <dt>Development</dt>
-    <dd>Astro and Node.js</dd>
-    <dt>Foundation</dt>
-    <dd>MCSS: a modern classless CSS framework inspired by the typefaces of Matthew Carter</dd>
-    <dt>Component Styling</dt>
-    <dd>CSS with PostCSS and Autoprefixer</dd>
-  </dl>
-
-  <h2>Local Development</h2>
-  <p>1. Clone the repository and <code>cd</code> into the main folder, then install dependencies:</p>
-  <pre contenteditable><code>npm install</code></pre>
-  <p>2. Start the development server:</p>
-  <pre contenteditable><code>npm run dev</code></pre>
-  <p>3. Import the component on a page:</p>
-  <pre contenteditable><code>import AlertComponent from "path/to/components/Alert.astro";</code></pre>
-  <p>4. Then include the component:</p>
-  <pre contenteditable><code>&lt;AlertComponent type="success">
+  <ul class="components-kitchen-sink">
+    <li>
+      <h1>MCDS</h1>
+      <p>MCDS is a minimal component library that extends <a href="https://mikemai.net/mcss">MCSS</a>. It puts accessibility front and center&mdash;following WCAG (Web Content Accessibility Guidelines)&mdash;with a strong focus on Matthew Carter&rsquo;s typefaces and elegant typesetting. Browse <a href="components/accordion">the components</a> now.</p>
+    </li>
+    <li>
+      <Alert type="info">
+        This is an info alert.
+      </Alert>
+      <Feed
+        items={feedItems}
+        title="Latest Updates"
+      />
+      <Tabs tabs={tabsData} defaultTabId="overview" />
+    </li>
+    <li>
+      <Accordion items={accordionItems} allowMultiple={false} />
+      <PopupNav 
+        label="Browse Components"
+        groups={navGroups}
+      />
+      <Switch 
+        label="Dark" 
+        id="darkmode-switch" 
+        name="darkmode" 
+        checked={true} 
+      />
+    </li>
+  </ul>
+  <!-- <section>
+    <h2>Philosophy</h2>
+    <p><em>Keep things simple!</em> It uses system fonts and colors without dragging in heavy UI frameworks, which makes it super accessible. It&rsquo;s all about progressive enhancement&mdash;using JavaScript only when necessary&mdash;and applying modern CSS like logical properties, cascade layers, and relative units. And it all starts with good ol&rsquo; semantic HTML as the foundation.</p>
+  </section>
+  <section>
+    <h2>Tech Stack</h2>
+    <dl>
+      <dt>Development</dt>
+      <dd>Astro and Node.js</dd>
+      <dt>Foundation</dt>
+      <dd>MCSS: a modern classless CSS framework inspired by the typefaces of Matthew Carter</dd>
+      <dt>Component Styling</dt>
+      <dd>CSS with PostCSS and Autoprefixer</dd>
+    </dl>
+  </section>
+  <section>
+    <h2>Local Development</h2>
+    <p>1. Clone the repository and <code>cd</code> into the main folder, then install dependencies:</p>
+    <pre contenteditable><code>npm install</code></pre>
+    <p>2. Start the development server:</p>
+    <pre contenteditable><code>npm run dev</code></pre>
+    <p>3. Import the component on a page:</p>
+    <pre contenteditable><code>import AlertComponent from "path/to/components/Alert.astro";</code></pre>
+    <p>4. Then include the component:</p>
+    <pre contenteditable><code>&lt;AlertComponent type="success">
   Operation completed successfully!
 &lt;/AlertComponent></code></pre>
+  </section> -->
 </Layout>

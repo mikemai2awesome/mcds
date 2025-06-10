@@ -15,7 +15,56 @@
 
   .doc-sidebar a {}
 
-  .doc-main {}
+  .doc-main {
+    padding: 0;
+
+    * {
+      text-wrap: balance;
+    }
+    
+    .components-kitchen-sink {
+      display: grid;
+      gap: var(--gutter);
+      row-gap: calc(var(--stack) * 2);
+      overflow-x: clip;
+      margin: 0;
+      padding-inline: 10vi;
+      padding-block: var(--landmark-hr-margin-block);
+      list-style: none;
+      background-color: color-mix(in hsl, canvasText 4%, transparent);
+
+      @media (min-width: 66em) {
+        grid-template-columns: repeat(3, minmax(35ch, 1fr));
+      }
+      
+      > li {
+        min-inline-size: 0;
+        
+        &:not(:first-child) {
+          display: flex;
+          flex-direction: column;
+          gap: var(--stack);
+          filter: grayscale(100%);
+          user-select: none;
+
+          *:not(.mc-switch__control) {
+            font-family: "Flow Block", system-ui, sans-serif !important;
+            font-weight: 400 !important;
+            font-style: normal !important;
+            word-break: break-all !important;
+          }
+        }
+
+        &:first-child {
+          align-self: center;
+        }
+
+        > * {
+          margin: 0;
+        }
+      }
+    }
+  }
 
   .doc-demo-stack {
     display: flex;
@@ -164,9 +213,5 @@
 @layer config {
   :root {
     --transition: 0.3s ease-in-out;
-  }
-
-  * {
-    text-wrap: balance;
   }
 }
