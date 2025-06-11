@@ -47,7 +47,6 @@ const tabsData = [
 
 const feedItems = [
   {
-    url: "#",
     id: "update1",
     title: "New Accessibility Guidelines",
     content: "<p>Updated components to meet WCAG 2.2 Level AA standards with improved focus management and screen reader support.</p>",
@@ -81,7 +80,7 @@ const navGroups = [
       <h1>MCDS</h1>
       <p>MCDS is a minimal component library that extends <a href="https://mikemai.net/mcss">MCSS</a>. It puts accessibility front and center&mdash;following WCAG (Web Content Accessibility Guidelines)&mdash;with a strong focus on Matthew Carter&rsquo;s typefaces and elegant typesetting. Browse <a href="components/accordion">the components</a> now.</p>
     </li>
-    <li>
+    <li inert>
       <Alert type="info">
         This is an info alert.
       </Alert>
@@ -91,7 +90,7 @@ const navGroups = [
       />
       <Tabs tabs={tabsData} defaultTabId="overview" />
     </li>
-    <li>
+    <li inert>
       <Accordion items={accordionItems} allowMultiple={false} />
       <PopupNav 
         label="Browse Components"

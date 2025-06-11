@@ -118,13 +118,7 @@ const processedGroups = groups.map((group, index) => {
       background: none;
       border: 1px solid;
       border-image-slice: 1;
-      border-image-source: linear-gradient(
-        var(--_degree),
-        gray,
-        rgba(128, 128, 128, 0.4),
-        rgba(128, 128, 128, 0.4),
-        gray
-      );
+      border-image-source: linear-gradient(var(--_degree), var(--border-image-source));
     }
 
     .mc-popup-nav__trigger svg {

@@ -46,6 +46,7 @@
           gap: var(--stack);
           filter: grayscale(100%);
           user-select: none;
+          pointer-events: none;
 
           *:not(.mc-switch__control) {
             font-family: "Flow Block", system-ui, sans-serif !important;

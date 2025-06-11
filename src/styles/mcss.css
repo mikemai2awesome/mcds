@@ -7,9 +7,10 @@
     --page-padding-inline: calc((100vi - min(var(--line-length), 80vi)) / 2);
     --page-padding-block: calc(var(--stack) * 8);
     --landmark-hr-size: 1ex;
-    --hr-size: 0.5ex;
     --landmark-hr-margin-block: calc(var(--stack) * 8);
+    --hr-size: 0.5ex;
     --hr-margin-block: calc(var(--stack) * 4);
+    --border-image-source: gray, color-mix(in hsl, gray 40%, transparent), color-mix(in hsl, gray 40%, transparent), gray;
     --underline: solid;
     --focus-outline: 2px solid currentcolor;
     --focus-outline-offset: 2px;
@@ -146,7 +147,7 @@
 
   @media (forced-colors: none) {
     :where(kbd, fieldset, dd, nav a, figure img) {
-      border-image-source: linear-gradient(-6deg, color-mix(in hsl, buttonBorder 40%, transparent), color-mix(in hsl, buttonBorder 15%, transparent), color-mix(in hsl, buttonBorder 15%, transparent), color-mix(in hsl, buttonBorder 40%, transparent));
+      border-image-source: linear-gradient(-6deg, var(--border-image-source));
     }
   }
 
@@ -156,7 +157,7 @@
 
   @media (forced-colors: none) {
     :where(th, td) {
-      border-image-source: linear-gradient(to right, grayText, color-mix(in hsl, grayText 60%, transparent));
+      border-image-source: linear-gradient(to right, gray, color-mix(in hsl, gray 60%, transparent));
 
     }
   }
@@ -202,7 +203,7 @@
 
   @media (forced-colors: none) and (any-hover: hover) {
     :where(nav a:hover) {
-      border-image-source: linear-gradient(6deg, buttonBorder, color-mix(in hsl, buttonBorder 40%, transparent), color-mix(in hsl, buttonBorder 40%, transparent), buttonBorder);
+      border-image-source: linear-gradient(6deg, var(--border-image-source));
     }
   }
 

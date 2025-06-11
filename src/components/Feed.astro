@@ -49,9 +49,15 @@ const feedId = `feed-${Math.random().toString(36).substring(2, 9)}`;
           <div class="mc-feed__text">
             <div class="mc-feed__header">
               <h3>
-                <a class="mc-feed__link" href={item.url}>
-                  {item.title}
-                </a>
+                {item.url ? (
+                  <a class="mc-feed__link" href={item.url}>
+                    {item.title}
+                  </a>
+                ) : (
+                  <span class="mc-feed__link">
+                    {item.title}
+                  </span>
+                )}
               </h3>
               <div class="mc-feed__meta">
                 <time id={`feed-date-${item.id}`} datetime={item.date}>
@@ -95,9 +101,15 @@ const feedId = `feed-${Math.random().toString(36).substring(2, 9)}`;
           <div class="mc-feed__text">
             <div class="mc-feed__header">
               <h3>
-                <a class="mc-feed__link" href={item.url}>
-                  {item.title}
-                </a>
+                {item.url ? (
+                  <a class="mc-feed__link" href={item.url}>
+                    {item.title}
+                  </a>
+                ) : (
+                  <span class="mc-feed__link">
+                    {item.title}
+                  </span>
+                )}
               </h3>
               <div class="mc-feed__meta">
                 <time id={`feed-date-${item.id}`} datetime={item.date}>
