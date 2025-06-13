@@ -3,14 +3,15 @@ interface Tab {
   id: string;
   label: string;
   content: string;
+  default?: boolean;
 }
 
 interface Props {
   tabs: Tab[];
-  defaultTabId?: string;
 }
 
-const { tabs, defaultTabId = tabs[0]?.id } = Astro.props;
+const { tabs } = Astro.props;
+const defaultTab = tabs.find(tab => tab.default) || tabs[0];
 const tabsId = `tabs-${Math.floor(Math.random() * 1000)}`;
 ---
 
@@ -22,9 +23,9 @@ const tabsId = `tabs-${Math.floor(Math.random() * 1000)}`;
           id={`tab-${tab.id}`}
           class="mc-tabs__tab"
           role="tab"
-          aria-selected={tab.id === defaultTabId ? "true" : "false"}
+          aria-selected={tab.id === defaultTab?.id ? "true" : "false"}
           aria-controls={`panel-${tab.id}`}
-          tabindex={tab.id === defaultTabId ? 0 : -1}
+          tabindex={tab.id === defaultTab?.id ? 0 : -1}
           data-tab-index={index}
         >
           {tab.label}
@@ -40,7 +41,7 @@ const tabsId = `tabs-${Math.floor(Math.random() * 1000)}`;
         class="mc-tabs__panel"
         role="tabpanel"
         aria-labelledby={`tab-${tab.id}`}
-        hidden={tab.id !== defaultTabId}
+        hidden={tab.id !== defaultTab?.id}
       >
         <div set:html={tab.content} />
       </div>

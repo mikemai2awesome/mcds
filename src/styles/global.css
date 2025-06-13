@@ -136,6 +136,17 @@
     }
   }
 
+  .doc-side-by-side {
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc(var(--gutter) * 1.5);
+    row-gap: var(--stack);
+
+    > * {
+      flex: 1 1 25ch;
+    }
+  }
+
   .doc-demo-inline {
     display: flex;
     flex-wrap: wrap;

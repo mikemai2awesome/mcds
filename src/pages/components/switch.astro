@@ -63,46 +63,30 @@ const switchCode = `<Switch
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     const themeSwitch = document.getElementById("verdana-theme") as HTMLInputElement;
-    const htmlElement = document.documentElement;
     
-    // Check if verdana theme is currently active
-    function isVerdanaThemeActive() {
-      return htmlElement.getAttribute("data-theme") === "verdana";
-    }
-    
-    // Initialize switch state based on current theme
-    function initializeSwitchState() {
-      const savedTheme = localStorage.getItem("verdana-theme");
-      const shouldBeChecked = savedTheme === "true" || isVerdanaThemeActive();
-      
-      if (themeSwitch) {
-        themeSwitch.checked = shouldBeChecked;
-        toggleTheme(shouldBeChecked, false); // Apply theme without saving to avoid redundancy
-      }
-    }
-    
-    // Toggle theme function
-    function toggleTheme(isChecked: boolean, save: boolean = true) {
-      if (isChecked) {
-        htmlElement.setAttribute("data-theme", "verdana");
+    // Wait for global theme manager to be available
+    const initializeSwitch = () => {
+      if (window.themeManager && themeSwitch) {
+        // Set initial state based on global theme manager
+        themeSwitch.checked = window.themeManager.getSavedState();
+        
+        // Listen for switch changes and update global theme
+        themeSwitch.addEventListener("change", (event) => {
+          const target = event.target as HTMLInputElement;
+          window.themeManager.toggleTheme(target.checked);
+        });
+        
+        // Listen for theme changes from other sources (other tabs, etc.)
+        document.addEventListener("theme-changed", (event) => {
+          const customEvent = event as CustomEvent<{ verdanaActive: boolean }>;
+          themeSwitch.checked = customEvent.detail.verdanaActive;
+        });
       } else {
-        htmlElement.removeAttribute("data-theme");
+        // Retry if theme manager isn't ready yet
+        setTimeout(initializeSwitch, 10);
       }
-      
-      if (save) {
-        localStorage.setItem("verdana-theme", isChecked.toString());
-      }
-    }
+    };
     
-    // Listen for switch changes
-    if (themeSwitch) {
-      themeSwitch.addEventListener("change", (event) => {
-        const target = event.target as HTMLInputElement;
-        toggleTheme(target.checked);
-      });
-    }
-    
-    // Initialize on page load
-    initializeSwitchState();
+    initializeSwitch();
   });
 </script>

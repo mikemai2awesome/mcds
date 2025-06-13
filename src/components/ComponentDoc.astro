@@ -112,11 +112,16 @@ function renderNestedInterface(nestedInterface: NonNullable<typeof schema.nested
 ))}
 
 <h2 id="usage">Usage</h2>
-<h3 id="usage-dos">✅ <span class="u-visually-hidden">Do&rsquo;s</span></h3>
-<div class="u-margin-none" set:html={usage.dos} />
-
-<h3 id="usage-donts">❌ <span class="u-visually-hidden">Don&rsquo;t&rsquo;s</span></h3>
-<div class="u-margin-none" set:html={usage.donts} />
+<div class="doc-side-by-side">
+  <div>
+    <h3 id="usage-dos">✅ <span class="u-visually-hidden">Do&rsquo;s</span></h3>
+    <div class="u-margin-none" set:html={usage.dos} />
+  </div>
+  <div>
+    <h3 id="usage-donts">❌ <span class="u-visually-hidden">Don&rsquo;t&rsquo;s</span></h3>
+    <div class="u-margin-none" set:html={usage.donts} />
+  </div>
+</div>
 
 {
   accessibility && (

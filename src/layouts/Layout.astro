@@ -97,3 +97,92 @@ const components = componentPages
 <style is:global>
   @import url("../styles/global.css");
 </style>
+
+<script>
+  // Global theme management
+  class ThemeManager {
+    private static instance: ThemeManager;
+    private htmlElement: HTMLElement;
+    private storageKey = "verdana-theme";
+    
+    constructor() {
+      this.htmlElement = document.documentElement;
+      this.init();
+    }
+    
+    static getInstance(): ThemeManager {
+      if (!ThemeManager.instance) {
+        ThemeManager.instance = new ThemeManager();
+      }
+      return ThemeManager.instance;
+    }
+    
+    private init(): void {
+      // Apply saved theme on page load
+      this.applySavedTheme();
+      
+      // Listen for storage changes from other tabs
+      window.addEventListener("storage", (event) => {
+        if (event.key === this.storageKey) {
+          this.applySavedTheme();
+          this.notifyThemeChange();
+        }
+      });
+      
+      // Listen for custom theme change events
+      document.addEventListener("theme-change", () => {
+        this.applySavedTheme();
+      });
+    }
+    
+    private applySavedTheme(): void {
+      const savedTheme = localStorage.getItem(this.storageKey);
+      const shouldApplyVerdana = savedTheme === "true";
+      
+      if (shouldApplyVerdana) {
+        this.htmlElement.setAttribute("data-theme", "verdana");
+      } else {
+        this.htmlElement.removeAttribute("data-theme");
+      }
+    }
+    
+    public isVerdanaActive(): boolean {
+      return this.htmlElement.getAttribute("data-theme") === "verdana";
+    }
+    
+    public toggleTheme(enable: boolean): void {
+      if (enable) {
+        this.htmlElement.setAttribute("data-theme", "verdana");
+      } else {
+        this.htmlElement.removeAttribute("data-theme");
+      }
+      
+      localStorage.setItem(this.storageKey, enable.toString());
+      this.notifyThemeChange();
+    }
+    
+    private notifyThemeChange(): void {
+      // Dispatch event to notify components of theme change
+      const event = new CustomEvent("theme-changed", {
+        detail: { verdanaActive: this.isVerdanaActive() }
+      });
+      document.dispatchEvent(event);
+    }
+    
+    public getSavedState(): boolean {
+      return localStorage.getItem(this.storageKey) === "true";
+    }
+  }
+  
+  // Initialize theme manager when DOM is ready
+  document.addEventListener("DOMContentLoaded", () => {
+    window.themeManager = ThemeManager.getInstance();
+  });
+  
+  // Make ThemeManager available globally for TypeScript
+  declare global {
+    interface Window {
+      themeManager: ThemeManager;
+    }
+  }
+</script>
