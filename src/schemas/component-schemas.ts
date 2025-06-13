@@ -300,12 +300,6 @@ export const componentSchemas: Record<string, ComponentSchema> = {
         description: "Array of tabs to display",
         required: true,
       },
-      {
-        name: "defaultTabId",
-        type: "string",
-        description: "ID of the tab to show by default. If not provided, the first tab will be selected",
-        required: false,
-      },
     ],
     nestedInterfaces: [
       {
@@ -328,6 +322,12 @@ export const componentSchemas: Record<string, ComponentSchema> = {
             type: "string",
             description: "HTML content for the tab panel",
             required: true,
+          },
+          {
+            name: "default",
+            type: "boolean",
+            description: "Whether this tab should be the default active tab. If no tab is marked as default, the first tab will be selected",
+            required: false,
           },
         ],
       },

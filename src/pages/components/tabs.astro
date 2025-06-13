@@ -8,6 +8,7 @@ const tabsData = [
     id: "optimus-prime",
     label: "Optimus Prime",
     content: 'Throughout the <a href="https://en.wikipedia.org/wiki/Transformers_(franchise)">Multiverse</a>, the name Optimus Prime is associated with bravery, self-sacrifice, and an indomitable fighting spirit, a warrior always ready to lay down their life to protect sentient life, no matter its form.',
+    default: true,
   },
   {
     id: "megatron",
@@ -26,7 +27,8 @@ const tabsCode = `<Tabs
     {
       id: "tab-1",
       label: "Tab 1",
-      content: "Tab content goes here..."
+      content: "Tab content goes here...",
+      default: true
     },
     {
       id: "tab-2",
@@ -39,7 +41,6 @@ const tabsCode = `<Tabs
       content: "Tab content goes here..."
     }
   ]}
-  defaultTabId="tab-1"
 />`;
 ---
 
@@ -86,6 +87,6 @@ const tabsCode = `<Tabs
     }}
     code={tabsCode}
   >
-    <TabsComponent tabs={tabsData} defaultTabId="optimus-prime" />
+    <TabsComponent tabs={tabsData} />
   </ComponentDoc>
 </Layout>
