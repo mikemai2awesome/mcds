@@ -41,46 +41,9 @@ const accordionCode = `<Accordion
 />`;
 ---
 
-<Layout title="Accordion">
+<Layout title="Accordion Component">
   <ComponentDoc
-    title="Accordion"
-    description="The Accordion component creates a vertically stacked set of interactive headings that can be expanded or collapsed to reveal or hide content. It is inspired by the WAI-ARIA Accordion pattern and fully keyboard accessible."
-    props={[
-      {
-        name: "items",
-        type: "AccordionItem[]",
-        default: "Required",
-        description: "Array of accordion items to display",
-      },
-    ]}
-    nestedInterfaces={[
-      {
-        name: "AccordionItem",
-        props: [
-          {
-            name: "heading",
-            type: "string",
-            default: "Required",
-            description: "Header text for the accordion item",
-            required: true,
-          },
-          {
-            name: "content",
-            type: "string",
-            default: "Required",
-            description: "HTML content to show when expanded",
-            required: true,
-          },
-          {
-            name: "open",
-            type: "boolean",
-            default: "false",
-            description: "Whether the item is initially expanded",
-            required: false,
-          },
-        ],
-      },
-    ]}
+    componentName="Accordion"
     usage={{
       dos: `
         <ul>

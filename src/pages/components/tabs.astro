@@ -43,52 +43,9 @@ const tabsCode = `<Tabs
 />`;
 ---
 
-<Layout title="Tabs">
+<Layout title="Tabs Component">
   <ComponentDoc
-    title="Tabs"
-    description="The Tabs component organizes and displays related content in a compact, navigable interface, allowing users to switch between different views or sections without leaving the page. It is inspired by the ARIA Authoring Practices Guide&rsquo;s Tabs pattern."
-    props={[
-      {
-        name: "tabs",
-        type: "Tab[]",
-        default: "Required",
-        description: "Array of tab objects to display",
-      },
-      {
-        name: "defaultTabId",
-        type: "string",
-        default: "First tab ID",
-        description: "ID of the tab to show by default",
-      },
-    ]}
-    nestedInterfaces={[
-      {
-        name: "Tab",
-        props: [
-          {
-            name: "id",
-            type: "string",
-            default: "Required",
-            description: "Unique identifier for the tab",
-            required: true,
-          },
-          {
-            name: "label",
-            type: "string",
-            default: "Required",
-            description: "Text for the tab button",
-            required: true,
-          },
-          {
-            name: "content",
-            type: "string",
-            default: "Required",
-            description: "HTML content for the tab panel",
-            required: true,
-          },
-        ],
-      },
-    ]}
+    componentName="Tabs"
     usage={{
       dos: `
         <ul>

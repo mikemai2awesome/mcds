@@ -8,9 +8,7 @@ const dialogCode = `<!-- Trigger button -->
 
 <!-- Dialog example -->
 <Dialog
-  id="info-dialog"
-  title="Information"
->
+  id="info-dialog">
   <p>This dialog contains important information for the user.</p>
   <p>It can contain more complex UI elements or longer content.</p>
   <form method="dialog">
@@ -21,30 +19,9 @@ const dialogCode = `<!-- Trigger button -->
 </Dialog>`;
 ---
 
-<Layout title="Dialog">
+<Layout title="Dialog Component">
   <ComponentDoc
-    title="Dialog"
-    description="The Dialog component creates modal dialogs that interrupt the user's workflow to provide important information or request input."
-    props={[
-      {
-        name: "id",
-        type: "string",
-        default: "Required",
-        description: "Unique identifier for the dialog",
-      },
-      {
-        name: "title",
-        type: "string",
-        default: "Required",
-        description: "Title text for the dialog header",
-      },
-      {
-        name: "children",
-        type: "ReactNode",
-        default: "Required",
-        description: "Content of the dialog",
-      },
-    ]}
+    componentName="Dialog"
     usage={{
       dos: `
         <ul>
@@ -87,7 +64,7 @@ const dialogCode = `<!-- Trigger button -->
     <!-- Trigger buttons -->
     <button type="button" data-dialog="info-dialog">Open Dialog</button>
 
-    <DialogComponent id="info-dialog" title="Information">
+    <DialogComponent id="info-dialog">
       <p>
         This dialog contains important information for the user. It can contain
         more complex UI elements or longer content.

@@ -20,30 +20,9 @@ const alertCode = `<Alert type="info">
 </Alert>`;
 ---
 
-<Layout title="Alert">
+<Layout title="Alert Component">
   <ComponentDoc
-    title="Alert"
-    description="The Alert component is used to communicate status, provide feedback, or give the user important information. It supports different types and can be made dismissible with a close button."
-    props={[
-      {
-        name: "type",
-        type: '"info" | "success" | "warning" | "error"',
-        default: "info",
-        description: "The type of alert to display",
-      },
-      {
-        name: "dismissible",
-        type: "boolean",
-        default: "false",
-        description: "Whether the alert can be dismissed",
-      },
-      {
-        name: "id",
-        type: "string",
-        default: "auto-generated",
-        description: "Unique identifier for the alert",
-      },
-    ]}
+    componentName="Alert"
     usage={{
       dos: `
         <ul>

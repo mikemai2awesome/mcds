@@ -119,81 +119,9 @@ const comboboxCode = `<Combobox
 />`;
 ---
 
-<Layout title="Combobox">
+<Layout title="Combobox Component">
   <ComponentDoc
-    title="Combobox"
-    description="The Combobox component combines a text input with a listbox, allowing users to filter options by typing or select from a dropdown. It follows the ARIA Authoring Practices Guide&rsquo;s combobox pattern."
-    props={[
-      {
-        name: "id",
-        type: "string",
-        default: "Random ID",
-        description: "Unique identifier for the combobox",
-      },
-      {
-        name: "name",
-        type: "string",
-        default: "Same as id",
-        description: "Name attribute for the input field",
-      },
-      {
-        name: "label",
-        type: "string",
-        default: "Required",
-        description: "Label for the combobox",
-      },
-      {
-        name: "options",
-        type: "Option[]",
-        default: "Required",
-        description: "Array of options to display",
-      },
-      {
-        name: "value",
-        type: "string",
-        default: '""',
-        description: "Initial value for the input",
-      },
-      {
-        name: "required",
-        type: "boolean",
-        default: "false",
-        description: "Whether the field is required",
-      },
-      {
-        name: "disabled",
-        type: "boolean",
-        default: "false",
-        description: "Whether the combobox is disabled",
-      },
-      {
-        name: "autocomplete",
-        type: "boolean",
-        default: "false",
-        description: "Whether to enable autocomplete functionality",
-      },
-    ]}
-    nestedInterfaces={[
-      {
-        name: "Option",
-        props: [
-          {
-            name: "id",
-            type: "string",
-            default: "Required",
-            description: "Unique identifier for the option",
-            required: true,
-          },
-          {
-            name: "label",
-            type: "string",
-            default: "Required",
-            description: "Display text for the option",
-            required: true,
-          },
-        ],
-      },
-    ]}
+    componentName="Combobox"
     usage={{
       dos: `
         <ul>

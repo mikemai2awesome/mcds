@@ -11,36 +11,9 @@ const switchCode = `<Switch
 />`;
 ---
 
-<Layout title="Switch">
+<Layout title="Switch Component">
   <ComponentDoc
-    title="Switch"
-    description="The Switch component is a visual toggle between two states: on and off. It provides clear visual feedback for the current state and performs its function immediately when toggled."
-    props={[
-      {
-        name: "label",
-        type: "string",
-        default: "Required",
-        description: "Text label for the switch",
-      },
-      {
-        name: "id",
-        type: "string",
-        default: "Required",
-        description: "Unique identifier for the switch",
-      },
-      {
-        name: "name",
-        type: "string",
-        default: "Required",
-        description: "Name attribute for form submission",
-      },
-      {
-        name: "checked",
-        type: "boolean",
-        default: "false",
-        description: "Whether the switch is in the on state",
-      },
-    ]}
+    componentName="Switch"
     usage={{
       dos: `
         <ul>

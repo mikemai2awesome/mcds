@@ -100,79 +100,9 @@ const navigationCode = `<PopupNav
 />`;
 ---
 
-<Layout title="Popup Nav">
+<Layout title="Popup Navigation Component">
   <ComponentDoc
-    title="Popup Nav"
-    description="The Popup Nav component toggles a list of links with optional group titles."
-    props={[
-      {
-        name: "label",
-        type: "string",
-        default: "Required",
-        description: "Text for the popup trigger button",
-      },
-      {
-        name: "groups",
-        type: "Group[]",
-        default: "Required",
-        description: "Array of link groups to display",
-      },
-    ]}
-    nestedInterfaces={[
-      {
-        name: "Group",
-        props: [
-          {
-            name: "id",
-            type: "string",
-            default: "undefined",
-            description:
-              "Unique identifier for the group (required only when title is provided)",
-            required: false,
-          },
-          {
-            name: "title",
-            type: "string",
-            default: "undefined",
-            description: "Optional title of the group",
-            required: false,
-          },
-          {
-            name: "links",
-            type: "Link[]",
-            default: "Required",
-            description: "Array of links in the group",
-            required: true,
-          },
-        ],
-      },
-      {
-        name: "Link",
-        props: [
-          {
-            name: "label",
-            type: "string",
-            default: "Required",
-            description: "Text for the link",
-            required: true,
-          },
-          {
-            name: "href",
-            type: "string",
-            default: "Required",
-            description: "URL for the link",
-            required: true,
-          },
-          {
-            name: "description",
-            type: "string",
-            default: "undefined",
-            description: "Description text for the link",
-            required: false,
-          },
-        ],
-      },
-    ]}
+    componentName="PopupNav"
     usage={{
       dos: `
         <ul>

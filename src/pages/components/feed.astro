@@ -57,9 +57,7 @@ for (let i = 4; i <= 10; i++) {
 }
 
 const feedCode = `<!-- Feed component with WAI-ARIA feed pattern implementation -->
-<Feed
-  title="Recent Updates"
-  items={[
+<Feeditems={[
     {
       url: "https://example.com/post/1",
       id: "1",
@@ -76,93 +74,9 @@ const feedCode = `<!-- Feed component with WAI-ARIA feed pattern implementation 
 />`;
 ---
 
-<Layout title="Feed">
+<Layout title="Feed Component">
   <ComponentDoc
-    title="Feed"
-    description="The Feed component implements the ARIA Authoring Practices Guide&rsquo;s feed pattern for dynamically loaded content. It creates an accessible, infinite-scrolling feed that loads new content automatically as the user scrolls, providing proper keyboard navigation and screen reader support. The feed pattern is particularly useful for social media feeds, news sites, and other content streams."
-    props={[
-      {
-        name: "items",
-        type: "FeedItem[]",
-        default: "Required",
-        description: "Array of feed items to display",
-      },
-      {
-        name: "initialItems",
-        type: "number",
-        default: "3",
-        description: "Number of items to show initially",
-      },
-      {
-        name: "title",
-        type: "string",
-        default: "Updates Feed",
-        description: "Accessible title for the feed",
-      },
-    ]}
-    nestedInterfaces={[
-      {
-        name: "FeedItem",
-        props: [
-          {
-            name: "url",
-            type: "string | URL | null | undefined",
-            default: "Required",
-            description: "URL for the feed item link",
-            required: true,
-          },
-          {
-            name: "id",
-            type: "string",
-            default: "Required",
-            description: "Unique identifier for the item",
-            required: true,
-          },
-          {
-            name: "title",
-            type: "string",
-            default: "Required",
-            description: "Title of the feed item",
-            required: true,
-          },
-          {
-            name: "content",
-            type: "string",
-            default: "Required",
-            description: "HTML content of the feed item",
-            required: true,
-          },
-          {
-            name: "date",
-            type: "string",
-            default: "Required",
-            description: "Publication date",
-            required: true,
-          },
-          {
-            name: "author",
-            type: "string",
-            default: "undefined",
-            description: "Author of the feed item",
-            required: false,
-          },
-          {
-            name: "image",
-            type: "string",
-            default: "undefined",
-            description: "URL of an image to display",
-            required: false,
-          },
-          {
-            name: "imageAlt",
-            type: "string",
-            default: "undefined",
-            description: "Alt text for the image",
-            required: false,
-          },
-        ],
-      },
-    ]}
+    componentName="Feed"
     usage={{
       dos: `
         <ul>
@@ -198,13 +112,12 @@ const feedCode = `<!-- Feed component with WAI-ARIA feed pattern implementation 
           <li>Each article includes <code>aria-labelledby</code> pointing to its title</li>
           <li>Each article includes <code>aria-describedby</code> pointing to its content</li>
           <li>Articles include <code>aria-posinset</code> and <code>aria-setsize</code> to indicate position in feed</li>
-          <li>Images have descriptive alt text</li>
         </ul>
       `,
     }}
     code={feedCode}
   >
-    <FeedComponent items={feedItems} title="Web development" />
+    <FeedComponent items={feedItems} initialItems={3}/>
   </ComponentDoc>
 </Layout>
 

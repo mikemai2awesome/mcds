@@ -1,16 +1,5 @@
 ---
-interface PropDefinition {
-  name: string;
-  type: string;
-  default: string;
-  description: string;
-  required?: boolean;
-}
-
-interface NestedInterfaceDefinition {
-  name: string;
-  props: PropDefinition[];
-}
+import { componentSchemas, type ComponentSchema } from '../schemas/component-schemas.js';
 
 interface UsageProps {
   dos: string;
@@ -23,18 +12,23 @@ interface AccessibilityProps {
 }
 
 interface Props {
-  title: string;
-  description: string;
+  componentName: string;
   usage: UsageProps;
-  props: PropDefinition[];
-  nestedInterfaces?: NestedInterfaceDefinition[];
   code?: string;
   accessibility?: AccessibilityProps;
 }
 
-const { title, description, usage, props, nestedInterfaces, code, accessibility } = Astro.props;
+const { componentName, usage, code, accessibility } = Astro.props;
 
-function renderPropsTable(props: PropDefinition[]) {
+// Get the component schema
+const schema = componentSchemas[componentName];
+if (!schema) {
+  throw new Error(`No schema found for component: ${componentName}`);
+}
+
+const { name: title, description, props, nestedInterfaces } = schema;
+
+function renderPropsTable(props: typeof schema.props) {
   return `
     <figure role="presentation">
       <table aria-labelledby="props">
@@ -50,9 +44,12 @@ function renderPropsTable(props: PropDefinition[]) {
           ${props.map((prop) => `
             <tr>
               <td><code>${prop.name}</code></td>
-              <td>${prop.type}</td>
-              <td>${prop.default === "Required" ? "Yes" : "No"}</td>
-              <td>${prop.description}</td>
+              <td><code>${prop.type}</code></td>
+              <td>${prop.required ? "Yes" : "No"}</td>
+              <td>
+                ${prop.description}
+                ${prop.default ? `<br><strong>Default:</strong> <code>${prop.default}</code>` : ''}
+              </td>
             </tr>
           `).join('')}
         </tbody>
@@ -61,9 +58,9 @@ function renderPropsTable(props: PropDefinition[]) {
   `;
 }
 
-function renderNestedInterface(nestedInterface: NestedInterfaceDefinition) {
+function renderNestedInterface(nestedInterface: NonNullable<typeof schema.nestedInterfaces>[0]) {
   return `
-    <h3 id="${nestedInterface.name}">${nestedInterface.name} Props</h3>
+    <h3 id="${nestedInterface.name}">${nestedInterface.name} Interface</h3>
     <figure role="presentation">
       <table aria-labelledby="${nestedInterface.name}">
         <thead>
@@ -78,7 +75,7 @@ function renderNestedInterface(nestedInterface: NestedInterfaceDefinition) {
           ${nestedInterface.props.map((prop) => `
             <tr>
               <td><code>${prop.name}</code></td>
-              <td>${prop.type}</td>
+              <td><code>${prop.type}</code></td>
               <td>${prop.required ? 'Yes' : 'No'}</td>
               <td>${prop.description}</td>
             </tr>
