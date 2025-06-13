@@ -189,6 +189,10 @@ const feedId = `feed-${Math.random().toString(36).substring(2, 9)}`;
       margin-block-start: 0;
       font-size: var(--pt-english);
       letter-spacing: 0;
+
+      &::before {
+        display: none;
+      }
     }
 
     .mc-feed__header h3 a {

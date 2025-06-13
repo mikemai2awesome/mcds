@@ -78,17 +78,7 @@ const navGroups = [
   <ul class="doc-hero">
     <li>
       <h1>MCDS</h1>
-      <p>MCDS is a minimal component library that extends <a href="https://mikemai.net/mcss">MCSS</a>. It puts accessibility front and center&mdash;following WCAG (Web Content Accessibility Guidelines)&mdash;with a strong focus on Matthew Carter&rsquo;s typefaces and elegant typesetting. Browse <a href="components/accordion">the components</a> now.</p>
-    </li>
-    <li inert>
-      <Alert type="info">
-        This is an info alert.
-      </Alert>
-      <Feed
-        items={feedItems}
-        title="Latest Updates"
-      />
-      <Tabs tabs={tabsData} defaultTabId="overview" />
+      <p>MCDS is a minimal component library that extends the awesome foundation of <a href="https://mikemai.net/mcss">MCSS</a>. It puts accessibility front and center&mdash;following WCAG (Web Content Accessibility Guidelines)&mdash;with a strong focus on Matthew Carter&rsquo;s typefaces and elegant typesetting. Browse <a href="components/accordion">the components</a> now.</p>
     </li>
     <li inert>
       <Accordion items={accordionItems} allowMultiple={false} />
@@ -102,6 +92,16 @@ const navGroups = [
         name="darkmode" 
         checked={true} 
       />
+    </li>
+    <li inert>
+      <Alert type="info">
+        This is an info alert.
+      </Alert>
+      <Feed
+        items={feedItems}
+        title="Latest Updates"
+      />
+      <Tabs tabs={tabsData} defaultTabId="overview" />
     </li>
   </ul>
   <section class="doc-section">

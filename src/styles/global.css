@@ -7,6 +7,7 @@
   /* Write documentation styles here */
   .doc-main {
     padding: 0;
+    overflow-x: clip;
   }
 
   body:has(.doc-header, .doc-main) {
@@ -53,26 +54,34 @@
   .doc-hero {
     display: grid;
     align-content: start;
+    grid-template-areas: 
+      "text text"
+      "kitchen-sink1 kitchen-sink2";
+    grid-template-columns: repeat(2, minmax(50dvi, 1fr));
     gap: var(--gutter);
     row-gap: calc(var(--stack) * 2);
-    overflow-x: clip;
-    margin: 0;
+    margin-block: 0;
+    margin-inline: 0 -15vi;
     padding-inline: 10vi;
     padding-block: var(--landmark-hr-margin-block);
     list-style: none;
     background-color: color-mix(in hsl, canvasText 4%, transparent);
     
-    @media (min-width: 66em) and (orientation: landscape) {
-      align-content: center;
-      grid-template-columns: repeat(3, minmax(35ch, 1fr));
-      min-block-size: 100dvb;
-    }
-    
     > li {
       min-inline-size: 0;
-
+      grid-area: text;
+      
       &:first-child {
-        align-self: center;
+        max-inline-size: 55ch;
+        padding-inline-end: 20vi;
+      }
+
+      &:nth-child(2) {
+        grid-area: kitchen-sink1;
+      }
+
+      &:nth-child(3) {
+        grid-area: kitchen-sink2;
       }
       
       &:not(:first-child) {
@@ -93,6 +102,20 @@
 
       > * {
         margin: 0;
+      }
+    }
+    
+    @media (min-width: 66rem) and (orientation: landscape) {
+      align-content: center;
+      grid-template-areas: "text kitchen-sink1 kitchen-sink2";
+      grid-template-columns: repeat(3, minmax(35ch, 1fr));
+      min-block-size: 100dvb;
+
+      > li {
+        &:first-child {
+          align-self: center;
+          padding-inline-end: 0;
+        }
       }
     }
   }
