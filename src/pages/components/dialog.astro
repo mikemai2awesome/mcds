@@ -7,8 +7,7 @@ const dialogCode = `<!-- Trigger button -->
 <button type="button" data-dialog="info-dialog">View Information</button>
 
 <!-- Dialog example -->
-<Dialog
-  id="info-dialog">
+<Dialog id="info-dialog" title="Information">
   <p>This dialog contains important information for the user.</p>
   <p>It can contain more complex UI elements or longer content.</p>
   <form method="dialog">
@@ -64,10 +63,9 @@ const dialogCode = `<!-- Trigger button -->
     <!-- Trigger buttons -->
     <button type="button" data-dialog="info-dialog">Open Dialog</button>
 
-    <DialogComponent id="info-dialog">
+    <DialogComponent id="info-dialog" title="Impossible Mission">
       <p>
-        This dialog contains important information for the user. It can contain
-        more complex UI elements or longer content.
+        Good morning, Mike. Your mission, should you decide to accept it, is to build a better web. As always, should you or any member of your IM Force be caught or killed, the Secretary will disavow any knowledge of your actions. This webpage will self-destruct in five seconds. Good luck.
       </p>
       <form method="dialog">
         <p>

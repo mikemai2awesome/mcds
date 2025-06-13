@@ -56,8 +56,7 @@ for (let i = 4; i <= 10; i++) {
   });
 }
 
-const feedCode = `<!-- Feed component with WAI-ARIA feed pattern implementation -->
-<Feeditems={[
+const feedCode = `<Feeditems={[
     {
       url: "https://example.com/post/1",
       id: "1",
@@ -120,21 +119,3 @@ const feedCode = `<!-- Feed component with WAI-ARIA feed pattern implementation 
     <FeedComponent items={feedItems} initialItems={3}/>
   </ComponentDoc>
 </Layout>
-
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    // Add reference to the WAI-ARIA feed pattern documentation
-    const description = document.querySelector(
-      ".mc-component-doc__description",
-    );
-    if (description) {
-      const descriptionText = description.innerHTML;
-      if (descriptionText.includes("WAI-ARIA feed pattern")) {
-        description.innerHTML = descriptionText.replace(
-          "WAI-ARIA feed pattern",
-          '<a href="https://www.w3.org/WAI/ARIA/apg/patterns/feed/examples/feed/" target="_blank" rel="noopener noreferrer">WAI-ARIA feed pattern</a>',
-        );
-      }
-    }
-  });
-</script>

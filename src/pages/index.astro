@@ -106,14 +106,14 @@ const navGroups = [
   </ul>
   <section class="doc-section">
     <h2>Philosophy</h2>
-    <p><em>Keep things simple!</em> It uses system fonts and colors without dragging in heavy UI frameworks, which makes it super accessible. It&rsquo;s all about progressive enhancement&mdash;using JavaScript only when necessary&mdash;and applying modern CSS like logical properties, cascade layers, and relative units. And it all starts with good ol&rsquo; semantic HTML as the foundation.</p>
+    <p><em>Keep things simple!</em> It uses system fonts and mostly system colors without dragging in heavy UI frameworks. It&rsquo;s all about progressive enhancement&mdash;using JavaScript only when necessary&mdash;and applying modern CSS like logical properties, cascade layers, and relative units. And it all starts with good ol&rsquo; semantic HTML as the foundation.</p>
   </section>
   <section class="doc-section">
     <h2>Tech Stack</h2>
     <dl>
       <dt>Development</dt>
       <dd>Astro and Node.js</dd>
-      <dt>Foundation</dt>
+      <dt>Foundation Styling</dt>
       <dd>MCSS: a modern classless CSS framework inspired by the typefaces of Matthew Carter</dd>
       <dt>Component Styling</dt>
       <dd>CSS with PostCSS and Autoprefixer</dd>
@@ -126,10 +126,10 @@ const navGroups = [
     <p>2. Start the development server:</p>
     <pre contenteditable><code>npm run dev</code></pre>
     <p>3. Import the component on a page:</p>
-    <pre contenteditable><code>import AlertComponent from "path/to/components/Alert.astro";</code></pre>
+    <pre contenteditable><code>import Alert from "path/to/components/Alert.astro";</code></pre>
     <p>4. Then include the component:</p>
-    <pre contenteditable><code>&lt;AlertComponent type="success">
+    <pre contenteditable><code>&lt;Alert type="success">
   Operation completed successfully!
-&lt;/AlertComponent></code></pre>
+&lt;/Alert></code></pre>
   </section>
 </Layout>

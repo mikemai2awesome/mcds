@@ -51,11 +51,58 @@ const switchCode = `<Switch
   >
     <div class="doc-demo-stack">
       <SwitchComponent
-        id="dark-mode"
+        id="verdana-theme"
         name="theme-toggle"
-        label="Dark Mode"
+        label="Verdana Theme"
         checked={false}
       />
     </div>
   </ComponentDoc>
 </Layout>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const themeSwitch = document.getElementById("verdana-theme") as HTMLInputElement;
+    const htmlElement = document.documentElement;
+    
+    // Check if verdana theme is currently active
+    function isVerdanaThemeActive() {
+      return htmlElement.getAttribute("data-theme") === "verdana";
+    }
+    
+    // Initialize switch state based on current theme
+    function initializeSwitchState() {
+      const savedTheme = localStorage.getItem("verdana-theme");
+      const shouldBeChecked = savedTheme === "true" || isVerdanaThemeActive();
+      
+      if (themeSwitch) {
+        themeSwitch.checked = shouldBeChecked;
+        toggleTheme(shouldBeChecked, false); // Apply theme without saving to avoid redundancy
+      }
+    }
+    
+    // Toggle theme function
+    function toggleTheme(isChecked: boolean, save: boolean = true) {
+      if (isChecked) {
+        htmlElement.setAttribute("data-theme", "verdana");
+      } else {
+        htmlElement.removeAttribute("data-theme");
+      }
+      
+      if (save) {
+        localStorage.setItem("verdana-theme", isChecked.toString());
+      }
+    }
+    
+    // Listen for switch changes
+    if (themeSwitch) {
+      themeSwitch.addEventListener("change", (event) => {
+        const target = event.target as HTMLInputElement;
+        toggleTheme(target.checked);
+      });
+    }
+    
+    // Initialize on page load
+    initializeSwitchState();
+  });
+</script>

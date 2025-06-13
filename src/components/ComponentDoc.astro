@@ -60,7 +60,7 @@ function renderPropsTable(props: typeof schema.props) {
 
 function renderNestedInterface(nestedInterface: NonNullable<typeof schema.nestedInterfaces>[0]) {
   return `
-    <h3 id="${nestedInterface.name}">${nestedInterface.name} Interface</h3>
+    <h3 id="${nestedInterface.name}">${nestedInterface.name} Props</h3>
     <figure role="presentation">
       <table aria-labelledby="${nestedInterface.name}">
         <thead>
@@ -89,8 +89,6 @@ function renderNestedInterface(nestedInterface: NonNullable<typeof schema.nested
 
 <h1>{title}</h1>
 <p>{description}</p>
-
-<h2 id="example">Example</h2>
 <div class="doc-component-example">
   <slot />
 </div>
