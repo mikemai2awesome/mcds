@@ -14,7 +14,7 @@ const switchCode = `<Switch
 <Layout title="Switch">
   <ComponentDoc
     title="Switch"
-    description="The Switch component is a visual toggle between two states: on and off. It provides clear visual feedback for the current state and dispatches a custom event when toggled."
+    description="The Switch component is a visual toggle between two states: on and off. It provides clear visual feedback for the current state and performs its function immediately when toggled."
     props={[
       {
         name: "label",
@@ -44,11 +44,8 @@ const switchCode = `<Switch
     usage={{
       dos: `
         <ul>
-          <li>Use for binary settings that take immediate effect</li>
+          <li>Use for binary settings (on or off) that take immediate effect</li>
           <li>Provide clear, concise labels</li>
-          <li>Use for settings that are either on or off</li>
-          <li>Place switches in logical groups</li>
-          <li>Consider the default state carefully</li>
         </ul>
       `,
       donts: `
@@ -57,7 +54,6 @@ const switchCode = `<Switch
           <li>Don&rsquo;t use for multiple options (use radio buttons instead)</li>
           <li>Don&rsquo;t use for settings that don&rsquo;t take immediate effect</li>
           <li>Don&rsquo;t use for destructive actions</li>
-          <li>Don&rsquo;t use for complex settings with multiple states</li>
         </ul>
       `,
     }}
@@ -71,8 +67,9 @@ const switchCode = `<Switch
       `,
       screenReaders: `
         <ul>
+          <li>The switch context is announced to screen readers</li>
           <li>Uses standard checkbox input with an associated label</li>
-          <li>The label is properly associated via <code>for</code> attribute</li>
+          <li>Uses <code>role="switch"</code> to indicate the switch&rsquo;s binary state</li>
           <li>The visual control element has <code>aria-hidden</code> to avoid verbose announcements</li>
         </ul>
       `,

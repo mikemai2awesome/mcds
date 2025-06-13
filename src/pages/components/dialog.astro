@@ -24,7 +24,7 @@ const dialogCode = `<!-- Trigger button -->
 <Layout title="Dialog">
   <ComponentDoc
     title="Dialog"
-    description="The Dialog component creates modal dialogs that interrupt the user's workflow to provide important information or request input. It uses the native HTML dialog element for better accessibility and performance."
+    description="The Dialog component creates modal dialogs that interrupt the user's workflow to provide important information or request input."
     props={[
       {
         name: "id",
@@ -57,31 +57,28 @@ const dialogCode = `<!-- Trigger button -->
       `,
       donts: `
         <ul>
-          <li>Don't use for non-critical information</li>
-          <li>Don't nest dialogs within dialogs</li>
-          <li>Don't use for complex multi-step processes</li>
-          <li>Don't use for content that should be part of the main page</li>
-          <li>Don't make dialogs too large or overloaded with content</li>
+          <li>Don&rsquo;t use for non-critical information</li>
+          <li>Don&rsquo;t nest dialogs within dialogs</li>
+          <li>Don&rsquo;t use for complex multi-step processes</li>
+          <li>Don&rsquo;t use for content that should be part of the main page</li>
+          <li>Don&rsquo;t make dialogs too large or overloaded with content</li>
         </ul>
       `,
     }}
     accessibility={{
       keyboardNav: `
         <ul>
-          <li>ESC key closes the dialog</li>
-          <li>Tab key moves focus between interactive elements</li>
-          <li>Focus is trapped within the dialog</li>
+          <li><kbd>ESC</kbd> key closes the dialog</li>
+          <li><kbd>Tab</kbd> key moves focus between interactive elements</li>
+          <li>Focus is contained within the dialog</li>
           <li>When opened, focus moves to the first focusable element</li>
-          <li>When closed, focus returns to the trigger element</li>
+          <li>When closed, focus returns to the trigger element (if any)</li>
         </ul>
       `,
       screenReaders: `
         <ul>
-          <li>Uses role="dialog" (native HTML dialog element)</li>
-          <li>aria-labelledby connects to the dialog title</li>
-          <li>aria-modal="true" indicates modal behavior</li>
-          <li>Opening/closing is announced to screen readers</li>
-          <li>Clear focus management helps navigation</li>
+          <li>When opened, the dialog context is announced to screen readers</li>
+          <li>Uses the HTML <code>&lt;dialog&gt;</code> element</li>
         </ul>
       `,
     }}

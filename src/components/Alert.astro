@@ -5,7 +5,7 @@ interface Props {
   id?: string;
 }
 
-const { type, dismissible = false, id } = Astro.props;
+const { type = "info", dismissible = false, id } = Astro.props;
 
 // Generate a random ID if none is provided
 const alertId = id || `alert-${Math.random().toString(36).substring(2, 9)}`;

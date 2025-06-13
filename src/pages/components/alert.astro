@@ -28,7 +28,7 @@ const alertCode = `<Alert type="info">
       {
         name: "type",
         type: '"info" | "success" | "warning" | "error"',
-        default: "undefined",
+        default: "info",
         description: "The type of alert to display",
       },
       {
@@ -41,13 +41,13 @@ const alertCode = `<Alert type="info">
         name: "id",
         type: "string",
         default: "auto-generated",
-        description: "Unique identifier for the alert (optional)",
+        description: "Unique identifier for the alert",
       },
     ]}
     usage={{
       dos: `
         <ul>
-          <li>Use dismissible alerts for messages that are intended to disrupt the user's flow</li>
+          <li>Use dismissible alerts for messages that are intended to disrupt the user&rsquo;s flow</li>
           <li>Use for important status messages and notifications</li>
           <li>Place alerts at the top of the content area</li>
           <li>Keep messages clear and concise</li>
@@ -55,10 +55,9 @@ const alertCode = `<Alert type="info">
       `,
       donts: `
         <ul>
-        <li>Don't stack too many alerts at once</li>
-        <li>Don't use for form validation messages</li>
-        <li>Don't include complex interactive elements</li>
-        <li>Don't use for general content or decorative purposes</li>
+        <li>Don&rsquo;t stack too many alerts at once</li>
+        <li>Don&rsquo;t include complex interactive elements</li>
+        <li>Don&rsquo;t use for general content or decorative purposes</li>
         </ul>
       `,
     }}
@@ -72,10 +71,8 @@ const alertCode = `<Alert type="info">
       `,
       screenReaders: `
         <ul>
+          <li>When it displays, the alert is announced to screen readers</li>
           <li>Uses <code>role="alert"</code> to announce content</li>
-          <li>Dismiss button has <code>aria-label="Dismiss"</code></li>
-          <li>Dismiss button uses <code>aria-controls</code> to reference the alert</li>
-          <li>Type-specific icons provide visual cues</li>
         </ul>
       `,
     }}

@@ -46,7 +46,7 @@ const tabsCode = `<Tabs
 <Layout title="Tabs">
   <ComponentDoc
     title="Tabs"
-    description="The Tabs component organizes and displays related content in a compact, navigable interface, allowing users to switch between different views or sections without leaving the page. It is inspired by the WAI-ARIA Tabs pattern and fully keyboard accessible."
+    description="The Tabs component organizes and displays related content in a compact, navigable interface, allowing users to switch between different views or sections without leaving the page. It is inspired by the ARIA Authoring Practices Guide&rsquo;s Tabs pattern."
     props={[
       {
         name: "tabs",
@@ -92,19 +92,17 @@ const tabsCode = `<Tabs
     usage={{
       dos: `
         <ul>
+          <li>Use for reducing cognitive load</li>
           <li>Use for organizing related content into distinct sections</li>
-          <li>Keep tab labels short and descriptive</li>
-          <li>Use when users need to switch between related views</li>
           <li>Order tabs by priority or logical sequence</li>
-          <li>Use for forms that need to be broken into sections</li>
+          <li>Keep tab labels short and descriptive</li>
         </ul>
       `,
       donts: `
         <ul>
           <li>Don&rsquo;t use for primary navigation</li>
-          <li>Don&rsquo;t use too many tabs (limit to 5-7 max)</li>
+          <li>Don&rsquo;t use too many tabs (limit to 5&ndash;7 max)</li>
           <li>Don&rsquo;t use for content that should be viewed all at once</li>
-          <li>Don&rsquo;t use for unrelated content sections</li>
           <li>Don&rsquo;t hide critical information in non-default tabs</li>
         </ul>
       `,
@@ -120,6 +118,7 @@ const tabsCode = `<Tabs
       `,
       screenReaders: `
         <ul>
+          <li>The tabs interface context is announced to screen readers</li>
           <li>Uses <code>role="tablist"</code> for the tab container</li>
           <li><code>role="tab"</code> for individual tabs</li>
           <li><code>role="tabpanel"</code> for content panels</li>

@@ -122,7 +122,7 @@ const comboboxCode = `<Combobox
 <Layout title="Combobox">
   <ComponentDoc
     title="Combobox"
-    description="The Combobox component combines a text input with a listbox, allowing users to filter options by typing or select from a dropdown. It follows the ARIA Authoring Practices Guide for combobox patterns, supports keyboard navigation, and automatically collapses when focus is lost."
+    description="The Combobox component combines a text input with a listbox, allowing users to filter options by typing or select from a dropdown. It follows the ARIA Authoring Practices Guide&rsquo;s combobox pattern."
     props={[
       {
         name: "id",
@@ -222,6 +222,7 @@ const comboboxCode = `<Combobox
       `,
       screenReaders: `
         <ul>
+          <li>The combobox interface context is announced to screen readers</li>
           <li>Uses <code>role="combobox"</code> for the input</li>
           <li>Uses <code>role="listbox"</code> for the options container</li>
           <li>Uses <code>role="option"</code> for individual options</li>
@@ -229,7 +230,7 @@ const comboboxCode = `<Combobox
           <li><code>aria-controls</code> associates the input with the listbox</li>
           <li><code>aria-selected</code> indicates the selected option</li>
           <li><code>aria-activedescendant</code> indicates the active option</li>
-          <li><code>aria-activedescendant</code> does not work with Talkback on Android and VoiceOver on MacOS 14 and below</li>
+          <li>⚠️ Warning: <code>aria-activedescendant</code> does not work with Talkback on Android and VoiceOver on MacOS 14 and below</li>
         </ul>
       `,
     }}

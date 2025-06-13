@@ -79,7 +79,7 @@ const feedCode = `<!-- Feed component with WAI-ARIA feed pattern implementation 
 <Layout title="Feed">
   <ComponentDoc
     title="Feed"
-    description="The Feed component implements the WAI-ARIA feed pattern for dynamically loaded content. It creates an accessible, infinite-scrolling feed that loads new content automatically as the user scrolls, providing proper keyboard navigation and screen reader support. The feed pattern is particularly useful for social media feeds, news sites, and other content streams."
+    description="The Feed component implements the ARIA Authoring Practices Guide&rsquo;s feed pattern for dynamically loaded content. It creates an accessible, infinite-scrolling feed that loads new content automatically as the user scrolls, providing proper keyboard navigation and screen reader support. The feed pattern is particularly useful for social media feeds, news sites, and other content streams."
     props={[
       {
         name: "items",
@@ -167,19 +167,14 @@ const feedCode = `<!-- Feed component with WAI-ARIA feed pattern implementation 
       dos: `
         <ul>
           <li>Use for dynamic content that can be loaded incrementally such as news or social media feeds</li>
-          <li>Provide clear loading indicators when fetching more content</li>
           <li>Include meaningful labels and descriptions for feed items</li>
-          <li>Maintain consistent spacing between feed items</li>
-          <li>Use semantic HTML structure with proper heading hierarchy</li>
         </ul>
       `,
       donts: `
         <ul>
           <li>Don&rsquo;t use for static content that doesn&rsquo;t need infinite scrolling</li>
-          <li>Don&rsquo;t load too many items at once (stick to 3-5 items per load)</li>
-          <li>Don&rsquo;t forget to handle loading states and errors</li>
+          <li>Don&rsquo;t load too many items at once</li>
           <li>Don&rsquo;t use for content that requires immediate visibility of all items</li>
-          <li>Don&rsquo;t mix different types of content without clear visual separation</li>
         </ul>
       `,
     }}
@@ -195,6 +190,7 @@ const feedCode = `<!-- Feed component with WAI-ARIA feed pattern implementation 
       `,
       screenReaders: `
         <ul>
+          <li>The feed interface context is announced to screen readers</li>
           <li>Uses <code>role="feed"</code> for the container element</li>
           <li>Each feed article is an <code>&lt;article&gt;</code> element with <code>tabindex="0"</code> to make it focusable</li>
           <li>Uses <code>aria-labelledby</code> to identify the feed with its heading</li>

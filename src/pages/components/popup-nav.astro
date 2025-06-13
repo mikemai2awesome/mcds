@@ -177,19 +177,15 @@ const navigationCode = `<PopupNav
       dos: `
         <ul>
           <li>Use for complex navigation structures</li>
-          <li>Group related navigation items</li>
-          <li>Include descriptive text for each item when possible</li>
-          <li>Provide group titles for better organization when needed</li>
-          <li>Keep the content simple and scannable</li>
+          <li>Include descriptive text for each link when possible</li>
+          <li>Group related links with titles</li>
+          <li>Keep the link labels simple and scannable</li>
         </ul>
       `,
       donts: `
         <ul>
-          <li>Don&rsquo;t use for simple lists of links</li>
-          <li>Don&rsquo;t overload with too many options</li>
+          <li>Don&rsquo;t use if there are very few links</li>
           <li>Don&rsquo;t nest additional popups inside</li>
-          <li>Don&rsquo;t use for primary page content</li>
-          <li>Don&rsquo;t use when simple tabs would suffice</li>
         </ul>
       `,
     }}
@@ -204,8 +200,10 @@ const navigationCode = `<PopupNav
       `,
       screenReaders: `
         <ul>
-          <li>Trigger button has <code>aria-expanded</code> to indicate open state</li>
+          <li>The expandable button context is announced to screen readers</li>
+          <li>Trigger button has <code>aria-expanded</code> to indicate its expanded/collapsed state</li>
           <li>Each list is labelled by the group title via <code>aria-labelledby</code></li>
+          <li>A link may have <code>aria-current="page"</code> to indicate the current page</li>
         </ul>
       `,
     }}
@@ -213,10 +211,10 @@ const navigationCode = `<PopupNav
   >
     <div class="doc-demo-inline">
       <PopupNavComponent
-        label="Complex Menu"
+        label="Grouped Links"
         groups={navigationGroups}
       />
-      <PopupNavComponent label="Simple Menu" groups={navigationMenu} />
+      <PopupNavComponent label="Flat Links" groups={navigationMenu} />
     </div>
   </ComponentDoc>
 </Layout> 
