@@ -1,6 +1,4 @@
 ---
-import Switch from "../components/Switch.astro";
-
 interface Props {
   title: string;
   siteName?: string;
@@ -35,10 +33,11 @@ const components = componentPages
     };
   })
   .sort((a, b) => a.name.localeCompare(b.name));
+
 ---
 
 <!doctype html>
-<html lang="en-us" data-theme="verdana">
+<html lang="en-us">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -73,14 +72,6 @@ const components = componentPages
                 </a>
               </li>
             ))}
-            <li>
-              <Switch
-                id="verdana-mode"
-                name="theme-toggle"
-                label="Verdana Mode"
-                checked={true}
-              />
-            </li>
           </ul>
         </nav>
       </header>
