@@ -56,30 +56,25 @@ const components = componentPages
     )}
   </head>
   <body>
-    <header class="hero">
-      {
-        isIndexPage ? (
-          <h1><a href="/">{siteName}</a></h1>
-        ) : (
-          <p><a href="/">{siteName}</a></p>
-        )
-      }
-      <nav>
-        <ul>
-          {components.map(component => (
-            <li>
-              <a 
-                href={component.href} 
-                aria-current={isCurrentPage(component.href) ? "page" : undefined}
-              >
-                {component.name}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    </header>
-    <!-- <hr> -->
+    {!isIndexPage && (
+      <header class="doc-header">
+        <p><a href="/">{siteName}</a></p>
+        <nav>
+          <ul>
+            {components.map(component => (
+              <li>
+                <a 
+                  href={component.href} 
+                  aria-current={isCurrentPage(component.href) ? "page" : undefined}
+                >
+                  {component.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </header>
+    )}
     {
       isIndexPage ? (
         <main class="doc-main">

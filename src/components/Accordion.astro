@@ -95,23 +95,31 @@ const processedItems = items.map((item, index) => {
       margin-block-start: -0.1ex;
       inline-size: var(--_icon-size);
       max-inline-size: var(--_icon-size);
+      
+      @media (prefers-reduced-motion: no-preference) {
+        transition: transform var(--transition);
+      }
     }
 
     .mc-accordion__button[aria-expanded="true"] .mc-accordion__icon {
-      fill: crimson;
       transform: rotate(315deg);
     }
 
     /* Panel styles */
     .mc-accordion__panel {
+      display: grid;
+      grid-template-rows: 10fr;
       opacity: 1;
-      transform: scaleY(100%);
-      transition: all var(--transition);
-
+      transform: translateY(0);
+      
       &[inert] {
+        grid-template-rows: 0;
         opacity: 0;
-        transform: scaleY(0);
-        block-size: 0;
+        transform: translateY(-2ex);
+      }
+      
+      @media (prefers-reduced-motion: no-preference) {
+        transition: transform var(--transition);
       }
     }
 
@@ -122,13 +130,6 @@ const processedItems = items.map((item, index) => {
           0.1ch
       );
       padding-inline-end: var(--_padding-inline);
-      transform-origin: block-start;
-    }
-
-    @media (prefers-reduced-motion: no-preference) {
-      .mc-accordion__icon {
-        transition: transform var(--transition);
-      }
     }
   }
 </style>

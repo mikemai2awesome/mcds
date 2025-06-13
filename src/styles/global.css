@@ -21,86 +21,13 @@
     * {
       text-wrap: balance;
     }
-    
-    .components-kitchen-sink {
-      display: grid;
-      gap: var(--gutter);
-      row-gap: calc(var(--stack) * 2);
-      overflow-x: clip;
-      margin: 0;
-      padding-inline: 10vi;
-      padding-block: var(--landmark-hr-margin-block);
-      list-style: none;
-      background-color: color-mix(in hsl, canvasText 4%, transparent);
-
-      @media (min-width: 66em) {
-        grid-template-columns: repeat(3, minmax(35ch, 1fr));
-      }
-      
-      > li {
-        min-inline-size: 0;
-        
-        &:not(:first-child) {
-          display: flex;
-          flex-direction: column;
-          gap: var(--stack);
-          filter: grayscale(100%);
-          user-select: none;
-          pointer-events: none;
-
-          *:not(.mc-switch__control) {
-            font-family: "Flow Block", system-ui, sans-serif !important;
-            font-weight: 400 !important;
-            font-style: normal !important;
-            word-break: break-all !important;
-          }
-        }
-
-        &:first-child {
-          align-self: center;
-        }
-
-        > * {
-          margin: 0;
-        }
-      }
-    }
   }
 
-  .doc-demo-stack {
-    display: flex;
-    flex-direction: column;
-    gap: var(--stack);
-
-    >* {
-      margin: 0;
-    }
-  }
-
-  .doc-demo-inline {
-    display: flex;
-    flex-wrap: wrap;
-    gap: calc(var(--gutter) / 2);
-    row-gap: var(--stack);
-
-    >* {
-      margin: 0;
-    }
-  }
-
-  .doc-component-example {
-    margin-block-start: var(--stack);
-
-    >*:not(dialog) {
-      margin: 0;
-    }
-  }
-
-  body:has(.hero) {
+  body:has(.doc-header, .doc-main) {
     padding-block-start: 0;
   }
 
-  .hero {
+  .doc-header {
     display: flex;
     align-items: flex-start;
     justify-content: center;
@@ -123,7 +50,7 @@
     }
   }
 
-  .hero p a {
+  .doc-header p a {
     text-decoration: none;
 
     @media (any-hover: hover) {
@@ -133,45 +60,87 @@
     }
   }
 
-  .hero+hr {
+  .doc-header+hr {
     margin-block-start: 0;
   }
-
-  .pangram {
-    margin-block-start: calc(var(--stack) / 2);
-  }
-
-  .pangram::before {
-    display: none;
-  }
-
-  .specimen {
+    
+  .doc-hero {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(4ex, 1fr));
-    margin-block-start: var(--stack);
-    border-inline-start: 1px solid;
-    border-block-start: 1px solid;
-  }
+    align-content: start;
+    gap: var(--gutter);
+    row-gap: calc(var(--stack) * 2);
+    overflow-x: clip;
+    margin: 0;
+    padding-inline: 10vi;
+    padding-block: var(--landmark-hr-margin-block);
+    list-style: none;
+    background-color: color-mix(in hsl, canvasText 4%, transparent);
+    
+    @media (min-width: 66em) and (orientation: landscape) {
+      align-content: center;
+      grid-template-columns: repeat(3, minmax(35ch, 1fr));
+      min-block-size: 100dvb;
+    }
+    
+    > li {
+      min-inline-size: 0;
 
-  @media (forced-colors: none) {
-    .specimen {
-      border-image-slice: 1;
-      border-image-source: linear-gradient(to bottom, gray, rgb(128 128 128 / 40%));
+      &:first-child {
+        align-self: center;
+      }
+      
+      &:not(:first-child) {
+        display: flex;
+        flex-direction: column;
+        gap: var(--stack);
+        filter: grayscale(100%);
+        user-select: none;
+        pointer-events: none;
+
+        *:not(.mc-switch__control) {
+          font-family: "Flow Block", system-ui, sans-serif !important;
+          font-weight: 400 !important;
+          font-style: normal !important;
+          word-break: break-all !important;
+        }
+      }
+
+      > * {
+        margin: 0;
+      }
     }
   }
 
-  .specimen>* {
-    display: grid;
-    place-items: center;
-    block-size: 4ex;
-    border-inline-end: 1px solid;
-    border-block-end: 1px solid;
+  .doc-section {
+    padding-inline: var(--page-padding-inline);
   }
 
-  @media (forced-colors: none) {
-    .specimen>* {
-      border-image-slice: inherit;
-      border-image-source: linear-gradient(to right, rgb(128 128 128 / 40%), gray, rgb(128 128 128 / 40%));
+  .doc-demo-inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc(var(--gutter) / 2);
+    row-gap: var(--stack);
+
+    >* {
+      margin: 0;
+    }
+  }
+
+  .doc-demo-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--stack);
+
+    >* {
+      margin: 0;
+    }
+  }
+
+  .doc-component-example {
+    margin-block-start: var(--stack);
+
+    >*:not(dialog) {
+      margin: 0;
     }
   }
 }

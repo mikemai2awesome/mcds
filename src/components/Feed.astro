@@ -12,14 +12,12 @@ interface FeedItem {
 
 interface Props {
   items: FeedItem[];
-  loadMoreUrl?: string;
   initialItems?: number;
-  title?: string; // Title for the feed
+  title?: string;
 }
 
 const {
   items,
-  loadMoreUrl,
   initialItems = 3,
   title = "Updates Feed",
 } = Astro.props;
@@ -262,8 +260,7 @@ const feedId = `feed-${Math.random().toString(36).substring(2, 9)}`;
       font-family: var(--font-variant);
       font-size: var(--pt-bourgeois);
       font-weight: bold;
-      color: canvas;
-      background-color: canvastext;
+      color: gray;
     }
 
     .mc-feed__container[aria-busy="false"] ~ .mc-feed__loading {
