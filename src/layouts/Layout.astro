@@ -57,6 +57,7 @@ const components = componentPages
     )}
   </head>
   <body>
+    <a href="#main-content" class="u-skip-link">Skip to main content</a>
     {!isIndexPage && (
       <header class="doc-header">
         <p><a href="/">{siteName}</a></p>
@@ -78,11 +79,11 @@ const components = componentPages
     )}
     {
       isIndexPage ? (
-        <main class="doc-main">
+        <main class="doc-main" id="main-content">
           <slot />
         </main>
       ) : (
-        <main>
+        <main id="main-content">
           <slot />
         </main>
       )

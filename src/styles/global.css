@@ -185,11 +185,20 @@
 @layer utilities {
 
   /* Write utility classes here. */
+  .u-skip-link {
+    position: absolute;
+    inset-block-start: 1ex;
+    inset-inline-start: 1ex;
+    padding: 1ex;
+    background-color: canvas;
+  }
+
   .u-margin-none {
     margin: 0;
   }
 
-  .u-visually-hidden:not(:focus):not(:active) {
+  .u-visually-hidden:not(:focus):not(:active),
+  .u-skip-link:not(:focus) {
     position: absolute;
     clip-path: inset(50%);
     overflow: hidden;

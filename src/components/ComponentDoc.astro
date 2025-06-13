@@ -44,7 +44,7 @@ function renderPropsTable(props: typeof schema.props) {
           ${props.map((prop) => `
             <tr>
               <td><code>${prop.name}</code></td>
-              <td><code>${prop.type}</code></td>
+              <td>${prop.type}</td>
               <td>${prop.required ? "Yes" : "No"}</td>
               <td>
                 ${prop.description}
@@ -75,7 +75,7 @@ function renderNestedInterface(nestedInterface: NonNullable<typeof schema.nested
           ${nestedInterface.props.map((prop) => `
             <tr>
               <td><code>${prop.name}</code></td>
-              <td><code>${prop.type}</code></td>
+              <td>${prop.type}</td>
               <td>${prop.required ? 'Yes' : 'No'}</td>
               <td>${prop.description}</td>
             </tr>

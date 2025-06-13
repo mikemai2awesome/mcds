@@ -75,13 +75,14 @@ const listboxId = `${id}-listbox`;
     hidden
   >
     {
-      options.map((option) => (
+      options.map((option, index) => (
         <li
           id={`option-${option.id}`}
           class="mc-combobox__option"
           role="option"
           aria-selected="false"
           data-value={option.id}
+          tabindex="-1"
         >
           {option.label}
         </li>
@@ -182,6 +183,11 @@ const listboxId = `${id}-listbox`;
       background-color: canvastext;
     }
 
+    .mc-combobox__option:focus {
+      outline: 2px solid highlight;
+      outline-offset: -2px;
+    }
+
     .mc-combobox__no-results {
       padding-block: calc(var(--stack) / 2);
       padding-inline: calc(var(--gutter) / 2);
@@ -243,9 +249,8 @@ const listboxId = `${id}-listbox`;
             );
 
             if (currentOption) {
-              currentOption.setAttribute("aria-selected", "true");
+              setActiveOption(currentOption);
               activeIndex = Array.from(optionElements).indexOf(currentOption);
-              scrollOptionIntoView(currentOption);
             }
           }
         }
@@ -298,15 +303,32 @@ const listboxId = `${id}-listbox`;
         return visibleCount;
       };
 
+      // Set roving tab index for options
+      const setActiveOption = (option: HTMLLIElement | null) => {
+        // Remove tabindex from all options
+        optionElements.forEach((opt) => {
+          opt.setAttribute("tabindex", "-1");
+          opt.setAttribute("aria-selected", "false");
+        });
+
+        if (option && !option.hidden) {
+          // Set the active option to be focusable
+          option.setAttribute("tabindex", "0");
+          option.setAttribute("aria-selected", "true");
+          option.focus();
+          scrollOptionIntoView(option);
+        }
+      };
+
       // Select an option
       const selectOption = (option: HTMLLIElement) => {
         if (option && !option.hidden) {
           input.value = option.textContent?.trim() || "";
-          input.setAttribute("aria-activedescendant", option.id);
 
           // Clear other selections
           optionElements.forEach((opt) => {
             opt.setAttribute("aria-selected", "false");
+            opt.setAttribute("tabindex", "-1");
           });
 
           // Mark this option as selected
@@ -385,46 +407,19 @@ const listboxId = `${id}-listbox`;
             e.preventDefault();
             if (options.hidden) {
               toggleOptions(true);
-            } else {
-              activeIndex = Math.min(
-                activeIndex + 1,
-                visibleOptions.length - 1,
-              );
-              if (activeIndex === -1 && visibleOptions.length > 0) {
-                activeIndex = 0;
-              }
-
-              if (activeIndex >= 0) {
-                optionElements.forEach((opt) =>
-                  opt.setAttribute("aria-selected", "false"),
-                );
-                visibleOptions[activeIndex].setAttribute(
-                  "aria-selected",
-                  "true",
-                );
-                input.setAttribute(
-                  "aria-activedescendant",
-                  visibleOptions[activeIndex].id,
-                );
-                scrollOptionIntoView(visibleOptions[activeIndex]);
-              }
+            } else if (visibleOptions.length > 0) {
+              // Move focus to first option
+              setActiveOption(visibleOptions[0]);
+              activeIndex = 0;
             }
             break;
 
           case "ArrowUp":
             e.preventDefault();
-            if (!options.hidden) {
-              activeIndex = Math.max(activeIndex - 1, 0);
-
-              optionElements.forEach((opt) =>
-                opt.setAttribute("aria-selected", "false"),
-              );
-              visibleOptions[activeIndex].setAttribute("aria-selected", "true");
-              input.setAttribute(
-                "aria-activedescendant",
-                visibleOptions[activeIndex].id,
-              );
-              scrollOptionIntoView(visibleOptions[activeIndex]);
+            if (!options.hidden && visibleOptions.length > 0) {
+              // Move focus to last option
+              setActiveOption(visibleOptions[visibleOptions.length - 1]);
+              activeIndex = visibleOptions.length - 1;
             }
             break;
         }
@@ -438,17 +433,57 @@ const listboxId = `${id}-listbox`;
         }
       });
 
-      // Option click events
-      optionElements.forEach((option) => {
+      // Option click and keyboard events
+      optionElements.forEach((option, index) => {
         option.addEventListener("click", () => {
           selectOption(option);
         });
 
         // Handle option keyboard navigation
         option.addEventListener("keydown", (e: KeyboardEvent) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            selectOption(option);
+          const visibleOptions = Array.from(optionElements).filter(
+            (opt) => !opt.hidden,
+          );
+          const currentIndex = visibleOptions.indexOf(option);
+
+          switch (e.key) {
+            case "Enter":
+            case " ":
+              e.preventDefault();
+              selectOption(option);
+              break;
+
+            case "ArrowDown":
+              e.preventDefault();
+              if (currentIndex < visibleOptions.length - 1) {
+                setActiveOption(visibleOptions[currentIndex + 1]);
+              }
+              break;
+
+            case "ArrowUp":
+              e.preventDefault();
+              if (currentIndex > 0) {
+                setActiveOption(visibleOptions[currentIndex - 1]);
+              } else {
+                // Return focus to input if at first option
+                input.focus();
+                optionElements.forEach((opt) => {
+                  opt.setAttribute("tabindex", "-1");
+                  opt.setAttribute("aria-selected", "false");
+                });
+              }
+              break;
+
+            case "Escape":
+              e.preventDefault();
+              toggleOptions(false);
+              input.focus();
+              break;
+
+            case "Tab":
+              // Allow natural tab behavior to close dropdown
+              toggleOptions(false);
+              break;
           }
         });
       });
