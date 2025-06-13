@@ -41,7 +41,14 @@ const components = componentPages
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title} - {siteName}</title>
+    
+    {
+      isIndexPage ? (
+        <title>{siteName} - Minimalist Design System by Mike Mai</title>
+      ) : (
+        <title>{title} - {siteName}</title>
+      )
+    }
     <meta
       name="description"
       content="A design system built with Astro, MCSS, semantic HTML, and vanilla JavaScript."
