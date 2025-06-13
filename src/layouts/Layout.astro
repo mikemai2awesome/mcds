@@ -12,18 +12,18 @@ const isIndexPage = currentPath === "/" || currentPath === "";
 const isCurrentPage = (href: string) => currentPath === href;
 
 // Dynamically get all component pages
-const componentPages = await import.meta.glob('../pages/components/*.astro', { eager: true });
+const componentPages = await Astro.glob('../pages/components/*.astro');
 
 // Extract component information and sort alphabetically
-const components = Object.entries(componentPages)
-  .map(([path, page]: [string, any]) => {
+const components = componentPages
+  .map(page => {
     // Extract filename without extension
-    const filename = path.split('/').pop()?.replace('.astro', '') || '';
+    const filename = page.file.split('/').pop()?.replace('.astro', '') || '';
     
     // Convert filename to display name (e.g., 'popup-nav' -> 'Popup Nav')
     const displayName = filename
       .split('-')
-      .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
     
     return {
@@ -32,7 +32,7 @@ const components = Object.entries(componentPages)
       filename
     };
   })
-  .sort((a: any, b: any) => a.name.localeCompare(b.name));
+  .sort((a, b) => a.name.localeCompare(b.name));
 
 ---
 
@@ -41,13 +41,7 @@ const components = Object.entries(componentPages)
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    {
-      isIndexPage ? (
-        <title>{siteName} - Minimalist Design System by Mike Mai</title>
-      ) : (
-        <title>{title} - {siteName}</title>
-      )
-    }
+    <title>{title} - {siteName}</title>
     <meta
       name="description"
       content="A design system built with Astro, MCSS, semantic HTML, and vanilla JavaScript."
