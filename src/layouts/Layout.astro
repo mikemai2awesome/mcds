@@ -1,4 +1,6 @@
 ---
+import { componentSchemas } from '../schemas/component-schemas.js';
+
 interface Props {
   title: string;
   siteName?: string;
@@ -10,6 +12,29 @@ const isIndexPage = currentPath === "/" || currentPath === "";
 
 // Helper function to check if a link is the current page
 const isCurrentPage = (href: string) => currentPath === href;
+
+// Check if we're on a component documentation page
+const isComponentPage = currentPath.startsWith('/components/');
+let componentDescription = "A design system built with Astro, MCSS, semantic HTML, and vanilla JavaScript.";
+
+if (isComponentPage) {
+  // Extract component name from URL (e.g., '/components/alert' -> 'alert')
+  const componentSlug = currentPath.split('/components/')[1]?.replace('/', '');
+  
+  if (componentSlug) {
+    // Convert slug to component name (e.g., 'popup-nav' -> 'PopupNav')
+    const componentName = componentSlug
+      .split('-')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join('');
+    
+    // Get component description from schema
+    const schema = componentSchemas[componentName];
+    if (schema) {
+      componentDescription = schema.description;
+    }
+  }
+}
 
 // Dynamically get all component pages
 const componentPages = await Astro.glob('../pages/components/*.astro');
@@ -45,14 +70,18 @@ const components = componentPages
     {
       isIndexPage ? (
         <title>{siteName} - Minimalist Design System by Mike Mai</title>
+        <meta
+          name="description"
+          content="A design system built with Astro, MCSS, semantic HTML, and vanilla JavaScript."
+        />
       ) : (
         <title>{title} - {siteName}</title>
+        <meta
+          name="description"
+          content={componentDescription}
+        />
       )
     }
-    <meta
-      name="description"
-      content="A design system built with Astro, MCSS, semantic HTML, and vanilla JavaScript."
-    />
     <meta name="generator" content={Astro.generator} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     {isIndexPage && (
