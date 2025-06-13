@@ -5,22 +5,8 @@
 @layer docs {
 
   /* Write documentation styles here */
-  .doc-layout {}
-
-  .doc-container {}
-
-  .doc-sidebar {}
-
-  .doc-sidebar ul {}
-
-  .doc-sidebar a {}
-
   .doc-main {
     padding: 0;
-
-    * {
-      text-wrap: balance;
-    }
   }
 
   body:has(.doc-header, .doc-main) {
