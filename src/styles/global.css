@@ -3,7 +3,6 @@
 @layer config, resets, elements, components, docs, utilities;
 
 @layer docs {
-
   /* Write documentation styles here */
   .doc-main {
     padding: 0;
@@ -21,24 +20,24 @@
 
   .doc-header {
     display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    gap: var(--gutter);
     margin: 0;
-    padding-inline: 10vi;
     padding-block: calc(var(--stack) * 2);
+    padding-inline: 10vi;
     color: white;
     background-image: url("https://mikemai.net/mcss/img/mc-hero-edited.jpg");
-    background-size: cover;
     background-position: top center;
+    background-size: cover;
+    justify-content: center;
+    align-items: flex-start;
+    gap: var(--gutter);
 
-    >* {
-      margin: 0;
+    > *:first-child {
+      font: inherit;
+      font-weight: 700;
     }
 
-    >*:first-child {
-      font: inherit;
-      font-weight: bold;
+    > * {
+      margin: 0;
     }
   }
 
@@ -62,19 +61,19 @@
     
   .doc-hero {
     display: grid;
+    margin-block: 0;
+    margin-inline: 0 -15vi;
+    padding-block: var(--landmark-hr-margin-block);
+    padding-inline: 10vi;
+    background-color: color-mix(in hsl, canvasText 4%, transparent);
     align-content: start;
+    grid-template-columns: repeat(2, minmax(50dvi, 1fr));
     grid-template-areas: 
       "text text"
       "kitchen-sink1 kitchen-sink2";
-    grid-template-columns: repeat(2, minmax(50dvi, 1fr));
+    list-style: none;
     gap: var(--gutter);
     row-gap: calc(var(--stack) * 2);
-    margin-block: 0;
-    margin-inline: 0 -15vi;
-    padding-inline: 10vi;
-    padding-block: var(--landmark-hr-margin-block);
-    list-style: none;
-    background-color: color-mix(in hsl, canvasText 4%, transparent);
     
     > li {
       display: flex;
@@ -97,9 +96,9 @@
       }
       
       &:not(:first-child) {
-        filter: grayscale(100%);
-        user-select: none;
         pointer-events: none;
+        user-select: none;
+        filter: grayscale(100%);
 
         *:not(.mc-switch__control) {
           font-family: "Flow Block", system-ui, sans-serif !important;
@@ -114,10 +113,10 @@
       }
     }
     
-    @media (min-width: 66rem) and (orientation: landscape) {
+    @media (width >= 66rem) and (orientation: landscape) {
       align-content: center;
-      grid-template-areas: "text kitchen-sink1 kitchen-sink2";
       grid-template-columns: repeat(3, minmax(35ch, 1fr));
+      grid-template-areas: "text kitchen-sink1 kitchen-sink2";
       min-block-size: 100dvb;
 
       > li {
@@ -134,10 +133,10 @@
 
     &:first-of-type {
       margin-block-start: var(--landmark-hr-margin-block);
+    }
 
-      > *:first-child {
-        margin-block-start: 0;
-      }
+    &:first-of-type > *:first-child {
+      margin-block-start: 0;
     }
   }
 
@@ -158,7 +157,7 @@
     gap: calc(var(--gutter) / 2);
     row-gap: var(--stack);
 
-    >* {
+    > * {
       margin: 0;
     }
   }
@@ -168,7 +167,7 @@
     flex-direction: column;
     gap: var(--stack);
 
-    >* {
+    > * {
       margin: 0;
     }
   }
@@ -176,19 +175,17 @@
   .doc-component-example {
     margin-block-start: var(--stack);
 
-    >*:not(dialog) {
+    > *:not(dialog) {
       margin: 0;
     }
   }
 }
 
 @layer components {
-
   /* Write component styles in each component file. If you write overrides here, you will be SHAMED! */
 }
 
 @layer utilities {
-
   /* Write utility classes here. */
   .u-skip-link {
     position: absolute;
@@ -202,23 +199,14 @@
     margin: 0;
   }
 
-  .u-visually-hidden:not(:focus):not(:active),
+  .u-visually-hidden:not(:focus, :active),
   .u-skip-link:not(:focus) {
     position: absolute;
-    clip-path: inset(50%);
+    white-space: nowrap;
     overflow: hidden;
+    clip-path: inset(50%);
     inline-size: 1px;
     block-size: 1px;
-    white-space: nowrap;
-  }
-
-  .u-serif {
-    font-family: Georgia, serif;
-  }
-
-  .u-sans {
-    font-family: Verdana, system-ui, sans-serif;
-    letter-spacing: 0;
   }
 
   .u-word-break-all {
