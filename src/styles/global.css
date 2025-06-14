@@ -8,6 +8,11 @@
   .doc-main {
     padding: 0;
     overflow-x: clip;
+
+    & + hr {
+      margin-block-start: 0;
+      border-block-end-width: 0;
+    }
   }
 
   body:has(.doc-header, .doc-main) {
@@ -47,12 +52,12 @@
     }
   }
 
-  .doc-header + main {
-    margin-block-start: var(--landmark-hr-margin-block);
+  .doc-header + hr {
+    margin-block-start: 0;
+  }
 
-    > *:first-child {
-      margin-block-start: 0;
-    }
+  .doc-header + main > *:first-child {
+    margin-block-start: 0;
   }
     
   .doc-hero {

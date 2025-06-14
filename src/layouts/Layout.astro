@@ -66,7 +66,6 @@ const components = componentPages
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
     {
       isIndexPage ? (
         <title>{siteName} - Minimalist Design System by Mike Mai</title>
@@ -82,8 +81,43 @@ const components = componentPages
         />
       )
     }
+    <link rel="canonical" href="https://mikemai.net/mcds/" />
+
+    <!-- Open Graph -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@mikemai2awesome" />
+    <meta name="twitter:creator" content="@mikemai2awesome" />
+    <meta property="og:url" content="https://mikemai.net/mcds/" />
+    {
+      isIndexPage ? (
+        <meta property="og:title" content={`${siteName} - Minimalist Design System by Mike Mai`} />
+        <meta property="og:description" content="A design system built with Astro, MCSS, semantic HTML, and vanilla JavaScript." />
+      ) : (
+        <meta property="og:title" content={`${title} - ${siteName}`} />
+        <meta property="og:description" content={componentDescription} />
+      )
+    }
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image" content="https://mikemai.net/mcds/img/og-image.jpg" />
+    <meta property="og:image:alt" content="MCDS" />
+    <meta property="og:image:width" content="1280" />
+    <meta property="og:image:height" content="672" />
+    <meta property="og:site_name" content="Mike Mai Network" />
+
+    <link rel="me" href="https://github.com/mikemai2awesome" />
+    <link rel="me" href="https://mastodon.social/@mikemai2awesome" />
+    <link rel="me" href="https://x.com/mikemai2awesome" />
+
+    <!-- Favicons -->
+    <link rel="icon" href="https://mikemai.net/favicon.ico" sizes="any" />
+    <link rel="icon" href="https://mikemai.net/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" sizes="180x180" href="https://mikemai.net/apple-touch-icon.png" />
+    <link rel="manifest" href="https://mikemai.net/site.webmanifest" />
+    <meta name="msapplication-TileColor" content="#000" />
+    <meta name="theme-color" content="#000" />
+
+    <!-- Misc. -->
     <meta name="generator" content={Astro.generator} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     {isIndexPage && (
       <>
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -112,6 +146,7 @@ const components = componentPages
           </ul>
         </nav>
       </header>
+      <hr>  
     )}
     {
       isIndexPage ? (
@@ -126,7 +161,7 @@ const components = componentPages
     }
     <hr>
     <footer>
-      <p><em>The design system is created by <a href="https://mikemai.net">Mike Mai</a> with the help of AI buddy <a href="https://cursor.com">Cursor</a>.</em></p>
+      <p><em>Made by <a href="https://mikemai.net">Mike Mai</a> with the help of AI buddy <a href="https://cursor.com">Cursor</a>.</em></p>
     </footer>
   </body>
 </html>
