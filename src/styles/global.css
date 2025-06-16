@@ -58,7 +58,7 @@
   .doc-header + main > *:first-child {
     margin-block-start: 0;
   }
-    
+
   .doc-hero {
     display: grid;
     margin-block: 0;
@@ -68,20 +68,20 @@
     background-color: color-mix(in hsl, canvasText 4%, transparent);
     align-content: start;
     grid-template-columns: repeat(2, minmax(50dvi, 1fr));
-    grid-template-areas: 
-      "text text"
-      "kitchen-sink1 kitchen-sink2";
+    grid-template-areas:
+    "text text"
+    "kitchen-sink1 kitchen-sink2";
     list-style: none;
     gap: var(--gutter);
     row-gap: calc(var(--stack) * 2);
-    
+
     > li {
       display: flex;
       flex-direction: column;
       gap: var(--stack);
       grid-area: text;
       min-inline-size: 0;
-      
+
       &:first-child {
         max-inline-size: 55ch;
         padding-inline-end: 20vi;
@@ -94,7 +94,7 @@
       &:nth-child(3) {
         grid-area: kitchen-sink2;
       }
-      
+
       &:not(:first-child) {
         pointer-events: none;
         user-select: none;
@@ -112,7 +112,7 @@
         margin: 0;
       }
     }
-    
+
     @media (width >= 66rem) and (orientation: landscape) {
       align-content: center;
       grid-template-columns: repeat(3, minmax(35ch, 1fr));

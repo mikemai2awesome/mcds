@@ -1,7 +1,11 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 
-// Custom Astro integration to generate depth-aware relative asset paths
+/**
+ * Custom Astro integration to generate depth-aware relative asset paths
+ * This ensures CSS and other assets work correctly when opening HTML files
+ * directly in browsers (file:// protocol) without a server.
+ */
 function relativeAssetsIntegration() {
 	return {
 		name: 'relative-assets',
@@ -10,31 +14,34 @@ function relativeAssetsIntegration() {
 				const fs = await import('fs');
 				const path = await import('path');
 				
-				// Process each HTML file
+				// Process each HTML file to convert absolute asset paths to relative ones
 				for (const page of pages) {
-					const filePath = path.join(dir.pathname, page.pathname, 'index.html');
+					const htmlFilePath = path.join(dir.pathname, page.pathname, 'index.html');
 					
 					try {
-						if (fs.existsSync(filePath)) {
-							let content = fs.readFileSync(filePath, 'utf-8');
+						if (fs.existsSync(htmlFilePath)) {
+							let htmlContent = fs.readFileSync(htmlFilePath, 'utf-8');
 							
-							// Calculate the depth of the current file
-							const depth = page.pathname.split('/').filter((/** @type {string} */ segment) => segment !== '').length;
-							const relativePath = depth > 0 ? '../'.repeat(depth) : './';
+							// Calculate directory depth to determine correct relative path
+							const pathSegments = page.pathname.split('/').filter((/** @type {string} */ segment) => segment !== '');
+							const directoryDepth = pathSegments.length;
+							const relativePathPrefix = directoryDepth > 0 ? '../'.repeat(directoryDepth) : './';
 							
-							// Replace absolute asset paths with relative ones
-							content = content.replace(
-								/href="\/_astro\//g,
-								`href="${relativePath}_astro/`
-							).replace(
-								/src="\/_astro\//g,
-								`src="${relativePath}_astro/`
-							);
+							// Replace absolute asset paths with depth-aware relative paths
+							htmlContent = htmlContent
+								.replace(
+									/href="\/_astro\//g,
+									`href="${relativePathPrefix}_astro/`
+								)
+								.replace(
+									/src="\/_astro\//g,
+									`src="${relativePathPrefix}_astro/`
+								);
 							
-							fs.writeFileSync(filePath, content);
+							fs.writeFileSync(htmlFilePath, htmlContent);
 						}
 					} catch (error) {
-						console.warn(`Failed to process ${filePath}:`, error);
+						console.warn(`Failed to process ${htmlFilePath}:`, error);
 					}
 				}
 			}
