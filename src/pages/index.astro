@@ -81,7 +81,7 @@ const navGroups = [
     <li>
       <h1>MCDS</h1>
       <p>MCDS is a minimal component library that extends the awesome foundation of <a href="https://mikemai.net/mcss">MCSS</a>. It puts accessibility front and center&mdash;following WCAG (Web Content Accessibility Guidelines)&mdash;with a strong focus on Matthew Carter&rsquo;s typefaces and elegant typesetting.</p>
-      <div><a href="components/accordion">View Components</a> <span aria-hidden="true">&raquo;</span></div>
+      <div><a href={`${import.meta.env.BASE_URL}components/accordion/`}>View Components</a> <span aria-hidden="true">»</span></div>
     </li>
     <li inert>
       <Accordion items={accordionItems} allowMultiple={false} />
