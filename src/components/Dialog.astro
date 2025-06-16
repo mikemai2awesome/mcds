@@ -104,30 +104,32 @@ const { id, title } = Astro.props;
 </style>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    // Initialize each dialog
-    document.querySelectorAll(".mc-dialog").forEach((dialog) => {
-      if (!(dialog instanceof HTMLDialogElement)) return;
+document.addEventListener("DOMContentLoaded", () => {
+  // Initialize each dialog
+  document.querySelectorAll(".mc-dialog").forEach((dialog) => {
+    if (!(dialog instanceof HTMLDialogElement)) {
+      return;
+    }
 
-      const dialogId = dialog.id;
-      const closeButton =
+    const dialogId = dialog.id;
+    const closeButton =
         dialog.querySelector<HTMLButtonElement>(".mc-dialog__close");
 
-      // Find all buttons that should open this dialog
-      document
-        .querySelectorAll(`[data-dialog="${dialogId}"]`)
-        .forEach((trigger) => {
-          trigger.addEventListener("click", () => {
-            dialog.showModal();
-          });
+    // Find all buttons that should open this dialog
+    document
+      .querySelectorAll(`[data-dialog="${dialogId}"]`)
+      .forEach((trigger) => {
+        trigger.addEventListener("click", () => {
+          dialog.showModal();
         });
+      });
 
-      // Close dialog when close button is clicked
-      if (closeButton) {
-        closeButton.addEventListener("click", () => {
-          dialog.close();
-        });
-      }
-    });
+    // Close dialog when close button is clicked
+    if (closeButton) {
+      closeButton.addEventListener("click", () => {
+        dialog.close();
+      });
+    }
   });
+});
 </script>

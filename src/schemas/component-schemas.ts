@@ -25,8 +25,8 @@ export const componentSchemas: Record<string, ComponentSchema> = {
     props: [
       {
         name: "type",
-        type: '"info" | "success" | "warning" | "error"',
-        default: '"info"',
+        type: "\"info\" | \"success\" | \"warning\" | \"error\"",
+        default: "\"info\"",
         description: "The type of alert that determines its visual appearance and emoji",
         required: false,
       },
@@ -66,7 +66,7 @@ export const componentSchemas: Record<string, ComponentSchema> = {
       {
         name: "title",
         type: "string",
-        default: '"Updates Feed"',
+        default: "\"Updates Feed\"",
         description: "Title for the feed, used as aria-label",
         required: false,
       },
@@ -384,7 +384,7 @@ export const componentSchemas: Record<string, ComponentSchema> = {
       {
         name: "value",
         type: "string",
-        default: '""',
+        default: "\"\"",
         description: "Initial value for the combobox input",
         required: false,
       },

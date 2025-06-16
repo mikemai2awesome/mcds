@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig } from "astro/config";
 
 /**
  * Custom Astro integration to generate depth-aware relative asset paths
@@ -8,34 +8,34 @@ import { defineConfig } from 'astro/config';
  */
 function relativeAssetsIntegration() {
 	return {
-		name: 'relative-assets',
+		name: "relative-assets",
 		hooks: {
-			'astro:build:done': async (/** @type {any} */ { dir, pages }) => {
-				const fs = await import('fs');
-				const path = await import('path');
+			"astro:build:done": async (/** @type {any} */ { dir, pages }) => {
+				const fs = await import("fs");
+				const path = await import("path");
 				
 				// Process each HTML file to convert absolute asset paths to relative ones
 				for (const page of pages) {
-					const htmlFilePath = path.join(dir.pathname, page.pathname, 'index.html');
+					const htmlFilePath = path.join(dir.pathname, page.pathname, "index.html");
 					
 					try {
 						if (fs.existsSync(htmlFilePath)) {
-							let htmlContent = fs.readFileSync(htmlFilePath, 'utf-8');
+							let htmlContent = fs.readFileSync(htmlFilePath, "utf-8");
 							
 							// Calculate directory depth to determine correct relative path
-							const pathSegments = page.pathname.split('/').filter((/** @type {string} */ segment) => segment !== '');
+							const pathSegments = page.pathname.split("/").filter((/** @type {string} */ segment) => segment !== "");
 							const directoryDepth = pathSegments.length;
-							const relativePathPrefix = directoryDepth > 0 ? '../'.repeat(directoryDepth) : './';
+							const relativePathPrefix = directoryDepth > 0 ? "../".repeat(directoryDepth) : "./";
 							
 							// Replace absolute asset paths with depth-aware relative paths
 							htmlContent = htmlContent
 								.replace(
 									/href="\/_astro\//g,
-									`href="${relativePathPrefix}_astro/`
+									`href="${relativePathPrefix}_astro/`,
 								)
 								.replace(
 									/src="\/_astro\//g,
-									`src="${relativePathPrefix}_astro/`
+									`src="${relativePathPrefix}_astro/`,
 								);
 							
 							fs.writeFileSync(htmlFilePath, htmlContent);
@@ -44,8 +44,8 @@ function relativeAssetsIntegration() {
 						console.warn(`Failed to process ${htmlFilePath}:`, error);
 					}
 				}
-			}
-		}
+			},
+		},
 	};
 }
 

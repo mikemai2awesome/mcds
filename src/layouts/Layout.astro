@@ -236,7 +236,7 @@ const components = componentPages
     private notifyThemeChange(): void {
       // Dispatch event to notify components of theme change
       const event = new CustomEvent("theme-changed", {
-        detail: { verdanaActive: this.isVerdanaActive() }
+        detail: { verdanaActive: this.isVerdanaActive() },
       });
       document.dispatchEvent(event);
     }

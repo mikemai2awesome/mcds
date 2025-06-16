@@ -136,27 +136,27 @@ const tabsId = `tabs-${Math.floor(Math.random() * 1000)}`;
         tab.addEventListener("keydown", (e: KeyboardEvent) => {
           // Horizontal arrow keys to navigate tabs
           switch (e.key) {
-            case "ArrowLeft":
-              e.preventDefault();
-              activateTab(
-                tabList,
-                tabs,
-                panels,
-                getPreviousTabIndex(tabs, index),
-              );
-              break;
-            case "ArrowRight":
-              e.preventDefault();
-              activateTab(tabList, tabs, panels, getNextTabIndex(tabs, index));
-              break;
-            case "Home":
-              e.preventDefault();
-              activateTab(tabList, tabs, panels, 0);
-              break;
-            case "End":
-              e.preventDefault();
-              activateTab(tabList, tabs, panels, tabs.length - 1);
-              break;
+          case "ArrowLeft":
+            e.preventDefault();
+            activateTab(
+              tabList,
+              tabs,
+              panels,
+              getPreviousTabIndex(tabs, index),
+            );
+            break;
+          case "ArrowRight":
+            e.preventDefault();
+            activateTab(tabList, tabs, panels, getNextTabIndex(tabs, index));
+            break;
+          case "Home":
+            e.preventDefault();
+            activateTab(tabList, tabs, panels, 0);
+            break;
+          case "End":
+            e.preventDefault();
+            activateTab(tabList, tabs, panels, tabs.length - 1);
+            break;
           }
         });
       });
@@ -193,7 +193,7 @@ const tabsId = `tabs-${Math.floor(Math.random() * 1000)}`;
 
         // Check if panel has interactive elements
         const interactiveElements = panels[index].querySelectorAll(
-          'a, button, input, select, textarea, [tabindex]:not([tabindex="-1"])',
+          "a, button, input, select, textarea, [tabindex]:not([tabindex=\"-1\"])",
         );
 
         // Only add tabindex if there are no interactive elements

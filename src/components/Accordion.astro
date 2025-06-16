@@ -182,7 +182,7 @@ const processedItems = items.map((item, index) => {
               setTimeout(() => {
                 // Check if panel has interactive elements like buttons, links, inputs, etc.
                 const interactiveElements = panel.querySelectorAll(
-                  'a, button, input, select, textarea, [tabindex]:not([tabindex="-1"])',
+                  "a, button, input, select, textarea, [tabindex]:not([tabindex=\"-1\"])",
                 );
 
                 // If no interactive elements, move focus to the panel

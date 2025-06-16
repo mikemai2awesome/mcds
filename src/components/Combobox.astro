@@ -197,310 +197,320 @@ const listboxId = `${id}-listbox`;
 </style>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const comboboxes = document.querySelectorAll(".mc-combobox");
+document.addEventListener("DOMContentLoaded", () => {
+  const comboboxes = document.querySelectorAll(".mc-combobox");
 
-    comboboxes.forEach((combobox) => {
-      const input = combobox.querySelector(
-        ".mc-combobox__input",
-      ) as HTMLInputElement;
-      const button = combobox.querySelector(
-        ".mc-combobox__button",
-      ) as HTMLButtonElement;
-      const options = combobox.querySelector(
-        ".mc-combobox__options",
-      ) as HTMLUListElement;
-      const optionElements = combobox.querySelectorAll(
-        ".mc-combobox__option",
-      ) as NodeListOf<HTMLLIElement>;
-      const noResults = combobox.querySelector(
-        ".mc-combobox__no-results",
-      ) as HTMLLIElement;
+  comboboxes.forEach((combobox) => {
+    const input = combobox.querySelector(
+      ".mc-combobox__input",
+    ) as HTMLInputElement;
+    const button = combobox.querySelector(
+      ".mc-combobox__button",
+    ) as HTMLButtonElement;
+    const options = combobox.querySelector(
+      ".mc-combobox__options",
+    ) as HTMLUListElement;
+    const optionElements = combobox.querySelectorAll(
+      ".mc-combobox__option",
+    ) as NodeListOf<HTMLLIElement>;
+    const noResults = combobox.querySelector(
+      ".mc-combobox__no-results",
+    ) as HTMLLIElement;
 
-      if (!input || !button || !options || !noResults) return;
+    if (!input || !button || !options || !noResults) {
+      return;
+    }
 
-      let activeIndex = -1;
+    let activeIndex = -1;
 
-      // Open/close the options list
-      const toggleOptions = (show: boolean) => {
-        if (input.disabled) return;
+    // Open/close the options list
+    const toggleOptions = (show: boolean) => {
+      if (input.disabled) {
+        return;
+      }
 
-        const isExpanded = show;
-        options.hidden = !isExpanded;
-        input.setAttribute("aria-expanded", isExpanded.toString());
-        button.setAttribute("aria-expanded", isExpanded.toString());
+      const isExpanded = show;
+      options.hidden = !isExpanded;
+      input.setAttribute("aria-expanded", isExpanded.toString());
+      button.setAttribute("aria-expanded", isExpanded.toString());
 
-        if (isExpanded) {
-          // Reset option states
-          optionElements.forEach((option) => {
-            option.setAttribute("aria-selected", "false");
-          });
-
-          // Show all options initially
-          filterOptions("");
-
-          // Position the options list properly
-          positionOptions();
-
-          // Select the currently matching option if any
-          if (input.value) {
-            const currentOption = Array.from(optionElements).find(
-              (opt) => opt.textContent?.trim() === input.value,
-            );
-
-            if (currentOption) {
-              setActiveOption(currentOption);
-              activeIndex = Array.from(optionElements).indexOf(currentOption);
-            }
-          }
-        }
-      };
-
-      // Position the options dropdown correctly
-      const positionOptions = () => {
-        const inputRect = input.getBoundingClientRect();
-        const viewportHeight = window.innerHeight;
-
-        // Check if there's room below
-        const spaceBelow = viewportHeight - inputRect.bottom;
-        const optionsHeight = options.offsetHeight;
-
-        if (spaceBelow < optionsHeight && inputRect.top > optionsHeight) {
-          // Position above the input if there's not enough space below
-          options.style.insetBlockStart = "auto";
-          options.style.insetBlockEnd = "100%";
-          options.style.marginBlockStart = "0";
-          options.style.marginBlockEnd = "calc(var(--stack) / 2)";
-        } else {
-          // Position below the input (default)
-          options.style.insetBlockStart = "100%";
-          options.style.insetBlockEnd = "auto";
-          options.style.marginBlockStart = "calc(var(--stack) / 2)";
-          options.style.marginBlockEnd = "0";
-        }
-      };
-
-      // Filter options based on input
-      const filterOptions = (query: string) => {
-        let visibleCount = 0;
-        const lowerQuery = query.toLowerCase();
-
+      if (isExpanded) {
+        // Reset option states
         optionElements.forEach((option) => {
-          const text = option.textContent?.trim().toLowerCase() || "";
-          const matches = text.includes(lowerQuery);
-
-          option.hidden = !matches;
-
-          if (matches) visibleCount++;
+          option.setAttribute("aria-selected", "false");
         });
 
-        // Show/hide no results message
-        noResults.hidden = visibleCount > 0;
+        // Show all options initially
+        filterOptions("");
 
-        // Reset activeIndex if filtering
-        if (query) activeIndex = -1;
+        // Position the options list properly
+        positionOptions();
 
-        return visibleCount;
-      };
+        // Select the currently matching option if any
+        if (input.value) {
+          const currentOption = Array.from(optionElements).find(
+            (opt) => opt.textContent?.trim() === input.value,
+          );
 
-      // Set roving tab index for options
-      const setActiveOption = (option: HTMLLIElement | null) => {
-        // Remove tabindex from all options
-        optionElements.forEach((opt) => {
-          opt.setAttribute("tabindex", "-1");
-          opt.setAttribute("aria-selected", "false");
-        });
-
-        if (option && !option.hidden) {
-          // Set the active option to be focusable
-          option.setAttribute("tabindex", "0");
-          option.setAttribute("aria-selected", "true");
-          option.focus();
-          scrollOptionIntoView(option);
-        }
-      };
-
-      // Select an option
-      const selectOption = (option: HTMLLIElement) => {
-        if (option && !option.hidden) {
-          input.value = option.textContent?.trim() || "";
-
-          // Clear other selections
-          optionElements.forEach((opt) => {
-            opt.setAttribute("aria-selected", "false");
-            opt.setAttribute("tabindex", "-1");
-          });
-
-          // Mark this option as selected
-          option.setAttribute("aria-selected", "true");
-
-          // Dispatch change event
-          input.dispatchEvent(new Event("change", { bubbles: true }));
-
-          // Close the dropdown
-          toggleOptions(false);
-
-          // Return focus to input
-          input.focus();
-        }
-      };
-
-      // Helper to scroll an option into view
-      const scrollOptionIntoView = (option: HTMLLIElement) => {
-        if (!option) return;
-
-        const optionsRect = options.getBoundingClientRect();
-        const optionRect = option.getBoundingClientRect();
-
-        if (optionRect.top < optionsRect.top) {
-          options.scrollTop =
-            options.scrollTop - (optionsRect.top - optionRect.top);
-        } else if (optionRect.bottom > optionsRect.bottom) {
-          options.scrollTop =
-            options.scrollTop + (optionRect.bottom - optionsRect.bottom);
-        }
-      };
-
-      // Input event handlers
-      input.addEventListener("focus", () => {
-        if (input.value === "") {
-          toggleOptions(true);
-        }
-      });
-
-      input.addEventListener("blur", () => {
-        // Use setTimeout to allow click events to fire first
-        setTimeout(() => {
-          if (!combobox.contains(document.activeElement)) {
-            toggleOptions(false);
+          if (currentOption) {
+            setActiveOption(currentOption);
+            activeIndex = Array.from(optionElements).indexOf(currentOption);
           }
-        }, 0);
+        }
+      }
+    };
+
+    // Position the options dropdown correctly
+    const positionOptions = () => {
+      const inputRect = input.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+
+      // Check if there's room below
+      const spaceBelow = viewportHeight - inputRect.bottom;
+      const optionsHeight = options.offsetHeight;
+
+      if (spaceBelow < optionsHeight && inputRect.top > optionsHeight) {
+        // Position above the input if there's not enough space below
+        options.style.insetBlockStart = "auto";
+        options.style.insetBlockEnd = "100%";
+        options.style.marginBlockStart = "0";
+        options.style.marginBlockEnd = "calc(var(--stack) / 2)";
+      } else {
+        // Position below the input (default)
+        options.style.insetBlockStart = "100%";
+        options.style.insetBlockEnd = "auto";
+        options.style.marginBlockStart = "calc(var(--stack) / 2)";
+        options.style.marginBlockEnd = "0";
+      }
+    };
+
+    // Filter options based on input
+    const filterOptions = (query: string) => {
+      let visibleCount = 0;
+      const lowerQuery = query.toLowerCase();
+
+      optionElements.forEach((option) => {
+        const text = option.textContent?.trim().toLowerCase() || "";
+        const matches = text.includes(lowerQuery);
+
+        option.hidden = !matches;
+
+        if (matches) {
+          visibleCount++;
+        }
       });
 
-      input.addEventListener("input", () => {
+      // Show/hide no results message
+      noResults.hidden = visibleCount > 0;
+
+      // Reset activeIndex if filtering
+      if (query) {
+        activeIndex = -1;
+      }
+
+      return visibleCount;
+    };
+
+    // Set roving tab index for options
+    const setActiveOption = (option: HTMLLIElement | null) => {
+      // Remove tabindex from all options
+      optionElements.forEach((opt) => {
+        opt.setAttribute("tabindex", "-1");
+        opt.setAttribute("aria-selected", "false");
+      });
+
+      if (option && !option.hidden) {
+        // Set the active option to be focusable
+        option.setAttribute("tabindex", "0");
+        option.setAttribute("aria-selected", "true");
+        option.focus();
+        scrollOptionIntoView(option);
+      }
+    };
+
+    // Select an option
+    const selectOption = (option: HTMLLIElement) => {
+      if (option && !option.hidden) {
+        input.value = option.textContent?.trim() || "";
+
+        // Clear other selections
+        optionElements.forEach((opt) => {
+          opt.setAttribute("aria-selected", "false");
+          opt.setAttribute("tabindex", "-1");
+        });
+
+        // Mark this option as selected
+        option.setAttribute("aria-selected", "true");
+
+        // Dispatch change event
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+
+        // Close the dropdown
+        toggleOptions(false);
+
+        // Return focus to input
+        input.focus();
+      }
+    };
+
+    // Helper to scroll an option into view
+    const scrollOptionIntoView = (option: HTMLLIElement) => {
+      if (!option) {
+        return;
+      }
+
+      const optionsRect = options.getBoundingClientRect();
+      const optionRect = option.getBoundingClientRect();
+
+      if (optionRect.top < optionsRect.top) {
+        options.scrollTop =
+            options.scrollTop - (optionsRect.top - optionRect.top);
+      } else if (optionRect.bottom > optionsRect.bottom) {
+        options.scrollTop =
+            options.scrollTop + (optionRect.bottom - optionsRect.bottom);
+      }
+    };
+
+    // Input event handlers
+    input.addEventListener("focus", () => {
+      if (input.value === "") {
         toggleOptions(true);
-        filterOptions(input.value);
+      }
+    });
+
+    input.addEventListener("blur", () => {
+      // Use setTimeout to allow click events to fire first
+      setTimeout(() => {
+        if (!combobox.contains(document.activeElement)) {
+          toggleOptions(false);
+        }
+      }, 0);
+    });
+
+    input.addEventListener("input", () => {
+      toggleOptions(true);
+      filterOptions(input.value);
+    });
+
+    input.addEventListener("keydown", (e: KeyboardEvent) => {
+      const visibleOptions = Array.from(optionElements).filter(
+        (opt) => !opt.hidden,
+      );
+
+      switch (e.key) {
+      case "Enter":
+        if (activeIndex >= 0 && activeIndex < visibleOptions.length) {
+          e.preventDefault();
+          selectOption(visibleOptions[activeIndex]);
+        } else if (visibleOptions.length === 1) {
+          e.preventDefault();
+          selectOption(visibleOptions[0]);
+        }
+        break;
+
+      case "Escape":
+        e.preventDefault();
+        toggleOptions(false);
+        break;
+
+      case "ArrowDown":
+        e.preventDefault();
+        if (options.hidden) {
+          toggleOptions(true);
+        } else if (visibleOptions.length > 0) {
+          // Move focus to first option
+          setActiveOption(visibleOptions[0]);
+          activeIndex = 0;
+        }
+        break;
+
+      case "ArrowUp":
+        e.preventDefault();
+        if (!options.hidden && visibleOptions.length > 0) {
+          // Move focus to last option
+          setActiveOption(visibleOptions[visibleOptions.length - 1]);
+          activeIndex = visibleOptions.length - 1;
+        }
+        break;
+      }
+    });
+
+    // Button event handler
+    button.addEventListener("click", () => {
+      toggleOptions(options.hidden);
+      if (!options.hidden) {
+        input.focus();
+      }
+    });
+
+    // Option click and keyboard events
+    optionElements.forEach((option, index) => {
+      option.addEventListener("click", () => {
+        selectOption(option);
       });
 
-      input.addEventListener("keydown", (e: KeyboardEvent) => {
+      // Handle option keyboard navigation
+      option.addEventListener("keydown", (e: KeyboardEvent) => {
         const visibleOptions = Array.from(optionElements).filter(
           (opt) => !opt.hidden,
         );
+        const currentIndex = visibleOptions.indexOf(option);
 
         switch (e.key) {
-          case "Enter":
-            if (activeIndex >= 0 && activeIndex < visibleOptions.length) {
-              e.preventDefault();
-              selectOption(visibleOptions[activeIndex]);
-            } else if (visibleOptions.length === 1) {
-              e.preventDefault();
-              selectOption(visibleOptions[0]);
-            }
-            break;
-
-          case "Escape":
-            e.preventDefault();
-            toggleOptions(false);
-            break;
-
-          case "ArrowDown":
-            e.preventDefault();
-            if (options.hidden) {
-              toggleOptions(true);
-            } else if (visibleOptions.length > 0) {
-              // Move focus to first option
-              setActiveOption(visibleOptions[0]);
-              activeIndex = 0;
-            }
-            break;
-
-          case "ArrowUp":
-            e.preventDefault();
-            if (!options.hidden && visibleOptions.length > 0) {
-              // Move focus to last option
-              setActiveOption(visibleOptions[visibleOptions.length - 1]);
-              activeIndex = visibleOptions.length - 1;
-            }
-            break;
-        }
-      });
-
-      // Button event handler
-      button.addEventListener("click", () => {
-        toggleOptions(options.hidden);
-        if (!options.hidden) {
-          input.focus();
-        }
-      });
-
-      // Option click and keyboard events
-      optionElements.forEach((option, index) => {
-        option.addEventListener("click", () => {
+        case "Enter":
+        case " ":
+          e.preventDefault();
           selectOption(option);
-        });
+          break;
 
-        // Handle option keyboard navigation
-        option.addEventListener("keydown", (e: KeyboardEvent) => {
-          const visibleOptions = Array.from(optionElements).filter(
-            (opt) => !opt.hidden,
-          );
-          const currentIndex = visibleOptions.indexOf(option);
-
-          switch (e.key) {
-            case "Enter":
-            case " ":
-              e.preventDefault();
-              selectOption(option);
-              break;
-
-            case "ArrowDown":
-              e.preventDefault();
-              if (currentIndex < visibleOptions.length - 1) {
-                setActiveOption(visibleOptions[currentIndex + 1]);
-              }
-              break;
-
-            case "ArrowUp":
-              e.preventDefault();
-              if (currentIndex > 0) {
-                setActiveOption(visibleOptions[currentIndex - 1]);
-              } else {
-                // Return focus to input if at first option
-                input.focus();
-                optionElements.forEach((opt) => {
-                  opt.setAttribute("tabindex", "-1");
-                  opt.setAttribute("aria-selected", "false");
-                });
-              }
-              break;
-
-            case "Escape":
-              e.preventDefault();
-              toggleOptions(false);
-              input.focus();
-              break;
-
-            case "Tab":
-              // Allow natural tab behavior to close dropdown
-              toggleOptions(false);
-              break;
+        case "ArrowDown":
+          e.preventDefault();
+          if (currentIndex < visibleOptions.length - 1) {
+            setActiveOption(visibleOptions[currentIndex + 1]);
           }
-        });
-      });
+          break;
 
-      // Close when clicking outside
-      document.addEventListener("click", (e: MouseEvent) => {
-        if (!combobox.contains(e.target as Node) && !options.hidden) {
+        case "ArrowUp":
+          e.preventDefault();
+          if (currentIndex > 0) {
+            setActiveOption(visibleOptions[currentIndex - 1]);
+          } else {
+            // Return focus to input if at first option
+            input.focus();
+            optionElements.forEach((opt) => {
+              opt.setAttribute("tabindex", "-1");
+              opt.setAttribute("aria-selected", "false");
+            });
+          }
+          break;
+
+        case "Escape":
+          e.preventDefault();
           toggleOptions(false);
-        }
-      });
+          input.focus();
+          break;
 
-      // Handle window resize to reposition options
-      window.addEventListener("resize", () => {
-        if (!options.hidden) {
-          positionOptions();
+        case "Tab":
+          // Allow natural tab behavior to close dropdown
+          toggleOptions(false);
+          break;
         }
       });
     });
+
+    // Close when clicking outside
+    document.addEventListener("click", (e: MouseEvent) => {
+      if (!combobox.contains(e.target as Node) && !options.hidden) {
+        toggleOptions(false);
+      }
+    });
+
+    // Handle window resize to reposition options
+    window.addEventListener("resize", () => {
+      if (!options.hidden) {
+        positionOptions();
+      }
+    });
   });
+});
 </script>
