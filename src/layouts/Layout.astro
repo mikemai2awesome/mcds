@@ -26,7 +26,7 @@ const isCurrentPage = (href: string) => {
 
 // Check if we're on a component documentation page
 const isComponentPage = currentPath.includes('/components/');
-let componentDescription = "A design system built with Astro, MCSS, semantic HTML, and vanilla JavaScript.";
+let componentDescription = "A MCDS component.";
 
 if (isComponentPage) {
   // Extract component name from URL (e.g., '/components/alert' or '/mcds/components/alert' -> 'alert')
@@ -82,7 +82,7 @@ const components = componentPages
         <title>{siteName} - Minimal design system by Mike Mai</title>
         <meta
           name="description"
-          content="A design system built with Astro, MCSS, semantic HTML, and vanilla JavaScript."
+          content="A design system built with Astro, MCSS, semantic HTML, and vanilla JavaScript. Typography inspired by Matthew Carter fonts."
         />
       ) : (
         <title>{title} - {siteName}</title>
