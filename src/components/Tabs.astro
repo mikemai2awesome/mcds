@@ -114,12 +114,12 @@ const tabsId = `tabs-${Math.floor(Math.random() * 1000)}`;
 </style>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
+  function initTabs() {
     const tabLists = document.querySelectorAll(".mc-tabs__list");
 
     tabLists.forEach((tabList) => {
       const tabs = Array.from(
-        tabList.querySelectorAll<HTMLButtonElement>(".mc-tabs__tab"),
+        tabList.querySelectorAll(".mc-tabs__tab"),
       );
       const panels = tabs.map((tab) => {
         const panelId = tab.getAttribute("aria-controls");
@@ -133,7 +133,7 @@ const tabsId = `tabs-${Math.floor(Math.random() * 1000)}`;
         });
 
         // Add keyboard navigation
-        tab.addEventListener("keydown", (e: KeyboardEvent) => {
+        tab.addEventListener("keydown", (e) => {
           // Horizontal arrow keys to navigate tabs
           switch (e.key) {
           case "ArrowLeft":
@@ -163,19 +163,19 @@ const tabsId = `tabs-${Math.floor(Math.random() * 1000)}`;
     });
 
     function activateTab(
-      tabList: Element,
-      tabs: HTMLButtonElement[],
-      panels: (HTMLElement | null)[],
-      index: number,
+      tabList,
+      tabs,
+      panels,
+      index,
     ) {
       // Deactivate all tabs
-      tabs.forEach((tab: HTMLButtonElement) => {
+      tabs.forEach((tab) => {
         tab.setAttribute("aria-selected", "false");
         tab.setAttribute("tabindex", "-1");
       });
 
       // Hide all panels
-      panels.forEach((panel: HTMLElement | null) => {
+      panels.forEach((panel) => {
         if (panel) {
           panel.hidden = true;
           panel.removeAttribute("tabindex");
@@ -203,15 +203,21 @@ const tabsId = `tabs-${Math.floor(Math.random() * 1000)}`;
       }
     }
 
-    function getNextTabIndex(tabs: HTMLButtonElement[], currentIndex: number) {
+    function getNextTabIndex(tabs, currentIndex) {
       return currentIndex === tabs.length - 1 ? 0 : currentIndex + 1;
     }
 
     function getPreviousTabIndex(
-      tabs: HTMLButtonElement[],
-      currentIndex: number,
+      tabs,
+      currentIndex,
     ) {
       return currentIndex === 0 ? tabs.length - 1 : currentIndex - 1;
     }
-  });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initTabs);
+  } else {
+    initTabs();
+  }
 </script>

@@ -103,11 +103,11 @@ const emojis = {
 </style>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    // First, set up close button functionality
+  function initAlerts() {
+    // Set up close button functionality
     document.querySelectorAll(".mc-alert__close").forEach((button) => {
       button.addEventListener("click", () => {
-        const alert = button.closest(".mc-alert") as HTMLElement;
+        const alert = button.closest(".mc-alert");
         if (alert) {
           alert.style.opacity = "0";
           alert.style.height = alert.offsetHeight + "px";
@@ -128,14 +128,18 @@ const emojis = {
     });
 
     // Focus the dismiss button of the first dismissible alert
-    const dismissButton = document.querySelector(
-      ".mc-alert__close",
-    ) as HTMLButtonElement;
+    const dismissButton = document.querySelector(".mc-alert__close");
     if (dismissButton) {
       // Use requestAnimationFrame to ensure the DOM is fully rendered
       requestAnimationFrame(() => {
         dismissButton.focus();
       });
     }
-  });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initAlerts);
+  } else {
+    initAlerts();
+  }
 </script>

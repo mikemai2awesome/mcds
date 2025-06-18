@@ -197,10 +197,10 @@ const listboxId = `${id}-listbox`;
 </style>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const comboboxes = document.querySelectorAll(".mc-combobox");
+function initComboboxes() {
+const comboboxes = document.querySelectorAll(".mc-combobox");
 
-  comboboxes.forEach((combobox) => {
+comboboxes.forEach((combobox) => {
     const input = combobox.querySelector(
       ".mc-combobox__input",
     ) as HTMLInputElement;
@@ -329,7 +329,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // Select an option
-    const selectOption = (option: HTMLLIElement) => {
+    const selectOption = (option) => {
       if (option && !option.hidden) {
         input.value = option.textContent?.trim() || "";
 
@@ -354,7 +354,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // Helper to scroll an option into view
-    const scrollOptionIntoView = (option: HTMLLIElement) => {
+    const scrollOptionIntoView = (option) => {
       if (!option) {
         return;
       }
@@ -392,7 +392,7 @@ document.addEventListener("DOMContentLoaded", () => {
       filterOptions(input.value);
     });
 
-    input.addEventListener("keydown", (e: KeyboardEvent) => {
+    input.addEventListener("keydown", (e) => {
       const visibleOptions = Array.from(optionElements).filter(
         (opt) => !opt.hidden,
       );
@@ -450,7 +450,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       // Handle option keyboard navigation
-      option.addEventListener("keydown", (e: KeyboardEvent) => {
+      option.addEventListener("keydown", (e) => {
         const visibleOptions = Array.from(optionElements).filter(
           (opt) => !opt.hidden,
         );
@@ -499,8 +499,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Close when clicking outside
-    document.addEventListener("click", (e: MouseEvent) => {
-      if (!combobox.contains(e.target as Node) && !options.hidden) {
+    document.addEventListener("click", (e) => {
+      if (!combobox.contains(e.target) && !options.hidden) {
         toggleOptions(false);
       }
     });
@@ -512,5 +512,11 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
-});
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initComboboxes);
+} else {
+  initComboboxes();
+}
 </script>

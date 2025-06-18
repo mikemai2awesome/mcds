@@ -100,15 +100,15 @@ const { label, id, name, checked = false } = Astro.props;
 </style>
 
 <script>
-  // Optionally add JavaScript for advanced functionality
-  document.addEventListener("DOMContentLoaded", () => {
+  function initSwitches() {
+    // Optionally add JavaScript for advanced functionality
     const switches = document.querySelectorAll(".mc-switch__input");
 
     switches.forEach((switchInput) => {
-      (switchInput as HTMLInputElement).addEventListener("change", () => {
+      switchInput.addEventListener("change", () => {
         // You could trigger events or store state here
-        const isChecked = (switchInput as HTMLInputElement).checked;
-        const switchId = (switchInput as HTMLInputElement).id;
+        const isChecked = switchInput.checked;
+        const switchId = switchInput.id;
 
         // Example: Dispatch a custom event
         const event = new CustomEvent("switch-change", {
@@ -117,5 +117,11 @@ const { label, id, name, checked = false } = Astro.props;
         document.dispatchEvent(event);
       });
     });
-  });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initSwitches);
+  } else {
+    initSwitches();
+  }
 </script>

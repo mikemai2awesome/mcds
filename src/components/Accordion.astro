@@ -135,7 +135,7 @@ const processedItems = items.map((item, index) => {
 </style>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
+  function initAccordions() {
     const accordions = document.querySelectorAll(".mc-accordion");
 
     accordions.forEach((accordion) => {
@@ -196,5 +196,11 @@ const processedItems = items.map((item, index) => {
         });
       });
     });
-  });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initAccordions);
+  } else {
+    initAccordions();
+  }
 </script>

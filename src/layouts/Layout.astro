@@ -177,23 +177,22 @@ const components = componentPages
 <script>
   // Global theme management
   class ThemeManager {
-    private static instance: ThemeManager;
-    private htmlElement: HTMLElement;
-    private storageKey = "verdana-theme";
+    static instance;
     
     constructor() {
       this.htmlElement = document.documentElement;
+      this.storageKey = "verdana-theme";
       this.init();
     }
     
-    static getInstance(): ThemeManager {
+    static getInstance() {
       if (!ThemeManager.instance) {
         ThemeManager.instance = new ThemeManager();
       }
       return ThemeManager.instance;
     }
     
-    private init(): void {
+    init() {
       // Apply saved theme on page load
       this.applySavedTheme();
       
@@ -211,7 +210,7 @@ const components = componentPages
       });
     }
     
-    private applySavedTheme(): void {
+    applySavedTheme() {
       const savedTheme = localStorage.getItem(this.storageKey);
       const shouldApplyVerdana = savedTheme === "true";
       
@@ -222,11 +221,11 @@ const components = componentPages
       }
     }
     
-    public isVerdanaActive(): boolean {
+    isVerdanaActive() {
       return this.htmlElement.getAttribute("data-theme") === "verdana";
     }
     
-    public toggleTheme(enable: boolean): void {
+    toggleTheme(enable) {
       if (enable) {
         this.htmlElement.setAttribute("data-theme", "verdana");
       } else {
@@ -237,7 +236,7 @@ const components = componentPages
       this.notifyThemeChange();
     }
     
-    private notifyThemeChange(): void {
+    notifyThemeChange() {
       // Dispatch event to notify components of theme change
       const event = new CustomEvent("theme-changed", {
         detail: { verdanaActive: this.isVerdanaActive() },
@@ -245,20 +244,19 @@ const components = componentPages
       document.dispatchEvent(event);
     }
     
-    public getSavedState(): boolean {
+    getSavedState() {
       return localStorage.getItem(this.storageKey) === "true";
     }
   }
   
   // Initialize theme manager when DOM is ready
-  document.addEventListener("DOMContentLoaded", () => {
+  function initThemeManager() {
     window.themeManager = ThemeManager.getInstance();
-  });
+  }
   
-  // Make ThemeManager available globally for TypeScript
-  declare global {
-    interface Window {
-      themeManager: ThemeManager;
-    }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initThemeManager);
+  } else {
+    initThemeManager();
   }
 </script>

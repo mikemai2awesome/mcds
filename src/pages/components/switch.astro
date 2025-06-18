@@ -61,8 +61,8 @@ const switchCode = `<Switch
 </Layout>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const themeSwitch = document.getElementById("verdana-theme") as HTMLInputElement;
+  function initThemeSwitch() {
+    const themeSwitch = document.getElementById("verdana-theme");
     
     // Wait for global theme manager to be available
     const initializeSwitch = () => {
@@ -72,14 +72,13 @@ const switchCode = `<Switch
         
         // Listen for switch changes and update global theme
         themeSwitch.addEventListener("change", (event) => {
-          const target = event.target as HTMLInputElement;
+          const target = event.target;
           window.themeManager.toggleTheme(target.checked);
         });
         
         // Listen for theme changes from other sources (other tabs, etc.)
         document.addEventListener("theme-changed", (event) => {
-          const customEvent = event as CustomEvent<{ verdanaActive: boolean }>;
-          themeSwitch.checked = customEvent.detail.verdanaActive;
+          themeSwitch.checked = event.detail.verdanaActive;
         });
       } else {
         // Retry if theme manager isn't ready yet
@@ -88,5 +87,11 @@ const switchCode = `<Switch
     };
     
     initializeSwitch();
-  });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initThemeSwitch);
+  } else {
+    initThemeSwitch();
+  }
 </script>

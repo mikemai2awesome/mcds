@@ -237,8 +237,8 @@ const processedGroups = groups.map((group, index) => {
   }
 </style>
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
+  <script>
+function initPopupNavs() {
   const triggers = document.querySelectorAll(".js-popup-nav__trigger");
 
   triggers.forEach((trigger) => {
@@ -274,16 +274,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Keep focus on trigger button
       if (!expanded) {
-        (trigger as HTMLButtonElement).focus();
+        trigger.focus();
       }
     });
 
     // Close when clicking outside
-    document.addEventListener("click", (e: MouseEvent) => {
+    document.addEventListener("click", (e) => {
       if (
         trigger.getAttribute("aria-expanded") === "true" &&
-          !trigger.contains(e.target as Node) &&
-          !popup.contains(e.target as Node)
+          !trigger.contains(e.target) &&
+          !popup.contains(e.target)
       ) {
         trigger.setAttribute("aria-expanded", "false");
         popup.hidden = true;
@@ -291,16 +291,22 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Close on escape key
-    document.addEventListener("keydown", (e: KeyboardEvent) => {
+    document.addEventListener("keydown", (e) => {
       if (
         e.key === "Escape" &&
           trigger.getAttribute("aria-expanded") === "true"
       ) {
         trigger.setAttribute("aria-expanded", "false");
         popup.hidden = true;
-        (trigger as HTMLButtonElement).focus();
+        trigger.focus();
       }
     });
   });
-});
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initPopupNavs);
+} else {
+  initPopupNavs();
+}
 </script> 
