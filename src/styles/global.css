@@ -179,6 +179,11 @@
       margin: 0;
     }
   }
+
+  :where(dt) {
+    word-break: break-word;
+    hyphens: auto;
+  }
 }
 
 @layer components {
