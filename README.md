@@ -1,4 +1,4 @@
-# MCDS - Minimal Component Design System
+# MCDS: Minimal design system inspired by Matthew Carter fonts.
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 [![Built with Astro](https://img.shields.io/badge/Built_with-Astro-FF5D01.svg)](https://astro.build/)
@@ -7,7 +7,7 @@ A minimal, accessible component library that prioritizes semantic HTML, accessib
 
 ## ✨ Features
 
-- **🎯 Accessibility First**: WCAG 2.2 Level AA compliant with comprehensive screen reader support
+- **🎯 Accessibility First**: WCAG 2.2 Level AA conformant with comprehensive screen reader support
 - **🎨 Typography-Focused**: Beautiful typography inspired by Matthew Carter's typefaces
 - **📱 Modern CSS**: Logical properties, cascade layers, relative units, and progressive enhancement
 - **🚀 Performance**: Lightweight with minimal JavaScript footprint
@@ -33,13 +33,6 @@ A minimal, accessible component library that prioritizes semantic HTML, accessib
 - **Switch** - Toggle controls for binary states
 - **Tabs** - Tabbed content interface
 
-Each component follows WCAG guidelines and includes:
-- Full keyboard navigation support
-- Screen reader compatibility
-- Focus management
-- ARIA attributes
-- Semantic HTML structure
-
 ## 🚀 Quick Start
 
 ### Prerequisites
@@ -51,7 +44,7 @@ Each component follows WCAG guidelines and includes:
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/mcds.git
+   git clone https://github.com/mikemai2awesome/mcds.git
    cd mcds
    ```
 
@@ -116,7 +109,7 @@ Each component includes comprehensive documentation with:
 
 - **Props API** - All available properties and their types
 - **Usage Examples** - Real-world implementation examples  
-- **Accessibility Notes** - WCAG compliance details
+- **Accessibility Notes** - WCAG conformance details
 - **Keyboard Navigation** - Supported keyboard interactions
 
 Visit the [component documentation](src/pages/components/) for detailed guides.
@@ -155,29 +148,6 @@ Components use a centralized schema system for consistent documentation:
 - **Consistency** - Standardized documentation format
 - **Maintainability** - Single source of truth for component interfaces
 
-## 🤝 Contributing
-
-We welcome contributions! Please see our [contributing guidelines](CONTRIBUTING.md) for details.
-
-### Development Setup
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Make your changes
-4. Run tests: `npm run lint`
-5. Commit your changes: `git commit -m 'Add amazing feature'`
-6. Push to the branch: `git push origin feature/amazing-feature`
-7. Open a Pull Request
-
-### Code Standards
-
-- Follow WCAG 2.2 Level AA guidelines
-- Use semantic HTML elements
-- Write accessible JavaScript
-- Use modern CSS techniques
-- Include comprehensive tests
-- Document all component props
-
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
@@ -192,8 +162,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 - 📖 [Documentation](src/pages/components/)
-- 🐛 [Issue Tracker](https://github.com/yourusername/mcds/issues)
-- 💬 [Discussions](https://github.com/yourusername/mcds/discussions)
+- 🐛 [Issue Tracker](https://github.com/mikemai2awesome/mcds/issues)
+- 💬 [Discussions](https://github.com/mikemai2awesome/mcds/discussions)
 
 ---
 
