@@ -393,7 +393,11 @@ const feedId = `feed-${Math.random().toString(36).substring(2, 9)}`;
           // Update aria-setsize for all articles
           updateAriaCounts();
         } catch (error) {
-          console.error("Error loading more feed items:", error);
+          // Log error for debugging but don't expose to user
+          if (process.env.NODE_ENV === "development") {
+            // eslint-disable-next-line no-console
+            console.error("Error loading more feed items:", error);
+          }
         } finally {
           feed.setAttribute("aria-busy", "false");
           isLoading = false;

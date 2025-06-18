@@ -261,8 +261,8 @@ const components = componentPages
     window.themeManager = ThemeManager.getInstance();
   }
   
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initThemeManager);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initThemeManager);
   } else {
     initThemeManager();
   }
