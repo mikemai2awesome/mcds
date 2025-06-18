@@ -1,7 +1,31 @@
 {
-  "name": "astro-ds",
+  "name": "mcds",
   "type": "module",
   "version": "0.0.1",
+  "description": "A minimal, accessible component library that prioritizes semantic HTML, accessibility, and elegant typography inspired by Matthew Carter's typefaces.",
+  "homepage": "https://github.com/yourusername/mcds#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/mcds.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/mcds/issues"
+  },
+  "keywords": [
+    "accessibility",
+    "components",
+    "design-system",
+    "astro",
+    "typescript",
+    "wcag",
+    "semantic-html",
+    "css",
+    "typography",
+    "matthew-carter",
+    "progressive-enhancement"
+  ],
+  "author": "Mike Mai",
+  "license": "MIT",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -31,5 +55,8 @@
     "stylelint": "^16.16.0",
     "stylelint-config-standard": "^37.0.0",
     "stylelint-order": "^6.0.4"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
