@@ -89,6 +89,7 @@ const { label, id, name, checked = false } = Astro.props;
     @media (prefers-reduced-motion: no-preference) {
       .mc-switch__control::before {
         transition: transform var(--transition);
+        will-change: transform;
       }
     }
 

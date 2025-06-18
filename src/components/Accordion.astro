@@ -98,6 +98,7 @@ const processedItems = items.map((item, index) => {
       
       @media (prefers-reduced-motion: no-preference) {
         transition: transform var(--transition);
+        will-change: transform;
       }
     }
 
@@ -119,7 +120,8 @@ const processedItems = items.map((item, index) => {
       }
       
       @media (prefers-reduced-motion: no-preference) {
-        transition: transform var(--transition);
+        transition: transform var(--transition), opacity var(--transition);
+        will-change: transform, opacity;
       }
     }
 

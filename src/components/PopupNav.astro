@@ -134,6 +134,7 @@ const processedGroups = groups.map((group, index) => {
     @media (prefers-reduced-motion: no-preference) {
       .mc-popup-nav__trigger svg {
         transition: transform var(--transition);
+        will-change: transform;
       }
     }
 
@@ -223,6 +224,7 @@ const processedGroups = groups.map((group, index) => {
     @media (prefers-reduced-motion: no-preference) {
       .mc-popup-nav__link svg {
         transition: transform var(--transition);
+        will-change: transform;
       }
     }
 

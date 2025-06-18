@@ -136,12 +136,13 @@ const listboxId = `${id}-listbox`;
     @media (prefers-reduced-motion: no-preference) {
       .mc-combobox__button svg {
         transition: transform var(--transition);
+        will-change: transform;
       }
     }
 
     .mc-combobox__button[aria-expanded="true"] svg {
       fill: crimson;
-      transform: rotate(180deg);
+      transform: rotate(540deg);
     }
 
     .mc-combobox__options {
