@@ -406,13 +406,16 @@ const feedId = `feed-${Math.random().toString(36).substring(2, 9)}`;
 
       // Update aria-posinset and aria-setsize attributes
       const updateAriaCounts = () => {
+        // Cache the query result instead of re-querying
         const articles = feed.querySelectorAll(".mc-feed__article");
         const totalArticles = articles.length;
 
-        articles.forEach((article, index) => {
-          article.setAttribute("aria-posinset", (index + 1).toString());
+        // Use for loop instead of forEach for better performance
+        for (let i = 0; i < articles.length; i++) {
+          const article = articles[i];
+          article.setAttribute("aria-posinset", (i + 1).toString());
           article.setAttribute("aria-setsize", totalArticles.toString());
-        });
+        }
       };
 
       // Check if we need to load more items when user scrolls near the bottom
@@ -438,40 +441,61 @@ const feedId = `feed-${Math.random().toString(36).substring(2, 9)}`;
         }
       };
 
-      // Add appropriate scroll event listeners
+      // Debounce utility for performance optimization
+      const debounce = (func, wait) => {
+        let timeout;
+        return function executedFunction(...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, wait);
+        };
+      };
+
+      // Debounced version of checkLoadMore for better scroll performance
+      const debouncedCheckLoadMore = debounce(checkLoadMore, 100);
+
+      // Add appropriate scroll event listeners with passive option for better performance
       if (isWindowScroll) {
-        window.addEventListener("scroll", checkLoadMore, { passive: true });
+        window.addEventListener("scroll", debouncedCheckLoadMore, { passive: true });
       } else {
-        scrollParent.addEventListener("scroll", checkLoadMore, {
+        scrollParent.addEventListener("scroll", debouncedCheckLoadMore, {
           passive: true,
         });
       }
 
-      // Also check on window resize
-      window.addEventListener("resize", checkLoadMore, { passive: true });
+      // Also check on window resize (debounced)
+      const debouncedResizeCheck = debounce(checkLoadMore, 250);
+      window.addEventListener("resize", debouncedResizeCheck, { passive: true });
 
       // Implement keyboard navigation between feed items
       const setupKeyboardNavigation = () => {
+        // Cache the query result
         const articleElements = feed.querySelectorAll(".mc-feed__article");
 
-        articleElements.forEach((article, idx) => {
+        // Use for loop for better performance
+        for (let idx = 0; idx < articleElements.length; idx++) {
+          const article = articleElements[idx];
+          
           article.addEventListener("keydown", (e) => {
             // PageDown/PageUp keys to navigate between feed items
             if (e.key === "PageDown" && idx < articleElements.length - 1) {
               e.preventDefault();
-              articleElements[idx + 1].focus();
+              (articleElements[idx + 1] as HTMLElement).focus();
             } else if (e.key === "PageUp" && idx > 0) {
               e.preventDefault();
-              articleElements[idx - 1].focus();
+              (articleElements[idx - 1] as HTMLElement).focus();
             } else if (e.ctrlKey && e.key === "Home") {
               e.preventDefault();
-              articleElements[0].focus();
+              (articleElements[0] as HTMLElement).focus();
             } else if (e.ctrlKey && e.key === "End") {
               e.preventDefault();
-              articleElements[articleElements.length - 1].focus();
+              (articleElements[articleElements.length - 1] as HTMLElement).focus();
             }
           });
-        });
+        }
       };
 
       // Initial setup

@@ -393,9 +393,13 @@ const listboxId = `${id}-listbox`;
       });
 
       input.addEventListener("keydown", (e) => {
-        const visibleOptions = Array.from(optionElements).filter(
-          (opt) => !opt.hidden,
-        );
+        // Cache visible options to avoid repeated filtering
+        const visibleOptions = [];
+        for (let i = 0; i < optionElements.length; i++) {
+          if (!optionElements[i].hidden) {
+            visibleOptions.push(optionElements[i]);
+          }
+        }
 
         switch (e.key) {
         case "Enter":
@@ -498,19 +502,28 @@ const listboxId = `${id}-listbox`;
         });
       });
 
-      // Close when clicking outside
-      document.addEventListener("click", (e) => {
+      // Store reference to cleanup function for potential cleanup
+      const handleOutsideClick = (e) => {
         if (!combobox.contains(e.target) && !options.hidden) {
           toggleOptions(false);
         }
-      });
+      };
 
-      // Handle window resize to reposition options
-      window.addEventListener("resize", () => {
+      const handleResize = () => {
         if (!options.hidden) {
           positionOptions();
         }
-      });
+      };
+
+      // Add event listeners with cleanup capability
+      document.addEventListener("click", handleOutsideClick);
+      window.addEventListener("resize", handleResize, { passive: true });
+
+      // Store cleanup function on the element for potential future cleanup
+      combobox._cleanup = () => {
+        document.removeEventListener("click", handleOutsideClick);
+        window.removeEventListener("resize", handleResize);
+      };
     });
   }
 
