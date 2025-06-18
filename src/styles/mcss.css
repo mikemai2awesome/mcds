@@ -12,7 +12,7 @@
     --hr-margin-block: calc(var(--stack) * 4);
     --border-image-source: gray, color-mix(in hsl, gray 40%, transparent), color-mix(in hsl, gray 40%, transparent), gray;
     --underline: solid;
-    --focus-outline: 2px solid currentcolor;
+    --focus-outline: 2px solid crimson;
     --focus-outline-offset: 2px;
     --font: "Georgia", serif;
     --font-variant: "Verdana", system-ui, sans-serif;
