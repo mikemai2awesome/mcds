@@ -330,7 +330,7 @@ const feedId = `feed-${Math.random().toString(36).substring(2, 9)}`;
         return document.documentElement;
       };
 
-      const scrollParent = getScrollParent(feed);
+      const scrollParent = getScrollParent(feed as HTMLElement);
       const isWindowScroll =
           scrollParent === document.documentElement ||
           scrollParent === document.body;
@@ -348,9 +348,9 @@ const feedId = `feed-${Math.random().toString(36).substring(2, 9)}`;
           await new Promise((resolve) => setTimeout(resolve, 600));
 
           // Get items from template
-          const templateContent = template.content.cloneNode(true);
+          const templateContent = (template as HTMLTemplateElement).content.cloneNode(true);
           const itemsArray = Array.from(
-            templateContent.querySelectorAll(".mc-feed__article"),
+            (templateContent as DocumentFragment).querySelectorAll(".mc-feed__article"),
           );
 
           // Take only the number of items we want to show in this batch
@@ -362,14 +362,14 @@ const feedId = `feed-${Math.random().toString(36).substring(2, 9)}`;
 
           if (startIndex >= itemsArray.length) {
             // No more items to load
-            feed.dataset.hasMoreItems = "false";
+            (feed as HTMLElement).dataset.hasMoreItems = "false";
             return;
           }
 
           // Add the items to the DOM
           for (let i = startIndex; i < endIndex; i++) {
             if (itemsArray[i]) {
-              visibleItemsContainer.appendChild(itemsArray[i]);
+              visibleItemsContainer.appendChild(itemsArray[i] as Node);
             }
           }
 
@@ -380,7 +380,7 @@ const feedId = `feed-${Math.random().toString(36).substring(2, 9)}`;
 
           // If we've loaded all items, mark as complete
           if (endIndex >= itemsArray.length) {
-            feed.dataset.hasMoreItems = "false";
+            (feed as HTMLElement).dataset.hasMoreItems = "false";
           }
 
           // Update aria-setsize for all articles
@@ -413,7 +413,7 @@ const feedId = `feed-${Math.random().toString(36).substring(2, 9)}`;
 
       // Check if we need to load more items when user scrolls near the bottom
       const checkLoadMore = () => {
-        if (isLoading || feed.dataset.hasMoreItems !== "true") {
+        if (isLoading || (feed as HTMLElement).dataset.hasMoreItems !== "true") {
           return;
         }
 
@@ -435,12 +435,12 @@ const feedId = `feed-${Math.random().toString(36).substring(2, 9)}`;
       };
 
       // Debounce utility for performance optimization
-      const debounce = (func: (...args: any[]) => void, wait: number) => {
-        let timeout: NodeJS.Timeout;
-        return function executedFunction(...args: any[]) {
+      const debounce = (func: (..._args: any[]) => void, wait: number) => {
+        let timeout: ReturnType<typeof setTimeout>;
+        return function executedFunction(..._args: any[]) {
           const later = () => {
             clearTimeout(timeout);
-            func(...args);
+            func(..._args);
           };
           clearTimeout(timeout);
           timeout = setTimeout(later, wait);
@@ -472,19 +472,20 @@ const feedId = `feed-${Math.random().toString(36).substring(2, 9)}`;
         for (let idx = 0; idx < articleElements.length; idx++) {
           const article = articleElements[idx];
           
-          article.addEventListener("keydown", (e: KeyboardEvent) => {
+          article.addEventListener("keydown", (e) => {
+            const keyboardEvent = e as KeyboardEvent;
             // PageDown/PageUp keys to navigate between feed items
-            if (e.key === "PageDown" && idx < articleElements.length - 1) {
-              e.preventDefault();
+            if (keyboardEvent.key === "PageDown" && idx < articleElements.length - 1) {
+              keyboardEvent.preventDefault();
               (articleElements[idx + 1] as HTMLElement).focus();
-            } else if (e.key === "PageUp" && idx > 0) {
-              e.preventDefault();
+            } else if (keyboardEvent.key === "PageUp" && idx > 0) {
+              keyboardEvent.preventDefault();
               (articleElements[idx - 1] as HTMLElement).focus();
-            } else if (e.ctrlKey && e.key === "Home") {
-              e.preventDefault();
+            } else if (keyboardEvent.ctrlKey && keyboardEvent.key === "Home") {
+              keyboardEvent.preventDefault();
               (articleElements[0] as HTMLElement).focus();
-            } else if (e.ctrlKey && e.key === "End") {
-              e.preventDefault();
+            } else if (keyboardEvent.ctrlKey && keyboardEvent.key === "End") {
+              keyboardEvent.preventDefault();
               (articleElements[articleElements.length - 1] as HTMLElement).focus();
             }
           });
