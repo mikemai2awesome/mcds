@@ -32,7 +32,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "format:css": "node check-css-format.js",
+
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "lint:check": "eslint . --max-warnings 0",
