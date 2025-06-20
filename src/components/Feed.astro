@@ -1,25 +1,18 @@
 ---
-interface FeedItem {
-  url: string | URL | null | undefined;
-  id: string;
-  title: string;
-  content: string;
-  date: string;
-  author?: string;
-  image?: string;
-  imageAlt?: string;
-}
+import type { FeedProps } from "../schemas/component-types.js";
+import { componentSchemas } from "../schemas/component-schemas.js";
 
-interface Props {
-  items: FeedItem[];
-  initialItems?: number;
-  title?: string;
-}
+interface Props extends FeedProps {}
+
+const feedSchema = componentSchemas.Feed.props;
+
+const initialItemsDefault = parseInt(feedSchema.find(p => p.name === 'initialItems')?.default || '3');
+const titleDefault = feedSchema.find(p => p.name === 'title')?.default?.replace(/"/g, '');
 
 const {
   items,
-  initialItems = 3,
-  title = "Updates Feed",
+  initialItems = initialItemsDefault,
+  title = titleDefault,
 } = Astro.props;
 const initialVisibleItems = items.slice(0, initialItems);
 const remainingItems = items.slice(initialItems);
