@@ -30,6 +30,10 @@ if (!schema) {
 const validSchema = schema!;
 const { name: title, description, props, nestedInterfaces } = validSchema;
 
+function formatTitle(str: string) {
+  return str.replace(/([a-z])([A-Z])/g, '$1 $2');
+}
+
 function renderPropsTable(props: typeof validSchema.props) {
   return `
     <figure role="presentation">
@@ -89,7 +93,7 @@ function renderNestedInterface(nestedInterface: NonNullable<typeof validSchema.n
 }
 ---
 
-<h1>{title}</h1>
+<h1>{formatTitle(title)}</h1>
 <p>{description}</p>
 <div class="doc-component-example">
   <slot />
