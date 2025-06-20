@@ -19,7 +19,7 @@ Related to #(issue number)
 - [ ] **Dark/light theme testing** - Both themes work correctly
 
 ### ♿ Accessibility Testing
-- [ ] **WCAG 2.2 Level AA compliance** verified
+- [ ] **WCAG 2.2 Level AA conformance** verified
 - [ ] **Focus indicators** are visible and appropriate
 - [ ] **ARIA attributes** are correct and necessary
 - [ ] **Semantic HTML** structure is maintained

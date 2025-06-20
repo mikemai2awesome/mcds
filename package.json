@@ -3,13 +3,13 @@
   "type": "module",
   "version": "0.0.1",
   "description": "A minimal, accessible component library that prioritizes semantic HTML, accessibility, and elegant typography inspired by Matthew Carter's typefaces.",
-  "homepage": "https://github.com/yourusername/mcds#readme",
+  "homepage": "https://github.com/mikemai2awesome/mcds#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yourusername/mcds.git"
+    "url": "git+https://github.com/mikemai2awesome/mcds.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/mcds/issues"
+    "url": "https://github.com/mikemai2awesome/mcds/issues"
   },
   "keywords": [
     "accessibility",
