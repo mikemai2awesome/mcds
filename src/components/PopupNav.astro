@@ -276,7 +276,7 @@ function initPopupNavs() {
 
       // Keep focus on trigger button
       if (!expanded) {
-        trigger.focus();
+        (trigger as HTMLElement).focus();
       }
     });
 
@@ -284,8 +284,8 @@ function initPopupNavs() {
     document.addEventListener("click", (e) => {
       if (
         trigger.getAttribute("aria-expanded") === "true" &&
-          !trigger.contains(e.target) &&
-          !popup.contains(e.target)
+          !trigger.contains(e.target as Node) &&
+          !popup.contains(e.target as Node)
       ) {
         trigger.setAttribute("aria-expanded", "false");
         popup.hidden = true;
@@ -300,7 +300,7 @@ function initPopupNavs() {
       ) {
         trigger.setAttribute("aria-expanded", "false");
         popup.hidden = true;
-        trigger.focus();
+        (trigger as HTMLElement).focus();
       }
     });
   });

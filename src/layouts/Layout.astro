@@ -184,7 +184,9 @@ const components = componentPages
 <script>
   // Global theme management
   class ThemeManager {
-    static instance;
+    static instance: ThemeManager;
+    htmlElement: HTMLElement;
+    storageKey: string;
     
     constructor() {
       this.htmlElement = document.documentElement;
@@ -232,7 +234,7 @@ const components = componentPages
       return this.htmlElement.getAttribute("data-theme") === "verdana";
     }
     
-    toggleTheme(enable) {
+    toggleTheme(enable: boolean) {
       if (enable) {
         this.htmlElement.setAttribute("data-theme", "verdana");
       } else {
@@ -258,7 +260,7 @@ const components = componentPages
   
   // Initialize theme manager when DOM is ready
   function initThemeManager() {
-    window.themeManager = ThemeManager.getInstance();
+    (window as any).themeManager = ThemeManager.getInstance();
   }
   
   if (document.readyState === "loading") {

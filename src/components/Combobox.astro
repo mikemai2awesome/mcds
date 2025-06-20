@@ -326,7 +326,7 @@ const listboxId = `${id}-listbox`;
       };
 
       // Select an option
-      const selectOption = (option) => {
+      const selectOption = (option: HTMLElement) => {
         if (option && !option.hidden) {
           input.value = option.textContent?.trim() || "";
 
@@ -351,7 +351,7 @@ const listboxId = `${id}-listbox`;
       };
 
       // Helper to scroll an option into view
-      const scrollOptionIntoView = (option) => {
+      const scrollOptionIntoView = (option: HTMLElement) => {
         if (!option) {
           return;
         }
@@ -500,8 +500,8 @@ const listboxId = `${id}-listbox`;
       });
 
       // Store reference to cleanup function for potential cleanup
-      const handleOutsideClick = (e) => {
-        if (!combobox.contains(e.target) && !options.hidden) {
+      const handleOutsideClick = (e: Event) => {
+        if (!combobox.contains(e.target as Node) && !options.hidden) {
           toggleOptions(false);
         }
       };
@@ -517,7 +517,7 @@ const listboxId = `${id}-listbox`;
       window.addEventListener("resize", handleResize, { passive: true });
 
       // Store cleanup function on the element for potential future cleanup
-      combobox._cleanup = () => {
+      (combobox as any)._cleanup = () => {
         document.removeEventListener("click", handleOutsideClick);
         window.removeEventListener("resize", handleResize);
       };

@@ -272,7 +272,7 @@ const feedId = `feed-${Math.random().toString(36).substring(2, 9)}`;
 
     feeds.forEach((feed) => {
       let isLoading = false;
-      const hasMoreItems = feed.dataset.hasMoreItems === "true";
+      const hasMoreItems = (feed as HTMLElement).dataset.hasMoreItems === "true";
       let currentPage = 1;
       const itemsPerPage = 2; // Number of items to load each time
       const template = feed
@@ -285,12 +285,12 @@ const feedId = `feed-${Math.random().toString(36).substring(2, 9)}`;
       }
 
       // Find the parent element that has scrolling capability
-      const getScrollParent = (element) => {
+      const getScrollParent = (element: HTMLElement) => {
         if (!element) {
           return document.documentElement;
         }
 
-        const isScrollable = (el) => {
+        const isScrollable = (el: HTMLElement) => {
           const hasScrollableContent = el.scrollHeight > el.clientHeight;
           const overflowYStyle = window.getComputedStyle(el).overflowY;
           const isOverflowHidden = overflowYStyle.indexOf("hidden") !== -1;
@@ -435,9 +435,9 @@ const feedId = `feed-${Math.random().toString(36).substring(2, 9)}`;
       };
 
       // Debounce utility for performance optimization
-      const debounce = (func, wait) => {
-        let timeout;
-        return function executedFunction(...args) {
+      const debounce = (func: (...args: any[]) => void, wait: number) => {
+        let timeout: NodeJS.Timeout;
+        return function executedFunction(...args: any[]) {
           const later = () => {
             clearTimeout(timeout);
             func(...args);
@@ -472,7 +472,7 @@ const feedId = `feed-${Math.random().toString(36).substring(2, 9)}`;
         for (let idx = 0; idx < articleElements.length; idx++) {
           const article = articleElements[idx];
           
-          article.addEventListener("keydown", (e) => {
+          article.addEventListener("keydown", (e: KeyboardEvent) => {
             // PageDown/PageUp keys to navigate between feed items
             if (e.key === "PageDown" && idx < articleElements.length - 1) {
               e.preventDefault();
