@@ -112,11 +112,13 @@ const processedItems = items.map((item, index) => {
         transform: translateY(-2ex);
       }
 
-      @media (prefers-reduced-motion: no-preference) {
-        transition:
-          transform var(--transition),
-          opacity var(--transition);
-        will-change: transform, opacity;
+      &:not([inert]) {
+        @media (prefers-reduced-motion: no-preference) {
+          transition:
+            transform var(--transition),
+            opacity var(--transition);
+          will-change: transform, opacity;
+        }
       }
     }
 
