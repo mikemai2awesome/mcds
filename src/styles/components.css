@@ -1,0 +1,168 @@
+/**
+ * Component-specific styles
+ * This file contains styles that are only loaded when components are used
+ */
+
+@layer components {
+  /* Accordion Component */
+  .mc-accordion {
+    border: 1px solid;
+    margin-block-start: var(--stack);
+  }
+
+  .mc-accordion__item + .mc-accordion__item {
+    border-block-start: 1px solid;
+  }
+
+  .mc-accordion__button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    inline-size: 100%;
+    padding-block: var(--stack);
+    padding-inline: calc(var(--gutter) / 2);
+    text-align: start;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .mc-accordion__button[aria-expanded="true"] .mc-accordion__icon {
+    transform: rotate(90deg);
+  }
+
+  .mc-accordion__icon {
+    inline-size: 1.5cap;
+    block-size: auto;
+    flex-shrink: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .mc-accordion__icon {
+      transition: transform 0.2s ease-in-out;
+    }
+  }
+
+  .mc-accordion__content {
+    padding-block: 0 var(--stack);
+    padding-inline: calc(var(--gutter) / 2);
+    overflow: hidden;
+  }
+
+  .mc-accordion__content[hidden] {
+    display: none;
+  }
+
+  /* Alert Component */
+  .mc-alert {
+    position: relative;
+    padding: var(--stack) calc(var(--gutter) / 2);
+    border-inline-start: 4px solid;
+    margin-block-start: var(--stack);
+  }
+
+  .mc-alert--success {
+    border-color: green;
+    background-color: color-mix(in hsl, green 10%, transparent);
+  }
+
+  .mc-alert--warning {
+    border-color: orange;
+    background-color: color-mix(in hsl, orange 10%, transparent);
+  }
+
+  .mc-alert--error {
+    border-color: red;
+    background-color: color-mix(in hsl, red 10%, transparent);
+  }
+
+  .mc-alert--info {
+    border-color: blue;
+    background-color: color-mix(in hsl, blue 10%, transparent);
+  }
+
+  .mc-alert__close {
+    position: absolute;
+    inset-block-start: calc(var(--stack) / 2);
+    inset-inline-end: calc(var(--gutter) / 4);
+    padding: 0.25rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    line-height: 1;
+  }
+
+  /* Switch Component */
+  .mc-switch {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--gutter) / 2);
+    margin-block-start: var(--stack);
+  }
+
+  .mc-switch__control {
+    position: relative;
+    display: inline-block;
+    inline-size: 3rem;
+    block-size: 1.5rem;
+    background-color: color-mix(in hsl, canvasText 20%, transparent);
+    border-radius: 1rem;
+    cursor: pointer;
+  }
+
+  .mc-switch__control::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 0.125rem;
+    inset-inline-start: 0.125rem;
+    inline-size: 1.25rem;
+    block-size: 1.25rem;
+    background-color: white;
+    border-radius: 50%;
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .mc-switch__input:checked + .mc-switch__control {
+    background-color: crimson;
+  }
+
+  .mc-switch__input:checked + .mc-switch__control::before {
+    transform: translateX(1.5rem);
+  }
+
+  .mc-switch__input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Dialog Component */
+  .mc-dialog {
+    max-inline-size: min(90vi, 40rem);
+    max-block-size: 80vh;
+    margin: auto;
+    padding: var(--stack) calc(var(--gutter) / 2);
+    border: 1px solid;
+    background-color: canvas;
+    color: canvastext;
+  }
+
+  .mc-dialog::backdrop {
+    background-color: color-mix(in hsl, canvasText 50%, transparent);
+  }
+
+  .mc-dialog__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-block-end: var(--stack);
+  }
+
+  .mc-dialog__close {
+    padding: 0.25rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    line-height: 1;
+  }
+} 

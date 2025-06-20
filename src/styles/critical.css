@@ -1,0 +1,130 @@
+/**
+ * Critical CSS - Above the fold styles
+ * This file contains only the essential styles needed for initial page load
+ */
+
+@layer config, resets, elements;
+
+@layer config {
+  :root {
+    /* Essential custom properties */
+    --gutter: clamp(1rem, 2.5vmax, 1.5rem);
+    --stack: clamp(1.25ex, 2.5vmax, 1.75ex);
+    --line-length: 66ch;
+    --page-padding-inline: calc((100vi - min(var(--line-length), 80vi)) / 2);
+    --page-padding-block: calc(var(--stack) * 8);
+    --focus-outline: 2px solid crimson;
+    --focus-outline-offset: 2px;
+    --font: "Georgia", serif;
+    --font-variant: "Verdana", system-ui, sans-serif;
+    --font-size: clamp(95%, 80% + 0.5vi, 150%);
+    --leading: 1.475;
+    
+    /* Typography scale - essential sizes only */
+    --pt-canon: clamp(2.5em, 2.2321em + 1.9643vi, 3.999em);
+    --pt-double-great-primer: clamp(2em, 1.7143em + 1.4286vi, 2.999em);
+    --pt-paragon: clamp(1.35em, 1.2054em + 0.5357vi, 1.666em);
+    --pt-english: 1.166em;
+    --pt-pica: 1em;
+    
+    font-family: var(--font);
+    font-size: var(--font-size);
+    line-height: var(--leading);
+    color-scheme: dark light;
+    accent-color: crimson;
+  }
+}
+
+@layer resets {
+  *,
+  ::before,
+  ::after {
+    font-feature-settings: "kern";
+    font-kerning: normal;
+    box-sizing: border-box;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: var(--font);
+    font-size: var(--font-size);
+    line-height: var(--leading);
+    padding-block: var(--page-padding-block);
+  }
+
+  img,
+  svg,
+  video {
+    max-inline-size: 100%;
+    block-size: auto;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    :root {
+      scroll-behavior: smooth;
+    }
+  }
+}
+
+@layer elements {
+  /* Essential focus styles */
+  :where(:focus-visible) {
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-offset);
+  }
+
+  /* Essential typography */
+  :where(h1, h2, h3, h4, h5, h6) {
+    line-height: 1.1;
+    letter-spacing: -0.02ch;
+    text-wrap: pretty;
+  }
+
+  :where(h1) {
+    font-size: var(--pt-canon);
+  }
+
+  :where(h2) {
+    font-size: var(--pt-double-great-primer);
+  }
+
+  :where(h3) {
+    font-size: var(--pt-paragon);
+  }
+
+  :where(h4, h5, h6) {
+    font-size: var(--pt-english);
+  }
+
+  /* Essential layout */
+  :where(header, main, footer) {
+    padding-inline: var(--page-padding-inline);
+  }
+
+  :where(p, h1, h2, h3, h4, h5, h6) {
+    margin-block-start: var(--stack);
+  }
+
+  :where(p:first-child, h1:first-child, h2:first-child, h3:first-child, h4:first-child, h5:first-child, h6:first-child) {
+    margin-block-start: 0;
+  }
+
+  /* Essential button styles */
+  :where(button) {
+    font: inherit;
+    cursor: pointer;
+    padding-block: calc(var(--stack) / 6);
+    padding-inline: var(--gutter);
+  }
+
+  /* Essential link styles */
+  :where(a) {
+    color: inherit;
+    text-decoration-color: crimson;
+    text-underline-offset: 0.3ex;
+  }
+} 
