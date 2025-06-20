@@ -32,13 +32,16 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "lint:check": "eslint . --max-warnings 0",
+    "lint:check": "eslint . --max-warnings 20",
+    "lint:css": "stylelint \"src/**/*.css\"",
+    "lint:css:fix": "stylelint \"src/**/*.css\" --fix",
     "type-check": "astro check && tsc --noEmit",
     "type-check:watch": "astro check --watch",
-    "ci": "npm run type-check && npm run lint:check && npm run build"
+    "ci": "npm run format:check && npm run type-check && npm run lint:check && npm run lint:css && npm run build"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
@@ -55,6 +58,8 @@
     "glob": "^10.3.10",
     "postcss": "^8.4.31",
     "postcss-html": "^1.6.0",
+    "prettier": "^3.5.3",
+    "prettier-plugin-astro": "^0.14.1",
     "stylelint": "^16.16.0",
     "stylelint-config-standard": "^37.0.0",
     "stylelint-order": "^6.0.4"

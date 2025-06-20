@@ -106,4 +106,4 @@ export interface TabsTab {
 export interface TabsProps {
   readonly tabs: readonly TabsTab[];
   readonly orientation?: "horizontal" | "vertical";
-} 
+}

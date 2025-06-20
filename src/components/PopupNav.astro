@@ -49,24 +49,19 @@ const processedGroups = groups.map((group, index) => {
   <div id={popupId} class="mc-popup-nav__content" hidden>
     <div class="mc-popup-nav__grid">
       {
-        processedGroups.map((group) => (
+        processedGroups.map(group => (
           <div class="mc-popup-nav__group">
             {group.title && group.id && (
-              <p
-                id={`group-title-${group.id}`}
-                class="mc-popup-nav__group-title"
-              >
+              <p id={`group-title-${group.id}`} class="mc-popup-nav__group-title">
                 {group.title}
               </p>
             )}
             <ul
               class="mc-popup-nav__list"
               role="list"
-              aria-labelledby={
-                group.title && group.id ? `group-title-${group.id}` : undefined
-              }
+              aria-labelledby={group.title && group.id ? `group-title-${group.id}` : undefined}
             >
-              {group.links.map((link) => (
+              {group.links.map(link => (
                 <li class="mc-popup-nav__item">
                   <a
                     href={link.href}
@@ -74,19 +69,12 @@ const processedGroups = groups.map((group, index) => {
                     class="mc-popup-nav__link"
                   >
                     {link.label}
-                    <svg
-                      aria-hidden="true"
-                      viewBox="0 0 320 512"
-                      width="24"
-                      height="24"
-                    >
+                    <svg aria-hidden="true" viewBox="0 0 320 512" width="24" height="24">
                       <path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z" />
                     </svg>
                   </a>
                   {link.description && (
-                    <span class="mc-popup-nav__link-desc">
-                      {link.description}
-                    </span>
+                    <span class="mc-popup-nav__link-desc">{link.description}</span>
                   )}
                 </li>
               ))}
@@ -239,76 +227,72 @@ const processedGroups = groups.map((group, index) => {
   }
 </style>
 
-  <script>
-function initPopupNavs() {
-  const triggers = document.querySelectorAll(".js-popup-nav__trigger");
+<script>
+  function initPopupNavs() {
+    const triggers = document.querySelectorAll(".js-popup-nav__trigger");
 
-  triggers.forEach((trigger) => {
-    const popupId = trigger.getAttribute("data-popup-id") || "";
-    const popup = document.getElementById(popupId);
+    triggers.forEach(trigger => {
+      const popupId = trigger.getAttribute("data-popup-id") || "";
+      const popup = document.getElementById(popupId);
 
-    if (!popup) {
-      return;
-    }
-
-    // Toggle popup
-    trigger.addEventListener("click", () => {
-      const expanded = trigger.getAttribute("aria-expanded") === "true";
-
-      // Close any other open popups first
-      document
-        .querySelectorAll(".js-popup-nav__trigger[aria-expanded=\"true\"]")
-        .forEach((openTrigger) => {
-          if (openTrigger !== trigger) {
-            openTrigger.setAttribute("aria-expanded", "false");
-            const otherPopupId =
-                openTrigger.getAttribute("data-popup-id") || "";
-            const otherPopup = document.getElementById(otherPopupId);
-            if (otherPopup) {
-              otherPopup.hidden = true;
-            }
-          }
-        });
-
-      // Toggle this popup
-      trigger.setAttribute("aria-expanded", (!expanded).toString());
-      popup.hidden = expanded;
-
-      // Keep focus on trigger button
-      if (!expanded) {
-        (trigger as HTMLElement).focus();
+      if (!popup) {
+        return;
       }
-    });
 
-    // Close when clicking outside
-    document.addEventListener("click", (e) => {
-      if (
-        trigger.getAttribute("aria-expanded") === "true" &&
+      // Toggle popup
+      trigger.addEventListener("click", () => {
+        const expanded = trigger.getAttribute("aria-expanded") === "true";
+
+        // Close any other open popups first
+        document
+          .querySelectorAll('.js-popup-nav__trigger[aria-expanded="true"]')
+          .forEach(openTrigger => {
+            if (openTrigger !== trigger) {
+              openTrigger.setAttribute("aria-expanded", "false");
+              const otherPopupId = openTrigger.getAttribute("data-popup-id") || "";
+              const otherPopup = document.getElementById(otherPopupId);
+              if (otherPopup) {
+                otherPopup.hidden = true;
+              }
+            }
+          });
+
+        // Toggle this popup
+        trigger.setAttribute("aria-expanded", (!expanded).toString());
+        popup.hidden = expanded;
+
+        // Keep focus on trigger button
+        if (!expanded) {
+          (trigger as HTMLElement).focus();
+        }
+      });
+
+      // Close when clicking outside
+      document.addEventListener("click", e => {
+        if (
+          trigger.getAttribute("aria-expanded") === "true" &&
           !trigger.contains(e.target as Node) &&
           !popup.contains(e.target as Node)
-      ) {
-        trigger.setAttribute("aria-expanded", "false");
-        popup.hidden = true;
-      }
-    });
+        ) {
+          trigger.setAttribute("aria-expanded", "false");
+          popup.hidden = true;
+        }
+      });
 
-    // Close on escape key
-    document.addEventListener("keydown", (e) => {
-      if (
-        e.key === "Escape" &&
-          trigger.getAttribute("aria-expanded") === "true"
-      ) {
-        trigger.setAttribute("aria-expanded", "false");
-        popup.hidden = true;
-        (trigger as HTMLElement).focus();
-      }
+      // Close on escape key
+      document.addEventListener("keydown", e => {
+        if (e.key === "Escape" && trigger.getAttribute("aria-expanded") === "true") {
+          trigger.setAttribute("aria-expanded", "false");
+          popup.hidden = true;
+          (trigger as HTMLElement).focus();
+        }
+      });
     });
-  });
-}
+  }
 
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initPopupNavs);
-} else {
-  initPopupNavs();
-}
-</script> 
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initPopupNavs);
+  } else {
+    initPopupNavs();
+  }
+</script>

@@ -21,7 +21,8 @@ export interface ComponentSchema {
 export const componentSchemas: Record<string, ComponentSchema> = {
   Alert: {
     name: "Alert",
-    description: "A component for displaying important information to users with optional dismissible functionality.",
+    description:
+      "A component for displaying important information to users with optional dismissible functionality.",
     props: [
       {
         name: "type",
@@ -40,15 +41,17 @@ export const componentSchemas: Record<string, ComponentSchema> = {
       {
         name: "id",
         type: "string",
-        description: "Unique identifier for the alert. If not provided, a random ID will be generated",
+        description:
+          "Unique identifier for the alert. If not provided, a random ID will be generated",
         required: false,
       },
     ],
   },
-  
+
   Feed: {
     name: "Feed",
-    description: "A component for displaying a list of articles or updates in a feed format with infinite scroll capability.",
+    description:
+      "A component for displaying a list of articles or updates in a feed format with infinite scroll capability.",
     props: [
       {
         name: "items",
@@ -153,7 +156,8 @@ export const componentSchemas: Record<string, ComponentSchema> = {
           {
             name: "id",
             type: "string",
-            description: "Unique identifier for the accordion item. If not provided, will be auto-generated",
+            description:
+              "Unique identifier for the accordion item. If not provided, will be auto-generated",
             required: false,
           },
           {
@@ -326,7 +330,8 @@ export const componentSchemas: Record<string, ComponentSchema> = {
           {
             name: "default",
             type: "boolean",
-            description: "Whether this tab should be the default active tab. If no tab is marked as default, the first tab will be selected",
+            description:
+              "Whether this tab should be the default active tab. If no tab is marked as default, the first tab will be selected",
             required: false,
           },
         ],
@@ -430,4 +435,4 @@ export const componentSchemas: Record<string, ComponentSchema> = {
       },
     ],
   },
-}; 
+};

@@ -6,10 +6,10 @@ interface Props extends ComboboxProps {}
 
 const comboboxSchema = componentSchemas.Combobox?.props ?? [];
 
-const valueDefault = comboboxSchema.find(p => p.name === 'value')?.default?.replace(/"/g, '');
-const requiredDefault = comboboxSchema.find(p => p.name === 'required')?.default === 'true';
-const disabledDefault = comboboxSchema.find(p => p.name === 'disabled')?.default === 'true';
-const autocompleteDefault = comboboxSchema.find(p => p.name === 'autocomplete')?.default === 'true';
+const valueDefault = comboboxSchema.find(p => p.name === "value")?.default?.replace(/"/g, "");
+const requiredDefault = comboboxSchema.find(p => p.name === "required")?.default === "true";
+const disabledDefault = comboboxSchema.find(p => p.name === "disabled")?.default === "true";
+const autocompleteDefault = comboboxSchema.find(p => p.name === "autocomplete")?.default === "true";
 
 const {
   id = `combobox-${Math.random().toString(36).substring(2, 11)}`,
@@ -71,7 +71,7 @@ const listboxId = `${id}-listbox`;
     hidden
   >
     {
-      options.map((option) => (
+      options.map(option => (
         <li
           id={`option-${option.id}`}
           class="mc-combobox__option"
@@ -197,22 +197,14 @@ const listboxId = `${id}-listbox`;
   function initComboboxes() {
     const comboboxes = document.querySelectorAll(".mc-combobox");
 
-    comboboxes.forEach((combobox) => {
-      const input = combobox.querySelector(
-        ".mc-combobox__input",
-      ) as HTMLInputElement;
-      const button = combobox.querySelector(
-        ".mc-combobox__button",
-      ) as HTMLButtonElement;
-      const options = combobox.querySelector(
-        ".mc-combobox__options",
-      ) as HTMLUListElement;
+    comboboxes.forEach(combobox => {
+      const input = combobox.querySelector(".mc-combobox__input") as HTMLInputElement;
+      const button = combobox.querySelector(".mc-combobox__button") as HTMLButtonElement;
+      const options = combobox.querySelector(".mc-combobox__options") as HTMLUListElement;
       const optionElements = combobox.querySelectorAll(
-        ".mc-combobox__option",
+        ".mc-combobox__option"
       ) as NodeListOf<HTMLLIElement>;
-      const noResults = combobox.querySelector(
-        ".mc-combobox__no-results",
-      ) as HTMLLIElement;
+      const noResults = combobox.querySelector(".mc-combobox__no-results") as HTMLLIElement;
 
       if (!input || !button || !options || !noResults) {
         return;
@@ -233,7 +225,7 @@ const listboxId = `${id}-listbox`;
 
         if (isExpanded) {
           // Reset option states
-          optionElements.forEach((option) => {
+          optionElements.forEach(option => {
             option.setAttribute("aria-selected", "false");
           });
 
@@ -246,7 +238,7 @@ const listboxId = `${id}-listbox`;
           // Select the currently matching option if any
           if (input.value) {
             const currentOption = Array.from(optionElements).find(
-              (opt) => opt.textContent?.trim() === input.value,
+              opt => opt.textContent?.trim() === input.value
             );
 
             if (currentOption) {
@@ -286,7 +278,7 @@ const listboxId = `${id}-listbox`;
         let visibleCount = 0;
         const lowerQuery = query.toLowerCase();
 
-        optionElements.forEach((option) => {
+        optionElements.forEach(option => {
           const text = option.textContent?.trim().toLowerCase() || "";
           const matches = text.includes(lowerQuery);
 
@@ -311,7 +303,7 @@ const listboxId = `${id}-listbox`;
       // Set roving tab index for options
       const setActiveOption = (option: HTMLLIElement | null) => {
         // Remove tabindex from all options
-        optionElements.forEach((opt) => {
+        optionElements.forEach(opt => {
           opt.setAttribute("tabindex", "-1");
           opt.setAttribute("aria-selected", "false");
         });
@@ -331,7 +323,7 @@ const listboxId = `${id}-listbox`;
           input.value = option.textContent?.trim() || "";
 
           // Clear other selections
-          optionElements.forEach((opt) => {
+          optionElements.forEach(opt => {
             opt.setAttribute("aria-selected", "false");
             opt.setAttribute("tabindex", "-1");
           });
@@ -360,11 +352,9 @@ const listboxId = `${id}-listbox`;
         const optionRect = option.getBoundingClientRect();
 
         if (optionRect.top < optionsRect.top) {
-          options.scrollTop =
-            options.scrollTop - (optionsRect.top - optionRect.top);
+          options.scrollTop = options.scrollTop - (optionsRect.top - optionRect.top);
         } else if (optionRect.bottom > optionsRect.bottom) {
-          options.scrollTop =
-            options.scrollTop + (optionRect.bottom - optionsRect.bottom);
+          options.scrollTop = options.scrollTop + (optionRect.bottom - optionsRect.bottom);
         }
       };
 
@@ -389,7 +379,7 @@ const listboxId = `${id}-listbox`;
         filterOptions(input.value);
       });
 
-      input.addEventListener("keydown", (e) => {
+      input.addEventListener("keydown", e => {
         // Cache visible options to avoid repeated filtering
         const visibleOptions: HTMLLIElement[] = [];
         for (let i = 0; i < optionElements.length; i++) {
@@ -400,52 +390,52 @@ const listboxId = `${id}-listbox`;
         }
 
         switch (e.key) {
-        case "Enter":
-          if (activeIndex >= 0 && activeIndex < visibleOptions.length) {
-            const selectedOption = visibleOptions[activeIndex];
-            if (selectedOption) {
-              e.preventDefault();
-              selectOption(selectedOption);
+          case "Enter":
+            if (activeIndex >= 0 && activeIndex < visibleOptions.length) {
+              const selectedOption = visibleOptions[activeIndex];
+              if (selectedOption) {
+                e.preventDefault();
+                selectOption(selectedOption);
+              }
+            } else if (visibleOptions.length === 1) {
+              const firstOption = visibleOptions[0];
+              if (firstOption) {
+                e.preventDefault();
+                selectOption(firstOption);
+              }
             }
-          } else if (visibleOptions.length === 1) {
-            const firstOption = visibleOptions[0];
-            if (firstOption) {
-              e.preventDefault();
-              selectOption(firstOption);
-            }
-          }
-          break;
+            break;
 
-        case "Escape":
-          e.preventDefault();
-          toggleOptions(false);
-          break;
+          case "Escape":
+            e.preventDefault();
+            toggleOptions(false);
+            break;
 
-        case "ArrowDown":
-          e.preventDefault();
-          if (options.hidden) {
-            toggleOptions(true);
-          } else if (visibleOptions.length > 0) {
-            // Move focus to first option
-            const firstOption = visibleOptions[0];
-            if (firstOption) {
-              setActiveOption(firstOption);
-              activeIndex = 0;
+          case "ArrowDown":
+            e.preventDefault();
+            if (options.hidden) {
+              toggleOptions(true);
+            } else if (visibleOptions.length > 0) {
+              // Move focus to first option
+              const firstOption = visibleOptions[0];
+              if (firstOption) {
+                setActiveOption(firstOption);
+                activeIndex = 0;
+              }
             }
-          }
-          break;
+            break;
 
-        case "ArrowUp":
-          e.preventDefault();
-          if (!options.hidden && visibleOptions.length > 0) {
-            // Move focus to last option
-            const lastOption = visibleOptions[visibleOptions.length - 1];
-            if (lastOption) {
-              setActiveOption(lastOption);
-              activeIndex = visibleOptions.length - 1;
+          case "ArrowUp":
+            e.preventDefault();
+            if (!options.hidden && visibleOptions.length > 0) {
+              // Move focus to last option
+              const lastOption = visibleOptions[visibleOptions.length - 1];
+              if (lastOption) {
+                setActiveOption(lastOption);
+                activeIndex = visibleOptions.length - 1;
+              }
             }
-          }
-          break;
+            break;
         }
       });
 
@@ -458,62 +448,60 @@ const listboxId = `${id}-listbox`;
       });
 
       // Option click and keyboard events
-      optionElements.forEach((option) => {
+      optionElements.forEach(option => {
         option.addEventListener("click", () => {
           selectOption(option);
         });
 
         // Handle option keyboard navigation
-        option.addEventListener("keydown", (e) => {
-          const visibleOptions = Array.from(optionElements).filter(
-            (opt) => !opt.hidden,
-          );
+        option.addEventListener("keydown", e => {
+          const visibleOptions = Array.from(optionElements).filter(opt => !opt.hidden);
           const currentIndex = visibleOptions.indexOf(option);
 
           switch (e.key) {
-          case "Enter":
-          case " ":
-            e.preventDefault();
-            selectOption(option);
-            break;
+            case "Enter":
+            case " ":
+              e.preventDefault();
+              selectOption(option);
+              break;
 
-          case "ArrowDown":
-            e.preventDefault();
-            if (currentIndex < visibleOptions.length - 1) {
-              const nextOption = visibleOptions[currentIndex + 1];
-              if (nextOption) {
-                setActiveOption(nextOption);
+            case "ArrowDown":
+              e.preventDefault();
+              if (currentIndex < visibleOptions.length - 1) {
+                const nextOption = visibleOptions[currentIndex + 1];
+                if (nextOption) {
+                  setActiveOption(nextOption);
+                }
               }
-            }
-            break;
+              break;
 
-          case "ArrowUp":
-            e.preventDefault();
-            if (currentIndex > 0) {
-              const prevOption = visibleOptions[currentIndex - 1];
-              if (prevOption) {
-                setActiveOption(prevOption);
+            case "ArrowUp":
+              e.preventDefault();
+              if (currentIndex > 0) {
+                const prevOption = visibleOptions[currentIndex - 1];
+                if (prevOption) {
+                  setActiveOption(prevOption);
+                }
+              } else {
+                // Return focus to input if at first option
+                input.focus();
+                optionElements.forEach(opt => {
+                  opt.setAttribute("tabindex", "-1");
+                  opt.setAttribute("aria-selected", "false");
+                });
               }
-            } else {
-              // Return focus to input if at first option
+              break;
+
+            case "Escape":
+              e.preventDefault();
+              toggleOptions(false);
               input.focus();
-              optionElements.forEach((opt) => {
-                opt.setAttribute("tabindex", "-1");
-                opt.setAttribute("aria-selected", "false");
-              });
-            }
-            break;
+              break;
 
-          case "Escape":
-            e.preventDefault();
-            toggleOptions(false);
-            input.focus();
-            break;
-
-          case "Tab":
-            // Allow natural tab behavior to close dropdown
-            toggleOptions(false);
-            break;
+            case "Tab":
+              // Allow natural tab behavior to close dropdown
+              toggleOptions(false);
+              break;
           }
         });
       });

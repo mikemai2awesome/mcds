@@ -28,7 +28,7 @@ const tabsId = `tabs-${Math.floor(Math.random() * 1000)}`;
   </div>
 
   {
-    tabs.map((tab) => (
+    tabs.map(tab => (
       <div
         id={`panel-${tab.id}`}
         class="mc-tabs__panel"
@@ -65,13 +65,15 @@ const tabsId = `tabs-${Math.floor(Math.random() * 1000)}`;
       border-block-end: var(--_border-size) solid transparent;
       font-weight: bold;
       white-space: nowrap;
-      
+
       @media (forced-colors: active) {
         border-block-end: var(--_border-size) solid canvas;
       }
-      
+
       @media (prefers-reduced-motion: no-preference) {
-        transition: background-color var(--transition), border-color var(--transition);
+        transition:
+          background-color var(--transition),
+          border-color var(--transition);
         will-change: background-color, border-color;
       }
     }
@@ -93,7 +95,7 @@ const tabsId = `tabs-${Math.floor(Math.random() * 1000)}`;
     .mc-tabs__panel {
       padding-block: var(--stack) 0;
       padding-inline: 0;
-      
+
       @media (prefers-reduced-motion: no-preference) {
         animation: fadeIn var(--transition);
         will-change: opacity;
@@ -116,11 +118,9 @@ const tabsId = `tabs-${Math.floor(Math.random() * 1000)}`;
   function initTabs() {
     const tabLists = document.querySelectorAll(".mc-tabs__list");
 
-    tabLists.forEach((tabList) => {
-      const tabs = Array.from(
-        tabList.querySelectorAll<HTMLElement>(".mc-tabs__tab"),
-      );
-      const panels = tabs.map((tab) => {
+    tabLists.forEach(tabList => {
+      const tabs = Array.from(tabList.querySelectorAll<HTMLElement>(".mc-tabs__tab"));
+      const panels = tabs.map(tab => {
         const panelId = tab.getAttribute("aria-controls");
         return panelId ? document.getElementById(panelId) : null;
       });
@@ -135,44 +135,36 @@ const tabsId = `tabs-${Math.floor(Math.random() * 1000)}`;
         tab.addEventListener("keydown", (e: KeyboardEvent) => {
           // Horizontal arrow keys to navigate tabs
           switch (e.key) {
-          case "ArrowLeft":
-            e.preventDefault();
-            activateTab(
-              tabs,
-              panels,
-              getPreviousTabIndex(tabs, index),
-            );
-            break;
-          case "ArrowRight":
-            e.preventDefault();
-            activateTab(tabs, panels, getNextTabIndex(tabs, index));
-            break;
-          case "Home":
-            e.preventDefault();
-            activateTab(tabs, panels, 0);
-            break;
-          case "End":
-            e.preventDefault();
-            activateTab(tabs, panels, tabs.length - 1);
-            break;
+            case "ArrowLeft":
+              e.preventDefault();
+              activateTab(tabs, panels, getPreviousTabIndex(tabs, index));
+              break;
+            case "ArrowRight":
+              e.preventDefault();
+              activateTab(tabs, panels, getNextTabIndex(tabs, index));
+              break;
+            case "Home":
+              e.preventDefault();
+              activateTab(tabs, panels, 0);
+              break;
+            case "End":
+              e.preventDefault();
+              activateTab(tabs, panels, tabs.length - 1);
+              break;
           }
         });
       });
     });
 
-    function activateTab(
-      tabs: HTMLElement[],
-      panels: (HTMLElement | null)[],
-      index: number,
-    ) {
+    function activateTab(tabs: HTMLElement[], panels: (HTMLElement | null)[], index: number) {
       // Deactivate all tabs
-      tabs.forEach((tab) => {
+      tabs.forEach(tab => {
         tab.setAttribute("aria-selected", "false");
         tab.setAttribute("tabindex", "-1");
       });
 
       // Hide all panels
-      panels.forEach((panel) => {
+      panels.forEach(panel => {
         if (panel) {
           panel.hidden = true;
           panel.removeAttribute("tabindex");
@@ -194,7 +186,7 @@ const tabsId = `tabs-${Math.floor(Math.random() * 1000)}`;
 
         // Check if panel has interactive elements
         const interactiveElements = panelToActivate.querySelectorAll(
-          "a, button, input, select, textarea, [tabindex]:not([tabindex=\"-1\"])",
+          'a, button, input, select, textarea, [tabindex]:not([tabindex="-1"])'
         );
 
         // Only add tabindex if there are no interactive elements
@@ -208,10 +200,7 @@ const tabsId = `tabs-${Math.floor(Math.random() * 1000)}`;
       return currentIndex === tabs.length - 1 ? 0 : currentIndex + 1;
     }
 
-    function getPreviousTabIndex(
-      tabs: HTMLElement[],
-      currentIndex: number,
-    ): number {
+    function getPreviousTabIndex(tabs: HTMLElement[], currentIndex: number): number {
       return currentIndex === 0 ? tabs.length - 1 : currentIndex - 1;
     }
   }

@@ -23,16 +23,24 @@ export type DeepReadonly<T> = {
 };
 
 // Extract function parameters
-export type Parameters<T extends (..._args: any[]) => any> = T extends (..._args: infer P) => any ? P : never;
+export type Parameters<T extends (..._args: any[]) => any> = T extends (..._args: infer P) => any
+  ? P
+  : never;
 
 // Extract function return type
-export type ReturnType<T extends (..._args: any[]) => any> = T extends (..._args: any[]) => infer R ? R : any;
+export type ReturnType<T extends (..._args: any[]) => any> = T extends (..._args: any[]) => infer R
+  ? R
+  : any;
 
 // Conditional types for better type inference
 export type If<C extends boolean, T, F> = C extends true ? T : F;
 
 // Union to intersection type
-export type UnionToIntersection<U> = (U extends any ? (_x: U) => void : never) extends (_x: infer I) => void ? I : never;
+export type UnionToIntersection<U> = (U extends any ? (_x: U) => void : never) extends (
+  _x: infer I
+) => void
+  ? I
+  : never;
 
 // Pretty print type for better IDE experience
 export type Prettify<T> = {
@@ -55,16 +63,18 @@ export type AsyncFunction<T extends any[] = any[], R = any> = (..._args: T) => P
 export type Environment = "development" | "production" | "test";
 
 // API response wrapper
-export type ApiResponse<T> = {
-  readonly data: T;
-  readonly success: true;
-  readonly message?: string;
-} | {
-  readonly data: null;
-  readonly success: false;
-  readonly error: string;
-  readonly message: string;
-};
+export type ApiResponse<T> =
+  | {
+      readonly data: T;
+      readonly success: true;
+      readonly message?: string;
+    }
+  | {
+      readonly data: null;
+      readonly success: false;
+      readonly error: string;
+      readonly message: string;
+    };
 
 // Component state
 export type ComponentState = "idle" | "loading" | "success" | "error";
@@ -87,4 +97,4 @@ export type ValidationResult = {
 // Configuration with defaults
 export type WithDefaults<T, D> = T & {
   readonly [K in keyof D]: K extends keyof T ? T[K] : D[K];
-}; 
+};

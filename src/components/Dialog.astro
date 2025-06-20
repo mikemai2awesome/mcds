@@ -103,37 +103,35 @@ const { id, title } = Astro.props;
 </style>
 
 <script>
-function initDialogs() {
-  // Initialize each dialog
-  document.querySelectorAll(".mc-dialog").forEach((dialog) => {
-    if (!(dialog instanceof HTMLDialogElement)) {
-      return;
-    }
+  function initDialogs() {
+    // Initialize each dialog
+    document.querySelectorAll(".mc-dialog").forEach(dialog => {
+      if (!(dialog instanceof HTMLDialogElement)) {
+        return;
+      }
 
-    const dialogId = dialog.id;
-    const closeButton = dialog.querySelector(".mc-dialog__close");
+      const dialogId = dialog.id;
+      const closeButton = dialog.querySelector(".mc-dialog__close");
 
-    // Find all buttons that should open this dialog
-    document
-      .querySelectorAll(`[data-dialog="${dialogId}"]`)
-      .forEach((trigger) => {
+      // Find all buttons that should open this dialog
+      document.querySelectorAll(`[data-dialog="${dialogId}"]`).forEach(trigger => {
         trigger.addEventListener("click", () => {
           dialog.showModal();
         });
       });
 
-    // Close dialog when close button is clicked
-    if (closeButton) {
-      closeButton.addEventListener("click", () => {
-        dialog.close();
-      });
-    }
-  });
-}
+      // Close dialog when close button is clicked
+      if (closeButton) {
+        closeButton.addEventListener("click", () => {
+          dialog.close();
+        });
+      }
+    });
+  }
 
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initDialogs);
-} else {
-  initDialogs();
-}
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initDialogs);
+  } else {
+    initDialogs();
+  }
 </script>

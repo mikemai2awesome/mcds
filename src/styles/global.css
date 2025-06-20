@@ -1,4 +1,4 @@
-@import url('./mcss.css');
+@import url("./mcss.css");
 
 @layer config, resets, elements, components, docs, utilities;
 
@@ -69,8 +69,8 @@
     align-content: start;
     grid-template-columns: repeat(2, minmax(50dvi, 1fr));
     grid-template-areas:
-    "text text"
-    "kitchen-sink1 kitchen-sink2";
+      "text text"
+      "kitchen-sink1 kitchen-sink2";
     list-style: none;
     gap: var(--gutter);
     row-gap: calc(var(--stack) * 2);

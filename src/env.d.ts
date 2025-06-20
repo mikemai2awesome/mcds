@@ -22,4 +22,4 @@ declare namespace App {
 // Window extensions for client-side globals
 interface Window {
   // Add any global window properties here
-} 
+}

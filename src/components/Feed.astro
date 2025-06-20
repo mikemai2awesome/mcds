@@ -6,14 +6,12 @@ interface Props extends FeedProps {}
 
 const feedSchema = componentSchemas.Feed?.props ?? [];
 
-const initialItemsDefault = parseInt(feedSchema.find(p => p.name === 'initialItems')?.default || '3');
-const titleDefault = feedSchema.find(p => p.name === 'title')?.default?.replace(/"/g, '');
+const initialItemsDefault = parseInt(
+  feedSchema.find(p => p.name === "initialItems")?.default || "3"
+);
+const titleDefault = feedSchema.find(p => p.name === "title")?.default?.replace(/"/g, "");
 
-const {
-  items,
-  initialItems = initialItemsDefault,
-  title = titleDefault,
-} = Astro.props;
+const { items, initialItems = initialItemsDefault, title = titleDefault } = Astro.props;
 const initialVisibleItems = items.slice(0, initialItems);
 const remainingItems = items.slice(initialItems);
 const feedId = `feed-${Math.random().toString(36).substring(2, 9)}`;
@@ -45,9 +43,7 @@ const feedId = `feed-${Math.random().toString(36).substring(2, 9)}`;
                     {item.title}
                   </a>
                 ) : (
-                  <span class="mc-feed__link">
-                    {item.title}
-                  </span>
+                  <span class="mc-feed__link">{item.title}</span>
                 )}
               </h3>
               <div class="mc-feed__meta">
@@ -97,9 +93,7 @@ const feedId = `feed-${Math.random().toString(36).substring(2, 9)}`;
                     {item.title}
                   </a>
                 ) : (
-                  <span class="mc-feed__link">
-                    {item.title}
-                  </span>
+                  <span class="mc-feed__link">{item.title}</span>
                 )}
               </h3>
               <div class="mc-feed__meta">
@@ -270,14 +264,12 @@ const feedId = `feed-${Math.random().toString(36).substring(2, 9)}`;
   function initFeeds() {
     const feeds = document.querySelectorAll("[role='feed']");
 
-    feeds.forEach((feed) => {
+    feeds.forEach(feed => {
       let isLoading = false;
       const hasMoreItems = (feed as HTMLElement).dataset.hasMoreItems === "true";
       let currentPage = 1;
       const itemsPerPage = 2; // Number of items to load each time
-      const template = feed
-        .closest(".js-feed-container")
-        ?.querySelector("#feed-item-template");
+      const template = feed.closest(".js-feed-container")?.querySelector("#feed-item-template");
       const visibleItemsContainer = feed;
 
       if (!hasMoreItems || !template || !visibleItemsContainer) {
@@ -306,11 +298,7 @@ const feedId = `feed-${Math.random().toString(36).substring(2, 9)}`;
           return document.documentElement;
         }
 
-        for (
-          let parent = element.parentElement;
-          parent;
-          parent = parent.parentElement
-        ) {
+        for (let parent = element.parentElement; parent; parent = parent.parentElement) {
           style = window.getComputedStyle(parent);
 
           if (excludeStaticParent && style.position === "static") {
@@ -318,10 +306,8 @@ const feedId = `feed-${Math.random().toString(36).substring(2, 9)}`;
           }
 
           if (
-            overflowRegex.test(
-              style.overflow + style.overflowY + style.overflowX,
-            ) &&
-              isScrollable(parent)
+            overflowRegex.test(style.overflow + style.overflowY + style.overflowX) &&
+            isScrollable(parent)
           ) {
             return parent;
           }
@@ -332,8 +318,7 @@ const feedId = `feed-${Math.random().toString(36).substring(2, 9)}`;
 
       const scrollParent = getScrollParent(feed as HTMLElement);
       const isWindowScroll =
-          scrollParent === document.documentElement ||
-          scrollParent === document.body;
+        scrollParent === document.documentElement || scrollParent === document.body;
 
       const loadMoreItems = async () => {
         if (isLoading || !hasMoreItems) {
@@ -345,20 +330,17 @@ const feedId = `feed-${Math.random().toString(36).substring(2, 9)}`;
           isLoading = true;
 
           // Simulate loading delay
-          await new Promise((resolve) => setTimeout(resolve, 600));
+          await new Promise(resolve => setTimeout(resolve, 600));
 
           // Get items from template
           const templateContent = (template as HTMLTemplateElement).content.cloneNode(true);
           const itemsArray = Array.from(
-            (templateContent as DocumentFragment).querySelectorAll(".mc-feed__article"),
+            (templateContent as DocumentFragment).querySelectorAll(".mc-feed__article")
           );
 
           // Take only the number of items we want to show in this batch
           const startIndex = (currentPage - 1) * itemsPerPage;
-          const endIndex = Math.min(
-            startIndex + itemsPerPage,
-            itemsArray.length,
-          );
+          const endIndex = Math.min(startIndex + itemsPerPage, itemsArray.length);
 
           if (startIndex >= itemsArray.length) {
             // No more items to load
@@ -473,9 +455,9 @@ const feedId = `feed-${Math.random().toString(36).substring(2, 9)}`;
         // Use for loop for better performance
         for (let idx = 0; idx < articleElements.length; idx++) {
           const article = articleElements[idx];
-          
+
           if (article) {
-            article.addEventListener("keydown", (e) => {
+            article.addEventListener("keydown", e => {
               const keyboardEvent = e as KeyboardEvent;
               // PageDown/PageUp keys to navigate between feed items
               if (keyboardEvent.key === "PageDown" && idx < articleElements.length - 1) {

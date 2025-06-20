@@ -7,4 +7,4 @@ export default defineConfig({
   base: import.meta.env.PROD ? "/mcds/" : "/",
   // Ensure trailing slash behavior for proper path concatenation
   trailingSlash: "always",
-}); 
+});

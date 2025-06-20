@@ -37,23 +37,26 @@ A minimal, accessible component library that prioritizes semantic HTML, accessib
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - npm or yarn
 
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/mikemai2awesome/mcds.git
    cd mcds
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Start development server**
+
    ```bash
    npm run dev
    ```
@@ -70,9 +73,7 @@ A minimal, accessible component library that prioritizes semantic HTML, accessib
 import Alert from "path/to/components/Alert.astro";
 ---
 
-<Alert type="success">
-  Operation completed successfully!
-</Alert>
+<Alert type="success"> Operation completed successfully! </Alert>
 ```
 
 ### Component with Props
@@ -84,10 +85,10 @@ import Accordion from "path/to/components/Accordion.astro";
 const accordionItems = [
   {
     id: "section1",
-    title: "Accessibility Features", 
+    title: "Accessibility Features",
     content: "<p>This design system follows WCAG 2.2...</p>",
-    open: true
-  }
+    open: true,
+  },
 ];
 ---
 
@@ -108,7 +109,7 @@ const accordionItems = [
 Each component includes comprehensive documentation with:
 
 - **Props API** - All available properties and their types
-- **Usage Examples** - Real-world implementation examples  
+- **Usage Examples** - Real-world implementation examples
 - **Accessibility Notes** - WCAG conformance details
 - **Keyboard Navigation** - Supported keyboard interactions
 
@@ -136,7 +137,7 @@ The project uses CSS cascade layers for organized styling:
 @layer resets     /* CSS resets and normalization */
 @layer elements   /* Base element styling */
 @layer components /* Component-specific styles */
-@layer utilities  /* Utility classes */
+@layer utilities; /* Utility classes */
 ```
 
 ### Component Schema System

@@ -6,13 +6,13 @@ interface Props extends AlertProps {}
 
 const alertSchema = componentSchemas.Alert?.props ?? [];
 
-const typeDefault = alertSchema.find(p => p.name === 'type')?.default?.replace(/"/g, '') ?? 'info';
-const dismissibleDefault = alertSchema.find(p => p.name === 'dismissible')?.default === 'true';
+const typeDefault = alertSchema.find(p => p.name === "type")?.default?.replace(/"/g, "") ?? "info";
+const dismissibleDefault = alertSchema.find(p => p.name === "dismissible")?.default === "true";
 
-const { 
-  type = typeDefault as AlertProps['type'], 
-  dismissible = dismissibleDefault, 
-  id 
+const {
+  type = typeDefault as AlertProps["type"],
+  dismissible = dismissibleDefault,
+  id,
 } = Astro.props;
 
 // Generate a random ID if none is provided
@@ -27,22 +27,11 @@ const emojis = {
 } as const;
 ---
 
-<div
-  class="mc-alert"
-  role="alert"
-  id={alertId}
-  data-type={type}
-  data-dismissible={dismissible}
->
+<div class="mc-alert" role="alert" id={alertId} data-type={type} data-dismissible={dismissible}>
   <div class="mc-alert__content">
     {
       dismissible && (
-        <button
-          class="mc-alert__close"
-          aria-label="Dismiss"
-          id={dismissId}
-          aria-controls={alertId}
-        >
+        <button class="mc-alert__close" aria-label="Dismiss" id={dismissId} aria-controls={alertId}>
           <svg
             aria-hidden="true"
             width="16"
@@ -113,7 +102,7 @@ const emojis = {
 <script>
   function initAlerts() {
     // Set up close button functionality
-    document.querySelectorAll(".mc-alert__close").forEach((button) => {
+    document.querySelectorAll(".mc-alert__close").forEach(button => {
       button.addEventListener("click", () => {
         const alert = (button as HTMLElement).closest<HTMLElement>(".mc-alert");
         if (alert) {

@@ -1,0 +1,47 @@
+{
+  "extends": ["stylelint-config-standard"],
+  "plugins": ["stylelint-order"],
+  "rules": {
+    "order/properties-alphabetical-order": null,
+    "at-rule-no-unknown": [
+      true,
+      {
+        "ignoreAtRules": ["layer", "media"]
+      }
+    ],
+    "property-no-unknown": [
+      true,
+      {
+        "ignoreProperties": [
+          "block-size",
+          "inline-size",
+          "margin-block",
+          "margin-inline",
+          "padding-block",
+          "padding-inline",
+          "inset-block",
+          "inset-inline",
+          "border-block",
+          "border-inline"
+        ]
+      }
+    ],
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": ["global"]
+      }
+    ],
+    "function-no-unknown": [
+      true,
+      {
+        "ignoreFunctions": ["color-mix"]
+      }
+    ],
+    "no-descending-specificity": null,
+    "no-duplicate-selectors": null,
+    "selector-class-pattern": null,
+    "declaration-property-value-keyword-no-deprecated": null,
+    "alpha-value-notation": null
+  }
+}

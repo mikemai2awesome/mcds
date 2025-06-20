@@ -6,7 +6,8 @@ interface Props extends AccordionProps {}
 
 const accordionSchema = componentSchemas.Accordion?.props ?? [];
 
-const allowMultipleDefault = accordionSchema.find(p => p.name === 'allowMultiple')?.default === 'true';
+const allowMultipleDefault =
+  accordionSchema.find(p => p.name === "allowMultiple")?.default === "true";
 
 const { items, allowMultiple = allowMultipleDefault } = Astro.props;
 const accordionId = `accordion-${Math.floor(Math.random() * 1000)}`;
@@ -21,13 +22,9 @@ const processedItems = items.map((item, index) => {
 });
 ---
 
-<div
-  class="mc-accordion"
-  id={accordionId}
-  data-allow-multiple={allowMultiple.toString()}
->
+<div class="mc-accordion" id={accordionId} data-allow-multiple={allowMultiple.toString()}>
   {
-    processedItems.map((item) => (
+    processedItems.map(item => (
       <div class="mc-accordion__item">
         <button
           class="mc-accordion__button"
@@ -91,7 +88,7 @@ const processedItems = items.map((item, index) => {
       margin-block-start: -0.1ex;
       inline-size: var(--_icon-size);
       max-inline-size: var(--_icon-size);
-      
+
       @media (prefers-reduced-motion: no-preference) {
         transition: transform var(--transition);
         will-change: transform;
@@ -108,15 +105,17 @@ const processedItems = items.map((item, index) => {
       grid-template-rows: 10fr;
       opacity: 1;
       transform: translateY(0);
-      
+
       &[inert] {
         grid-template-rows: 0;
         opacity: 0;
         transform: translateY(-2ex);
       }
-      
+
       @media (prefers-reduced-motion: no-preference) {
-        transition: transform var(--transition), opacity var(--transition);
+        transition:
+          transform var(--transition),
+          opacity var(--transition);
         will-change: transform, opacity;
       }
     }
@@ -124,8 +123,7 @@ const processedItems = items.map((item, index) => {
     .mc-accordion__content {
       padding-block-end: var(--stack);
       padding-inline-start: calc(
-        var(--_icon-header-gap) + var(--_padding-inline) + var(--_icon-size) +
-          0.1ch
+        var(--_icon-header-gap) + var(--_padding-inline) + var(--_icon-size) + 0.1ch
       );
       padding-inline-end: var(--_padding-inline);
     }
@@ -136,24 +134,21 @@ const processedItems = items.map((item, index) => {
   function initAccordions() {
     const accordions = document.querySelectorAll(".mc-accordion");
 
-    accordions.forEach((accordion) => {
-      const allowMultiple =
-        accordion.getAttribute("data-allow-multiple") === "true";
+    accordions.forEach(accordion => {
+      const allowMultiple = accordion.getAttribute("data-allow-multiple") === "true";
       const buttons = accordion.querySelectorAll(".mc-accordion__button");
 
-      buttons.forEach((button) => {
+      buttons.forEach(button => {
         button.addEventListener("click", () => {
           const expanded = button.getAttribute("aria-expanded") === "true";
           const buttonId = button.getAttribute("id");
-          const itemId = buttonId
-            ? buttonId.replace("accordion-header-", "")
-            : "";
+          const itemId = buttonId ? buttonId.replace("accordion-header-", "") : "";
           const panelId = `accordion-panel-${itemId}`;
           const panel = document.getElementById(panelId);
 
           // Close other panels if not allowing multiple open
           if (!expanded && !allowMultiple) {
-            buttons.forEach((otherButton) => {
+            buttons.forEach(otherButton => {
               if (otherButton !== button) {
                 otherButton.setAttribute("aria-expanded", "false");
                 const otherButtonId = otherButton.getAttribute("id");
@@ -180,7 +175,7 @@ const processedItems = items.map((item, index) => {
               setTimeout(() => {
                 // Check if panel has interactive elements like buttons, links, inputs, etc.
                 const interactiveElements = panel.querySelectorAll(
-                  "a, button, input, select, textarea, [tabindex]:not([tabindex=\"-1\"])",
+                  'a, button, input, select, textarea, [tabindex]:not([tabindex="-1"])'
                 );
 
                 // If no interactive elements, move focus to the panel
