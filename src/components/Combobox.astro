@@ -4,7 +4,7 @@ import { componentSchemas } from "../schemas/component-schemas.js";
 
 interface Props extends ComboboxProps {}
 
-const comboboxSchema = componentSchemas.Combobox.props;
+const comboboxSchema = componentSchemas.Combobox?.props ?? [];
 
 const valueDefault = comboboxSchema.find(p => p.name === 'value')?.default?.replace(/"/g, '');
 const requiredDefault = comboboxSchema.find(p => p.name === 'required')?.default === 'true';

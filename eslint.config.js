@@ -16,6 +16,8 @@ export default defineConfig([
 			parserOptions: {
 				ecmaVersion: "latest",
 				sourceType: "module",
+				projectService: true,
+				tsconfigRootDir: import.meta.dirname,
 			},
 			globals: {
 				console: "readonly",
@@ -33,14 +35,26 @@ export default defineConfig([
 			"@typescript-eslint": tseslint,
 		},
 		rules: {
-			// TypeScript specific rules
+			// TypeScript specific rules - latest best practices
 			"@typescript-eslint/no-unused-vars": ["error", { 
 				argsIgnorePattern: "^_",
 				varsIgnorePattern: "^_",
+				ignoreRestSiblings: true,
 			}],
 			"@typescript-eslint/explicit-function-return-type": "off",
 			"@typescript-eslint/explicit-module-boundary-types": "off",
 			"@typescript-eslint/no-explicit-any": "warn",
+			"@typescript-eslint/prefer-nullish-coalescing": "error",
+			"@typescript-eslint/prefer-optional-chain": "error",
+			"@typescript-eslint/no-unnecessary-condition": "warn",
+			"@typescript-eslint/no-unnecessary-type-assertion": "error",
+			"@typescript-eslint/prefer-as-const": "error",
+			"@typescript-eslint/consistent-type-imports": ["error", {
+				prefer: "type-imports",
+				fixStyle: "separate-type-imports",
+			}],
+			"@typescript-eslint/consistent-type-exports": "error",
+			"@typescript-eslint/no-import-type-side-effects": "error",
 			
 			// General JavaScript/TypeScript rules
 			"no-unused-vars": ["error", { 
@@ -60,6 +74,15 @@ export default defineConfig([
 			"comma-dangle": ["error", "always-multiline"],
 			"object-curly-spacing": ["error", "always"],
 			"array-bracket-spacing": ["error", "never"],
+			
+			// Modern JavaScript best practices
+			"prefer-template": "error",
+			"prefer-destructuring": ["error", {
+				"array": true,
+				"object": true,
+			}],
+			"no-implicit-coercion": "error",
+			"no-unneeded-ternary": "error",
 		},
 	},
 	

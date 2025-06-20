@@ -4,7 +4,7 @@ import { componentSchemas } from "../schemas/component-schemas.js";
 
 interface Props extends FeedProps {}
 
-const feedSchema = componentSchemas.Feed.props;
+const feedSchema = componentSchemas.Feed?.props ?? [];
 
 const initialItemsDefault = parseInt(feedSchema.find(p => p.name === 'initialItems')?.default || '3');
 const titleDefault = feedSchema.find(p => p.name === 'title')?.default?.replace(/"/g, '');

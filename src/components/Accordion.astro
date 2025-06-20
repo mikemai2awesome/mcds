@@ -4,7 +4,8 @@ import { componentSchemas } from "../schemas/component-schemas.js";
 
 interface Props extends AccordionProps {}
 
-const accordionSchema = componentSchemas.Accordion.props;
+const accordionSchema = componentSchemas.Accordion?.props ?? [];
+
 const allowMultipleDefault = accordionSchema.find(p => p.name === 'allowMultiple')?.default === 'true';
 
 const { items, allowMultiple = allowMultipleDefault } = Astro.props;

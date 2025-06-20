@@ -1,12 +1,12 @@
 ---
-import type { AlertProps } from "../schemas/component-types.js";
-import { componentSchemas } from "../schemas/component-schemas.js";
+import type { AlertProps } from "@schemas/component-types.js";
+import { componentSchemas } from "@schemas/component-schemas.js";
 
 interface Props extends AlertProps {}
 
-const alertSchema = componentSchemas.Alert.props;
+const alertSchema = componentSchemas.Alert?.props ?? [];
 
-const typeDefault = alertSchema.find(p => p.name === 'type')?.default?.replace(/"/g, '');
+const typeDefault = alertSchema.find(p => p.name === 'type')?.default?.replace(/"/g, '') ?? 'info';
 const dismissibleDefault = alertSchema.find(p => p.name === 'dismissible')?.default === 'true';
 
 const { 
@@ -16,7 +16,7 @@ const {
 } = Astro.props;
 
 // Generate a random ID if none is provided
-const alertId = id || `alert-${Math.random().toString(36).substring(2, 9)}`;
+const alertId = id ?? `alert-${Math.random().toString(36).substring(2, 9)}`;
 const dismissId = `${alertId}-dismiss`;
 
 const emojis = {
@@ -24,7 +24,7 @@ const emojis = {
   success: "✅",
   warning: "⚠️",
   error: "❌",
-};
+} as const;
 ---
 
 <div

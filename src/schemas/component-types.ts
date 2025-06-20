@@ -1,92 +1,109 @@
+// Base types for better type safety
+export type ComponentId = string & { readonly __brand: unique symbol };
+export type ComponentSize = "small" | "medium" | "large";
+export type ComponentVariant = "primary" | "secondary" | "tertiary";
+
 export interface AlertProps {
-  type?: "info" | "success" | "warning" | "error";
-  dismissible?: boolean;
-  id?: string;
+  readonly type?: "info" | "success" | "warning" | "error";
+  readonly dismissible?: boolean;
+  readonly id?: string;
 }
 
 export interface AccordionItem {
-  id?: string;
-  title?: string;
-  heading?: string;
-  content: string;
-  open?: boolean;
+  readonly id?: string;
+  readonly title?: string;
+  readonly heading?: string;
+  readonly content: string;
+  readonly open?: boolean;
 }
 
 export interface AccordionProps {
-  items: AccordionItem[];
-  allowMultiple?: boolean;
+  readonly items: readonly AccordionItem[];
+  readonly allowMultiple?: boolean;
 }
 
 export interface ComboboxOption {
-  id: string;
-  label: string;
+  readonly id: string;
+  readonly label: string;
+  readonly value?: string;
+  readonly disabled?: boolean;
 }
 
 export interface ComboboxProps {
-  id?: string;
-  name?: string;
-  label: string;
-  options: ComboboxOption[];
-  value?: string;
-  required?: boolean;
-  disabled?: boolean;
-  autocomplete?: boolean;
+  readonly id?: string;
+  readonly name?: string;
+  readonly label: string;
+  readonly options: readonly ComboboxOption[];
+  readonly value?: string;
+  readonly required?: boolean;
+  readonly disabled?: boolean;
+  readonly autocomplete?: boolean;
+  readonly placeholder?: string;
 }
 
 export interface DialogProps {
-  id: string;
-  title: string;
+  readonly id: string;
+  readonly title: string;
+  readonly description?: string;
+  readonly size?: ComponentSize;
 }
 
 export interface FeedItem {
-  url: string | null | undefined;
-  id: string;
-  title: string;
-  content: string;
-  date: string;
-  author?: string;
-  image?: string;
-  imageAlt?: string;
+  readonly url: string | null | undefined;
+  readonly id: string;
+  readonly title: string;
+  readonly content: string;
+  readonly date: string;
+  readonly author?: string;
+  readonly image?: string;
+  readonly imageAlt?: string;
 }
 
 export interface FeedProps {
-  items: FeedItem[];
-  initialItems?: number;
-  title?: string;
+  readonly items: readonly FeedItem[];
+  readonly initialItems?: number;
+  readonly title?: string;
+  readonly loadMoreText?: string;
 }
 
 export interface PopupNavLink {
-  label: string;
-  href: string;
-  description?: string;
-  current?: boolean;
+  readonly label: string;
+  readonly href: string;
+  readonly description?: string;
+  readonly current?: boolean;
+  readonly external?: boolean;
 }
 
 export interface PopupNavGroup {
-  id?: string;
-  title?: string;
-  links: PopupNavLink[];
+  readonly id?: string;
+  readonly title?: string;
+  readonly links: readonly PopupNavLink[];
 }
 
 export interface PopupNavProps {
-  label: string;
-  groups: PopupNavGroup[];
+  readonly label: string;
+  readonly groups: readonly PopupNavGroup[];
+  readonly position?: "left" | "right" | "center";
 }
 
 export interface SwitchProps {
-  label: string;
-  id: string;
-  name: string;
-  checked?: boolean;
+  readonly label: string;
+  readonly id: string;
+  readonly name: string;
+  readonly checked?: boolean;
+  readonly disabled?: boolean;
+  readonly size?: ComponentSize;
 }
 
 export interface TabsTab {
-  id: string;
-  label:string;
-  content: string;
-  default?: boolean;
+  readonly id: string;
+  readonly label: string;
+  readonly content: string;
+  readonly default?: boolean;
+  readonly disabled?: boolean;
 }
 
 export interface TabsProps {
-  tabs: TabsTab[];
+  readonly tabs: readonly TabsTab[];
+  readonly orientation?: "horizontal" | "vertical";
 } 

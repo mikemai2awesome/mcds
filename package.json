@@ -35,7 +35,10 @@
     "format:css": "node check-css-format.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "lint:check": "eslint . --max-warnings 0"
+    "lint:check": "eslint . --max-warnings 0",
+    "type-check": "astro check && tsc --noEmit",
+    "type-check:watch": "astro check --watch",
+    "ci": "npm run type-check && npm run lint:check && npm run build"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
