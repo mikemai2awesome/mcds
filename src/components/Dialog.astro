@@ -98,6 +98,10 @@ const { id, title } = Astro.props;
       padding-block: var(--stack);
       padding-inline: calc(var(--gutter) / 2);
       overflow-y: auto;
+
+      > *:first-child {
+        margin-block-start: 0;
+      }
     }
   }
 </style>
