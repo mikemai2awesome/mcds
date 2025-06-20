@@ -1,12 +1,13 @@
 ---
-interface Props {
-  label: string;
-  id: string;
-  name: string;
-  checked?: boolean;
-}
+import type { SwitchProps } from "../schemas/component-types.js";
+import { componentSchemas } from "../schemas/component-schemas.js";
 
-const { label, id, name, checked = false } = Astro.props;
+interface Props extends SwitchProps {}
+
+const switchSchema = componentSchemas.Switch.props;
+const checkedDefault = switchSchema.find(p => p.name === 'checked')?.default === 'true';
+
+const { label, id, name, checked = checkedDefault } = Astro.props;
 ---
 
 <div class="mc-switch">
@@ -108,7 +109,7 @@ const { label, id, name, checked = false } = Astro.props;
     switches.forEach((switchInput) => {
       switchInput.addEventListener("change", () => {
         // You could trigger events or store state here
-        const isChecked = switchInput.checked;
+        const isChecked = (switchInput as HTMLInputElement).checked;
         const switchId = switchInput.id;
 
         // Example: Dispatch a custom event

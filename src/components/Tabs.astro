@@ -1,14 +1,7 @@
 ---
-interface Tab {
-  id: string;
-  label: string;
-  content: string;
-  default?: boolean;
-}
+import type { TabsProps } from "../schemas/component-types.js";
 
-interface Props {
-  tabs: Tab[];
-}
+interface Props extends TabsProps {}
 
 const { tabs } = Astro.props;
 const defaultTab = tabs.find(tab => tab.default) || tabs[0];
@@ -125,7 +118,7 @@ const tabsId = `tabs-${Math.floor(Math.random() * 1000)}`;
 
     tabLists.forEach((tabList) => {
       const tabs = Array.from(
-        tabList.querySelectorAll(".mc-tabs__tab"),
+        tabList.querySelectorAll<HTMLElement>(".mc-tabs__tab"),
       );
       const panels = tabs.map((tab) => {
         const panelId = tab.getAttribute("aria-controls");
@@ -135,17 +128,16 @@ const tabsId = `tabs-${Math.floor(Math.random() * 1000)}`;
       // Add click event to tabs
       tabs.forEach((tab, index) => {
         tab.addEventListener("click", () => {
-          activateTab(tabList, tabs, panels, index);
+          activateTab(tabs, panels, index);
         });
 
         // Add keyboard navigation
-        tab.addEventListener("keydown", (e) => {
+        tab.addEventListener("keydown", (e: KeyboardEvent) => {
           // Horizontal arrow keys to navigate tabs
           switch (e.key) {
           case "ArrowLeft":
             e.preventDefault();
             activateTab(
-              tabList,
               tabs,
               panels,
               getPreviousTabIndex(tabs, index),
@@ -153,15 +145,15 @@ const tabsId = `tabs-${Math.floor(Math.random() * 1000)}`;
             break;
           case "ArrowRight":
             e.preventDefault();
-            activateTab(tabList, tabs, panels, getNextTabIndex(tabs, index));
+            activateTab(tabs, panels, getNextTabIndex(tabs, index));
             break;
           case "Home":
             e.preventDefault();
-            activateTab(tabList, tabs, panels, 0);
+            activateTab(tabs, panels, 0);
             break;
           case "End":
             e.preventDefault();
-            activateTab(tabList, tabs, panels, tabs.length - 1);
+            activateTab(tabs, panels, tabs.length - 1);
             break;
           }
         });
@@ -169,10 +161,9 @@ const tabsId = `tabs-${Math.floor(Math.random() * 1000)}`;
     });
 
     function activateTab(
-      tabList,
-      tabs,
-      panels,
-      index,
+      tabs: HTMLElement[],
+      panels: (HTMLElement | null)[],
+      index: number,
     ) {
       // Deactivate all tabs
       tabs.forEach((tab) => {
@@ -189,34 +180,38 @@ const tabsId = `tabs-${Math.floor(Math.random() * 1000)}`;
       });
 
       // Activate the selected tab
-      tabs[index].setAttribute("aria-selected", "true");
-      tabs[index].setAttribute("tabindex", "0");
-      tabs[index].focus();
+      const tabToActivate = tabs[index];
+      if (tabToActivate) {
+        tabToActivate.setAttribute("aria-selected", "true");
+        tabToActivate.setAttribute("tabindex", "0");
+        tabToActivate.focus();
+      }
 
       // Show the selected panel
-      if (panels[index]) {
-        panels[index].hidden = false;
+      const panelToActivate = panels[index];
+      if (panelToActivate) {
+        panelToActivate.hidden = false;
 
         // Check if panel has interactive elements
-        const interactiveElements = panels[index].querySelectorAll(
+        const interactiveElements = panelToActivate.querySelectorAll(
           "a, button, input, select, textarea, [tabindex]:not([tabindex=\"-1\"])",
         );
 
         // Only add tabindex if there are no interactive elements
         if (interactiveElements.length === 0) {
-          panels[index].setAttribute("tabindex", "0");
+          panelToActivate.setAttribute("tabindex", "0");
         }
       }
     }
 
-    function getNextTabIndex(tabs, currentIndex) {
+    function getNextTabIndex(tabs: HTMLElement[], currentIndex: number): number {
       return currentIndex === tabs.length - 1 ? 0 : currentIndex + 1;
     }
 
     function getPreviousTabIndex(
-      tabs,
-      currentIndex,
-    ) {
+      tabs: HTMLElement[],
+      currentIndex: number,
+    ): number {
       return currentIndex === 0 ? tabs.length - 1 : currentIndex - 1;
     }
   }

@@ -1,18 +1,13 @@
 ---
-interface AccordionItem {
-  id?: string;
-  title?: string;
-  heading?: string;
-  content: string;
-  open?: boolean;
-}
+import type { AccordionProps } from "../schemas/component-types.js";
+import { componentSchemas } from "../schemas/component-schemas.js";
 
-interface Props {
-  items: AccordionItem[];
-  allowMultiple?: boolean;
-}
+interface Props extends AccordionProps {}
 
-const { items, allowMultiple = false } = Astro.props;
+const accordionSchema = componentSchemas.Accordion.props;
+const allowMultipleDefault = accordionSchema.find(p => p.name === 'allowMultiple')?.default === 'true';
+
+const { items, allowMultiple = allowMultipleDefault } = Astro.props;
 const accordionId = `accordion-${Math.floor(Math.random() * 1000)}`;
 
 // Process items to ensure each has an id and handle heading/title properties
