@@ -1,4 +1,5 @@
 ---
+import { getCollection, type CollectionEntry } from "astro:content";
 import { componentSchemas } from '../schemas/component-schemas.js';
 
 interface Props {
@@ -24,51 +25,54 @@ const isCurrentPage = (href: string) => {
   return normalizedCurrent === normalizedHref;
 };
 
+// Get all component metadata from content collection
+const componentEntries = await getCollection("components");
+
 // Check if we're on a component documentation page
-const isComponentPage = currentPath.includes('/components/');
+const isComponentPage = currentPath.includes("/components/");
 let componentDescription = "A MCDS component.";
 
 if (isComponentPage) {
-  // Extract component name from URL (e.g., '/components/alert' or '/mcds/components/alert' -> 'alert')
-  const componentSlug = currentPath.split('/components/')[1]?.replace('/', '');
+  // Extract component slug from URL (e.g., '/components/alert' or '/mcds/components/alert' -> 'alert')
+  const componentSlug = currentPath.split("/components/")[1]?.replace("/", "");
   
   if (componentSlug) {
-    // Convert slug to component name (e.g., 'popup-nav' -> 'PopupNav')
-    const componentName = componentSlug
-      .split('-')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join('');
-    
-    // Get component description from schema
-    const schema = componentSchemas[componentName];
-    if (schema) {
-      componentDescription = schema.description;
+    // Find the component entry by slug
+    const componentEntry = componentEntries.find(entry => entry.slug === componentSlug);
+    if (componentEntry && componentEntry.data.description) {
+      componentDescription = componentEntry.data.description;
+    } else {
+      // Fallback to schema description if available
+      const componentName = componentSlug
+        .split("-")
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join("");
+      
+      const schema = componentSchemas[componentName];
+      if (schema) {
+        componentDescription = schema.description;
+      }
     }
   }
 }
 
-// Dynamically get all component pages
-const componentPages = await Astro.glob('../pages/components/*.astro');
-
-// Extract component information and sort alphabetically
-const components = componentPages
-  .map(page => {
-    // Extract filename without extension
-    const filename = page.file.split('/').pop()?.replace('.astro', '') || '';
-    
-    // Convert filename to display name (e.g., 'popup-nav' -> 'Popup Nav')
-    const displayName = filename
-      .split('-')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
-    
+// Extract component information and sort by order, then alphabetically
+const components = componentEntries
+  .map((entry: CollectionEntry<"components">) => {
     return {
-      name: displayName,
-      href: `${import.meta.env.BASE_URL}components/${filename}/`,
-      filename
+      name: entry.data.title.replace(" Component", ""), // Remove "Component" suffix for nav
+      href: `${import.meta.env.BASE_URL}components/${entry.slug}/`,
+      filename: entry.slug,
+      order: entry.data.order || 999
     };
   })
-  .sort((a, b) => a.name.localeCompare(b.name));
+  .sort((a: any, b: any) => {
+    // Sort by order first, then alphabetically
+    if (a.order !== b.order) {
+      return a.order - b.order;
+    }
+    return a.name.localeCompare(b.name);
+  });
 
 ---
 
@@ -144,7 +148,7 @@ const components = componentPages
         <p><a href={import.meta.env.BASE_URL}>{siteName}</a></p>
         <nav>
           <ul>
-            {components.map(component => (
+            {components.map((component: any) => (
               <li>
                 <a 
                   href={component.href} 
