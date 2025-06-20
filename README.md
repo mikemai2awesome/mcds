@@ -102,7 +102,13 @@ const accordionItems = [
 - `npm run preview` - Preview production build
 - `npm run lint` - Run ESLint
 - `npm run lint:fix` - Fix ESLint issues automatically
-- `npm run format:css` - Format CSS files
+- `npm run lint:css` - Lint CSS files with Stylelint
+- `npm run lint:css:fix` - Fix CSS linting issues automatically
+- `npm run format` - Format all files with Prettier
+- `npm run format:check` - Check if files are properly formatted
+- `npm run type-check` - Run TypeScript type checking
+- `npm run type-check:watch` - Run TypeScript type checking in watch mode
+- `npm run ci` - Run all checks (format, type-check, lint, build)
 
 ## 📚 Documentation
 
