@@ -391,21 +391,28 @@ const listboxId = `${id}-listbox`;
 
       input.addEventListener("keydown", (e) => {
         // Cache visible options to avoid repeated filtering
-        const visibleOptions = [];
+        const visibleOptions: HTMLLIElement[] = [];
         for (let i = 0; i < optionElements.length; i++) {
-          if (!optionElements[i].hidden) {
-            visibleOptions.push(optionElements[i]);
+          const element = optionElements[i];
+          if (element && !element.hidden) {
+            visibleOptions.push(element);
           }
         }
 
         switch (e.key) {
         case "Enter":
           if (activeIndex >= 0 && activeIndex < visibleOptions.length) {
-            e.preventDefault();
-            selectOption(visibleOptions[activeIndex]);
+            const selectedOption = visibleOptions[activeIndex];
+            if (selectedOption) {
+              e.preventDefault();
+              selectOption(selectedOption);
+            }
           } else if (visibleOptions.length === 1) {
-            e.preventDefault();
-            selectOption(visibleOptions[0]);
+            const firstOption = visibleOptions[0];
+            if (firstOption) {
+              e.preventDefault();
+              selectOption(firstOption);
+            }
           }
           break;
 
@@ -420,8 +427,11 @@ const listboxId = `${id}-listbox`;
             toggleOptions(true);
           } else if (visibleOptions.length > 0) {
             // Move focus to first option
-            setActiveOption(visibleOptions[0]);
-            activeIndex = 0;
+            const firstOption = visibleOptions[0];
+            if (firstOption) {
+              setActiveOption(firstOption);
+              activeIndex = 0;
+            }
           }
           break;
 
@@ -429,8 +439,11 @@ const listboxId = `${id}-listbox`;
           e.preventDefault();
           if (!options.hidden && visibleOptions.length > 0) {
             // Move focus to last option
-            setActiveOption(visibleOptions[visibleOptions.length - 1]);
-            activeIndex = visibleOptions.length - 1;
+            const lastOption = visibleOptions[visibleOptions.length - 1];
+            if (lastOption) {
+              setActiveOption(lastOption);
+              activeIndex = visibleOptions.length - 1;
+            }
           }
           break;
         }
@@ -467,14 +480,20 @@ const listboxId = `${id}-listbox`;
           case "ArrowDown":
             e.preventDefault();
             if (currentIndex < visibleOptions.length - 1) {
-              setActiveOption(visibleOptions[currentIndex + 1]);
+              const nextOption = visibleOptions[currentIndex + 1];
+              if (nextOption) {
+                setActiveOption(nextOption);
+              }
             }
             break;
 
           case "ArrowUp":
             e.preventDefault();
             if (currentIndex > 0) {
-              setActiveOption(visibleOptions[currentIndex - 1]);
+              const prevOption = visibleOptions[currentIndex - 1];
+              if (prevOption) {
+                setActiveOption(prevOption);
+              }
             } else {
               // Return focus to input if at first option
               input.focus();

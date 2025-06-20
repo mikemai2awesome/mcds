@@ -26,9 +26,11 @@ if (!schema) {
   throw new Error(`No schema found for component: ${componentName}`);
 }
 
-const { name: title, description, props, nestedInterfaces } = schema;
+// TypeScript assertion - we know schema is not undefined after the check above
+const validSchema = schema!;
+const { name: title, description, props, nestedInterfaces } = validSchema;
 
-function renderPropsTable(props: typeof schema.props) {
+function renderPropsTable(props: typeof validSchema.props) {
   return `
     <figure role="presentation">
       <table aria-labelledby="props">
@@ -58,7 +60,7 @@ function renderPropsTable(props: typeof schema.props) {
   `;
 }
 
-function renderNestedInterface(nestedInterface: NonNullable<typeof schema.nestedInterfaces>[0]) {
+function renderNestedInterface(nestedInterface: NonNullable<typeof validSchema.nestedInterfaces>[0]) {
   return `
     <h3 id="${nestedInterface.name}">${nestedInterface.name} Props</h3>
     <figure role="presentation">

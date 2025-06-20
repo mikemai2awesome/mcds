@@ -406,8 +406,10 @@ const feedId = `feed-${Math.random().toString(36).substring(2, 9)}`;
         // Use for loop instead of forEach for better performance
         for (let i = 0; i < articles.length; i++) {
           const article = articles[i];
-          article.setAttribute("aria-posinset", (i + 1).toString());
-          article.setAttribute("aria-setsize", totalArticles.toString());
+          if (article) {
+            article.setAttribute("aria-posinset", (i + 1).toString());
+            article.setAttribute("aria-setsize", totalArticles.toString());
+          }
         }
       };
 
@@ -472,23 +474,37 @@ const feedId = `feed-${Math.random().toString(36).substring(2, 9)}`;
         for (let idx = 0; idx < articleElements.length; idx++) {
           const article = articleElements[idx];
           
-          article.addEventListener("keydown", (e) => {
-            const keyboardEvent = e as KeyboardEvent;
-            // PageDown/PageUp keys to navigate between feed items
-            if (keyboardEvent.key === "PageDown" && idx < articleElements.length - 1) {
-              keyboardEvent.preventDefault();
-              (articleElements[idx + 1] as HTMLElement).focus();
-            } else if (keyboardEvent.key === "PageUp" && idx > 0) {
-              keyboardEvent.preventDefault();
-              (articleElements[idx - 1] as HTMLElement).focus();
-            } else if (keyboardEvent.ctrlKey && keyboardEvent.key === "Home") {
-              keyboardEvent.preventDefault();
-              (articleElements[0] as HTMLElement).focus();
-            } else if (keyboardEvent.ctrlKey && keyboardEvent.key === "End") {
-              keyboardEvent.preventDefault();
-              (articleElements[articleElements.length - 1] as HTMLElement).focus();
-            }
-          });
+          if (article) {
+            article.addEventListener("keydown", (e) => {
+              const keyboardEvent = e as KeyboardEvent;
+              // PageDown/PageUp keys to navigate between feed items
+              if (keyboardEvent.key === "PageDown" && idx < articleElements.length - 1) {
+                const nextArticle = articleElements[idx + 1] as HTMLElement;
+                if (nextArticle) {
+                  keyboardEvent.preventDefault();
+                  nextArticle.focus();
+                }
+              } else if (keyboardEvent.key === "PageUp" && idx > 0) {
+                const prevArticle = articleElements[idx - 1] as HTMLElement;
+                if (prevArticle) {
+                  keyboardEvent.preventDefault();
+                  prevArticle.focus();
+                }
+              } else if (keyboardEvent.ctrlKey && keyboardEvent.key === "Home") {
+                const firstArticle = articleElements[0] as HTMLElement;
+                if (firstArticle) {
+                  keyboardEvent.preventDefault();
+                  firstArticle.focus();
+                }
+              } else if (keyboardEvent.ctrlKey && keyboardEvent.key === "End") {
+                const lastArticle = articleElements[articleElements.length - 1] as HTMLElement;
+                if (lastArticle) {
+                  keyboardEvent.preventDefault();
+                  lastArticle.focus();
+                }
+              }
+            });
+          }
         }
       };
 
