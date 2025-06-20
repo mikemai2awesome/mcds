@@ -1,29 +1,25 @@
 ---
-interface Option {
-  id: string;
-  label: string;
-}
+import type { ComboboxProps } from "../schemas/component-types.js";
+import { componentSchemas } from "../schemas/component-schemas.js";
 
-interface Props {
-  id?: string;
-  name?: string;
-  label: string;
-  options: Option[];
-  value?: string;
-  required?: boolean;
-  disabled?: boolean;
-  autocomplete?: boolean;
-}
+interface Props extends ComboboxProps {}
+
+const comboboxSchema = componentSchemas.Combobox.props;
+
+const valueDefault = comboboxSchema.find(p => p.name === 'value')?.default?.replace(/"/g, '');
+const requiredDefault = comboboxSchema.find(p => p.name === 'required')?.default === 'true';
+const disabledDefault = comboboxSchema.find(p => p.name === 'disabled')?.default === 'true';
+const autocompleteDefault = comboboxSchema.find(p => p.name === 'autocomplete')?.default === 'true';
 
 const {
   id = `combobox-${Math.random().toString(36).substring(2, 11)}`,
   name = id,
   label,
   options,
-  value = "",
-  required = false,
-  disabled = false,
-  autocomplete = false,
+  value = valueDefault,
+  required = requiredDefault,
+  disabled = disabledDefault,
+  autocomplete = autocompleteDefault,
 } = Astro.props;
 
 const listboxId = `${id}-listbox`;
