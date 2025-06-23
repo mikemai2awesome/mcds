@@ -2,7 +2,7 @@
   :root {
     --gutter: clamp(1rem, 2.5vmax, 1.5rem);
     --stack: clamp(1.25ex, 2.5vmax, 1.75ex);
-    --paragraph-indent: 3ch;
+    --paragraph-indent: calc(var(--gutter) / 1.25);
     --line-length: 66ch;
     --page-padding-inline: calc((100vi - min(var(--line-length), 80vi)) / 2);
     --page-padding-block: calc(var(--stack) * 8);
