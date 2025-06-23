@@ -1,3 +1,4 @@
+/* stylelint-disable custom-property-pattern */
 @import url("./mcss.css");
 
 @layer config, resets, elements, components, docs, utilities;
@@ -22,7 +23,7 @@
     display: flex;
     margin: 0;
     padding-block: calc(var(--stack) * 2);
-    padding-inline: 10vi;
+    padding-inline: 10dvi;
     color: white;
     background-image: url("https://mikemai.net/mcss/img/mc-hero-edited.jpg");
     background-position: top center;
@@ -60,17 +61,19 @@
   }
 
   .doc-hero {
+    --_columns: repeat(2, minmax(61.8dvi, 1fr));
+    --_template: "text text"
+      "kitchen-sink1 kitchen-sink2";
+    --_padding-inline: var(--page-padding-inline) 10dvi;
+
     display: grid;
-    margin-block: 0;
-    margin-inline: 0 -15vi;
+    margin: 0;
     padding-block: var(--landmark-hr-margin-block);
-    padding-inline: 10vi;
+    padding-inline: var(--_padding-inline);
     background-color: color-mix(in hsl, canvasText 4%, transparent);
     align-content: start;
-    grid-template-columns: repeat(2, minmax(50dvi, 1fr));
-    grid-template-areas:
-      "text text"
-      "kitchen-sink1 kitchen-sink2";
+    grid-template-columns: var(--_columns);
+    grid-template-areas: var(--_template);
     list-style: none;
     gap: var(--gutter);
     row-gap: calc(var(--stack) * 2);
@@ -83,8 +86,7 @@
       min-inline-size: 0;
 
       &:first-child {
-        max-inline-size: 55ch;
-        padding-inline-end: 20vi;
+        max-inline-size: calc(100dvi - var(--page-padding-inline) * 2);
       }
 
       &:nth-child(2) {
@@ -114,9 +116,11 @@
     }
 
     @media (width >= 66rem) and (orientation: landscape) {
+      --_columns: repeat(3, minmax(40ch, 1fr));
+      --_template: "text kitchen-sink1 kitchen-sink2";
+      --_padding-inline: 10dvi;
+
       align-content: center;
-      grid-template-columns: repeat(3, minmax(35ch, 1fr));
-      grid-template-areas: "text kitchen-sink1 kitchen-sink2";
       min-block-size: 100dvb;
 
       > li {
