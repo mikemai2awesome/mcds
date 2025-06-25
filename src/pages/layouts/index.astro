@@ -1,0 +1,31 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+// Static layout data for now
+const layouts = [
+  {
+    name: "Hero Layout",
+    description: "A layout featuring a prominent hero section with call-to-action elements",
+    href: `${import.meta.env.BASE_URL}layouts/hero-layout/`,
+  },
+  {
+    name: "Sidebar Layout", 
+    description: "A two-column layout with a sidebar for navigation or supplementary content",
+    href: `${import.meta.env.BASE_URL}layouts/sidebar-layout/`,
+  }
+];
+---
+
+<Layout title="Layouts">
+  <h1>Layouts</h1>
+  <p>Layout patterns and page structures for building consistent user interfaces. These layouts provide foundational page structures that can be customized and extended for your specific needs.</p>
+  <h2>Available Layouts</h2>
+  <dl>
+    {layouts.map((layout) => (
+      <dt>
+        <a href={layout.href}>{layout.name}</a>
+      </dt>
+      <dd>{layout.description}</dd>
+    ))}
+  </dl>
+</Layout> 

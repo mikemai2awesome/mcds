@@ -1,0 +1,52 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title="Sidebar Layout">
+  <article class="doc-article">
+    <header class="doc-article-header">
+      <p><a href={`${import.meta.env.BASE_URL}layouts/`}>← Back to Layouts</a></p>
+    </header>
+    <h1>Sidebar Layout</h1>
+    <p>A classic two-column layout pattern featuring a sidebar for navigation, filters, or supplementary content alongside the main content area.</p>
+    
+    <h2>Usage</h2>
+    <p>This layout works well for:</p>
+    <ul>
+      <li>Documentation sites</li>
+      <li>Blog layouts with categories</li>
+      <li>E-commerce with filters</li>
+      <li>Application dashboards</li>
+    </ul>
+    
+    <section class="doc-section">
+      <h2>Example Structure</h2>
+      <pre><code>&lt;div class="sidebar-layout"&gt;
+  &lt;aside class="sidebar" role="complementary"&gt;
+    &lt;nav aria-label="Section navigation"&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href="#section1"&gt;Section 1&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="#section2"&gt;Section 2&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="#section3"&gt;Section 3&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/nav&gt;
+  &lt;/aside&gt;
+  &lt;main class="main-content"&gt;
+    &lt;h1&gt;Main Content Area&lt;/h1&gt;
+    &lt;p&gt;Primary content goes here...&lt;/p&gt;
+  &lt;/main&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+
+    <section class="doc-section">
+      <h2>Key Features</h2>
+      <ul>
+        <li>Two-column responsive layout</li>
+        <li>Proper semantic landmarks</li>
+        <li>Accessible navigation structure</li>
+        <li>Mobile-friendly responsive behavior</li>
+        <li>Flexible content areas</li>
+      </ul>
+    </section>
+  </article>
+</Layout> 

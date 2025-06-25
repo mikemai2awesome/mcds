@@ -1,0 +1,47 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title="Hero Layout">
+  <article class="doc-article">
+    <header class="doc-article-header">
+      <p><a href={`${import.meta.env.BASE_URL}layouts/`}>← Back to Layouts</a></p>
+    </header>
+    <h1>Hero Layout</h1>
+    <p>A layout pattern featuring a prominent hero section designed to capture attention and guide users toward key actions.</p>
+    
+    <h2>Usage</h2>
+    <p>This layout is ideal for:</p>
+    <ul>
+      <li>Landing pages</li>
+      <li>Product showcases</li>
+      <li>Campaign pages</li>
+      <li>Homepage designs</li>
+    </ul>
+    
+    <section class="doc-section">
+      <h2>Example Structure</h2>
+      <pre><code>&lt;section class="hero"&gt;
+  &lt;div class="hero-content"&gt;
+    &lt;h1&gt;Main Headline&lt;/h1&gt;
+    &lt;p&gt;Supporting description text that explains the value proposition.&lt;/p&gt;
+    &lt;div class="hero-actions"&gt;
+      &lt;button type="button" class="primary-button"&gt;Primary Action&lt;/button&gt;
+      &lt;a href="#learn-more" class="secondary-link"&gt;Learn More&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+    </section>
+
+    <section class="doc-section">
+      <h2>Key Features</h2>
+      <ul>
+        <li>Prominent heading with clear hierarchy</li>
+        <li>Descriptive supporting text</li>
+        <li>Clear call-to-action buttons</li>
+        <li>Responsive design considerations</li>
+        <li>Semantic HTML structure</li>
+      </ul>
+    </section>
+  </article>
+</Layout> 

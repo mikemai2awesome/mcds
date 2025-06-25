@@ -30,6 +30,7 @@ const componentEntries = await getCollection("components");
 
 // Check if we're on a component documentation page
 const isComponentPage = currentPath.includes("/components/");
+const isLayoutPage = currentPath.includes("/layouts/");
 let componentDescription = "A MCDS component.";
 
 if (isComponentPage) {
@@ -54,6 +55,8 @@ if (isComponentPage) {
       }
     }
   }
+} else if (isLayoutPage) {
+  componentDescription = "Layout patterns and page structures for building consistent user interfaces.";
 }
 
 // Extract component information and sort by order, then alphabetically
@@ -148,6 +151,14 @@ const components = componentEntries
         <p><a href={import.meta.env.BASE_URL}>{siteName}</a></p>
         <nav>
           <ul>
+            <li>
+              <a 
+                href={`${import.meta.env.BASE_URL}layouts/`}
+                aria-current={isCurrentPage(`${import.meta.env.BASE_URL}layouts/`) ? "page" : undefined}
+              >
+                Layouts
+              </a>
+            </li>
             {components.map((component: any) => (
               <li>
                 <a 
